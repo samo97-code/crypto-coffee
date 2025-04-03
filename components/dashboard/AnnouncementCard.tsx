@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Card, CardHeader, CardContent} from "@/components/ui/card"
 import {announcements} from "@/constants";
 import {Bell} from "lucide-react";
 import {Button} from "@/components/ui/button";

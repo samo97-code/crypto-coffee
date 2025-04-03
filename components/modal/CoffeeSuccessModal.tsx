@@ -1,7 +1,7 @@
 "use client"
 
 import React, {FC, useState, useEffect} from "react"
-import {Check, Copy, ExternalLink, Coffee, Sparkles, X, Heart} from "lucide-react"
+import {Check, Copy, ExternalLink, Coffee, Sparkles} from "lucide-react"
 import {Button} from "@/components/ui/button"
 import {
     Dialog,

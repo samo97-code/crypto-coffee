@@ -14,7 +14,7 @@ const OnboardSection = () => {
             <p className="text-coffee-500 text-center mb-8 max-w-3xl mx-auto">
                 Send a small fee (like buying a virtual coffee) every morning to support your favorite blockchain
                 projects.
-                It's a simple way to show appreciation and help them grow!
+                It&#39;s a simple way to show appreciation and help them grow!
             </p>
 
             <Card className="bg-white border-coffee-200">
