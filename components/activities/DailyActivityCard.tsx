@@ -1,5 +1,6 @@
 "use client"
 
+import { LucideIcon } from 'lucide-react';
 import {CheckCircle2} from "lucide-react"
 import {Button} from "@/components/ui/button"
 import {Badge} from "@/components/ui/badge"
@@ -8,7 +9,7 @@ interface Activity {
     id: string
     title: string
     description: string
-    icon: never
+    icon: LucideIcon
     iconBg: string
     iconColor: string
     fee: string
