@@ -1,10 +1,10 @@
+export const dynamic = 'force-dynamic';
 import React from "react";
 import {WalletInfo} from "@/components/dashboard/WalletInfo"
 import {TimerCard} from "@/components/dashboard/TimerCard"
 import WelcomeSection from "@/components/dashboard/WelcomeSection";
 import SidebarActivitiesCard from "@/components/dashboard/SidebarActivitiesCard";
 import ProjectsSection from "@/components/dashboard/ProjectsSection";
-
 
 const Dashboard = async() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
