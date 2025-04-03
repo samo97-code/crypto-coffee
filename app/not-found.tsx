@@ -104,7 +104,7 @@ export default function NotFound() {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <div className="animate-fade-in-scale animation-delay-400">
-                        <Link href="/">
+                        <Link href="/public">
                             <Button size="lg" className="bg-amber-900 hover:bg-amber-800 text-white">
                                 <Home className="mr-2 h-5 w-5"/>
                                 Back to Homepage
