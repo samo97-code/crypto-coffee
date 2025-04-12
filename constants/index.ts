@@ -1,4 +1,4 @@
-import {Coffee, Zap, Beaker, Bell,} from "lucide-react"
+import {Coffee, Zap, Beaker, Bell, Award, Droplets, Users,} from "lucide-react"
 
 export const projects = [
     {
@@ -292,8 +292,8 @@ export const projects = [
 ]
 
 export const dashboardTabs = [
-    {id: 1, label: 'All', value: 'all',  icon: Coffee, count: 42},
-    {id: 2, label: 'Mainnet', value: 'mainnet', icon: Zap, count: 40},
+    {id: 1, label: 'All', value: 'all',  icon: Coffee, count: projects.length},
+    {id: 2, label: 'Mainnet', value: 'mainnet', icon: Zap, count: projects.length - 2},
     {id: 3, label: 'Testnet', value: 'testnet', icon: Beaker, count: 2},
 ]
 
@@ -309,5 +309,155 @@ export const announcements = [
         title: "New chain added!",
         date: "2024-02-01",
         content: "Arabica Network is now available for brewing!",
+    },
+]
+
+// Sample data for the profile page
+export const activities = [
+    {
+        title: "Supported a Project",
+        description: "You supported Uniswap with a coffee.",
+        time: "2 hours ago",
+        icon: Coffee,
+        iconColor: "text-white",
+        iconBg: "bg-gradient-to-r from-coffee-500 to-coffee-700",
+        projectDetails: {
+            name: "Uniswap",
+            chain: "Optimism",
+        },
+    },
+    {
+        title: "Achievement Unlocked",
+        description: "You earned the 'Generous Brewer' achievement.",
+        time: "Yesterday",
+        icon: Award,
+        iconColor: "text-white",
+        iconBg: "bg-gradient-to-r from-green-500 to-emerald-500",
+    },
+    {
+        title: "Completed Daily Activity",
+        description: "You completed the Gas Fee Lottery activity.",
+        time: "2 days ago",
+        icon: Zap,
+        iconColor: "text-white",
+        iconBg: "bg-gradient-to-r from-purple-500 to-violet-500",
+    },
+    {
+        title: "Supported a Project",
+        description: "You supported Base with a coffee.",
+        time: "3 days ago",
+        icon: Coffee,
+        iconColor: "text-white",
+        iconBg: "bg-gradient-to-r from-coffee-500 to-coffee-700",
+        projectDetails: {
+            name: "Base",
+            chain: "Ethereum",
+        },
+    },
+]
+
+export const supportedProjects = [
+    {
+        name: "Uniswap",
+        description: "Decentralized trading protocol",
+        network: "Optimism",
+        supportAmount: "$12.45",
+        icon: Zap,
+        badgeBg: "bg-red-100",
+        badgeColor: "text-red-800",
+    },
+    {
+        name: "Base",
+        description: "Layer 2 scaling solution",
+        network: "Ethereum",
+        supportAmount: "$8.75",
+        icon: Zap,
+        badgeBg: "bg-blue-100",
+        badgeColor: "text-blue-800",
+    },
+    {
+        name: "Arbitrum",
+        description: "Layer 2 scaling solution",
+        network: "Ethereum",
+        supportAmount: "$6.30",
+        icon: Zap,
+        badgeBg: "bg-blue-100",
+        badgeColor: "text-blue-800",
+    },
+    {
+        name: "Optimism",
+        description: "Layer 2 scaling solution",
+        network: "Ethereum",
+        supportAmount: "$10.80",
+        icon: Zap,
+        badgeBg: "bg-red-100",
+        badgeColor: "text-red-800",
+    },
+]
+
+export const achievements = [
+    {
+        name: "Early Adopter",
+        description: "Joined Crypto Coffee in the first month of launch",
+        unlocked: true,
+        unlockedDate: "Apr 5, 2025",
+        icon: Award,
+        iconBg: "bg-purple-100",
+        iconColor: "text-purple-600",
+        featured: true,
+        progress: 100,
+    },
+    {
+        name: "Coffee Connoisseur",
+        description: "Supported 50 different projects",
+        unlocked: true,
+        unlockedDate: "Apr 8, 2025",
+        icon: Coffee,
+        iconBg: "bg-coffee-100",
+        iconColor: "text-coffee-700",
+        featured: true,
+        progress: 100,
+    },
+    {
+        name: "Generous Brewer",
+        description: "Contributed over $1,000 in total support",
+        unlocked: true,
+        unlockedDate: "Apr 10, 2025",
+        icon: Droplets,
+        iconBg: "bg-green-100",
+        iconColor: "text-green-600",
+        featured: true,
+        progress: 100,
+    },
+    {
+        name: "Streak Master",
+        description: "Maintained a 30-day support streak",
+        unlocked: false,
+        icon: Zap,
+        iconBg: "bg-orange-100",
+        iconColor: "text-orange-600",
+        featured: false,
+        progress: 33,
+    },
+    {
+        name: "SuperChain Explorer",
+        description: "Supported projects on 10 different networks",
+        unlocked: true,
+        unlockedDate: "Apr 7, 2025",
+        icon: Zap,
+        iconBg: "bg-blue-100",
+        iconColor: "text-blue-600",
+        featured: true,
+        progress: 100,
+    },
+    {
+        name: "Community Champion",
+        description: "Referred 20 new users to the platform",
+        unlocked: false,
+        icon: Users,
+        iconBg: "bg-pink-100",
+        iconColor: "text-pink-600",
+        featured: false,
+        progress: 45,
     },
 ]

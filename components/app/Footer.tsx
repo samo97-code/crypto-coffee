@@ -2,12 +2,25 @@
 
 import {useState, useEffect} from "react"
 import Link from "next/link"
-import {Coffee, Twitter, Github, ExternalLink, Heart, ChevronUp, Sparkles} from "lucide-react"
+import {Coffee, Twitter, ExternalLink, Heart, ChevronUp} from "lucide-react"
 import {Button} from "@/components/ui/button"
 
 const Footer = () => {
     const [showScrollTop, setShowScrollTop] = useState(false)
-    const [coffeeCount, setCoffeeCount] = useState(0)
+
+    const quickLinks = [
+        {id: 1, label: 'Home +', link: '/'},
+        {id: 2, label: 'Daily Activities +', link: '/daily-activities'},
+        {id: 3, label: 'How It Works +', link: '/how-it-works'},
+        {id: 4, label: 'FAQ', link: '/faq'},
+    ]
+
+    const resources = [
+        {name: "Documentation", icon: ExternalLink, link: '/documentation'},
+        {name: "Support", icon: Heart, link: '/support'},
+        {name: "Terms of Service +", icon: ExternalLink, link: '/terms-of-service'},
+        {name: "Privacy Policy +", icon: ExternalLink, link: '/privacy-policy'},
+    ]
 
     // Check scroll position to show/hide scroll to top button
     useEffect(() => {
@@ -23,19 +36,8 @@ const Footer = () => {
         window.scrollTo({top: 0, behavior: "smooth"})
     }
 
-    // Increment coffee count when clicked
-    const handleCoffeeClick = () => {
-        setCoffeeCount((prev) => prev + 1)
-        // Add a little animation effect
-        const coffee = document.getElementById("footer-coffee-icon")
-        if (coffee) {
-            coffee.classList.add("animate-bounce")
-            setTimeout(() => coffee.classList.remove("animate-bounce"), 1000)
-        }
-    }
-
     return (
-        <footer className="relative mt-20 overflow-hidden">
+        <footer className="relative overflow-hidden">
             {/* Decorative coffee beans background */}
             <div className="absolute inset-0 -z-10 opacity-5">
                 <div
@@ -60,9 +62,9 @@ const Footer = () => {
                     <Button
                         onClick={scrollToTop}
                         size="icon"
-                        className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 shadow-lg h-12 w-12"
+                        className="rounded-full bg-gradient-to-br from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 shadow-lg h-10 w-10 transition-all"
                     >
-                        <ChevronUp className="h-6 w-6 text-white"/>
+                        <ChevronUp className="h-8 w-8 text-white"/>
                     </Button>
                 </div>
             </div>
@@ -77,45 +79,48 @@ const Footer = () => {
             </div>
 
             {/* Main footer content */}
-            <div className="bg-coffee-100 pt-4 pb-8">
+            <div className="bg-coffee-100 pt-12 pb-8">
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {/* Logo and about section */}
                         <div className="space-y-4">
                             <div className="flex items-center gap-2">
                                 <div
-                                    id="footer-coffee-icon"
-                                    className="p-2 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg cursor-pointer"
-                                    onClick={handleCoffeeClick}
-                                >
-                                    <Coffee className="h-6 w-6 text-white"/>
+                                    className="p-3 bg-gradient-to-br from-coffee-600 to-coffee-800 rounded-2xl shadow-md transform -rotate-3">
+                                    <div className="relative">
+                                        <div
+                                            className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-white/70 blur-[1px]"></div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                             strokeLinecap="round" strokeLinejoin="round"
+                                             className="lucide lucide-coffee h-5 w-5 text-white">
+                                            <path d="M10 2v2"></path>
+                                            <path d="M14 2v2"></path>
+                                            <path
+                                                d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"></path>
+                                            <path d="M6 2v2"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold text-amber-900">Crypto Coffee</h3>
+                                <h3 className="text-xl font-bold text-coffee-900">Crypto Coffee</h3>
                             </div>
                             <p className="text-amber-800">
-                                Supporting blockchain projects one coffee at a time. Join our community of supporters
-                                and help projects
-                                grow.
+                                Power up Web3, one coffee at a time. Support your favorite projects and be part of the
+                                decentralized future.
                             </p>
-                            {coffeeCount > 0 && (
-                                <div className="flex items-center gap-2 text-amber-700">
-                                    <Sparkles className="h-4 w-4"/>
-                                    <span>You&#39;ve brewed {coffeeCount} virtual coffees!</span>
-                                </div>
-                            )}
                         </div>
 
                         {/* Quick links */}
                         <div>
-                            <h4 className="font-semibold text-amber-900 mb-4">Quick Links</h4>
+                            <h4 className="font-semibold text-coffee-900 mb-4">Quick Links</h4>
                             <ul className="space-y-2">
-                                {["Home", "Projects", "Daily Activities", "How It Works", "FAQ"].map((link) => (
-                                    <li key={link}>
+                                {quickLinks.map((item) => (
+                                    <li key={item.id}>
                                         <Link
-                                            href="#"
-                                            className="text-amber-700 hover:text-amber-900 hover:underline flex items-center gap-1"
+                                            href={item.link}
+                                            className="text-coffee-700 hover:text-coffee-900 hover:underline inline-flex items-center gap-1"
                                         >
-                                            <span>{link}</span>
+                                            <span>{item.label}</span>
                                         </Link>
                                     </li>
                                 ))}
@@ -124,19 +129,13 @@ const Footer = () => {
 
                         {/* Resources */}
                         <div>
-                            <h4 className="font-semibold text-amber-900 mb-4">Resources</h4>
+                            <h4 className="font-semibold text-coffee-900 mb-4">Resources</h4>
                             <ul className="space-y-2">
-                                {[
-                                    {name: "Documentation", icon: ExternalLink},
-                                    {name: "GitHub", icon: Github},
-                                    {name: "Support", icon: Heart},
-                                    {name: "Terms of Service", icon: ExternalLink},
-                                    {name: "Privacy Policy", icon: ExternalLink},
-                                ].map((item) => (
+                                {resources.map((item) => (
                                     <li key={item.name}>
                                         <Link
-                                            href="#"
-                                            className="text-amber-700 hover:text-amber-900 hover:underline flex items-center gap-1"
+                                            href={item.link}
+                                            className="text-coffee-700 hover:text-coffee-900 hover:underline inline-flex items-center gap-1"
                                         >
                                             <item.icon className="h-3.5 w-3.5"/>
                                             <span>{item.name}</span>
@@ -148,43 +147,26 @@ const Footer = () => {
 
                         {/* Connect */}
                         <div>
-                            <h4 className="font-semibold text-amber-900 mb-4">Connect With Us</h4>
-                            <div className="flex flex-col gap-4">
-                                <Link
-                                    href="https://twitter.com"
-                                    target="_blank"
-                                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 text-white px-4 py-2 rounded-lg transition-all"
-                                >
-                                    <Twitter className="h-5 w-5"/>
-                                    <span>Follow on Twitter</span>
-                                </Link>
-
-                                <div className="bg-white p-4 rounded-lg border border-amber-200">
-                                    <h5 className="font-medium text-amber-900 mb-2">Join Our Newsletter</h5>
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="email"
-                                            placeholder="Your email"
-                                            className="w-[150px] px-3 py-2 border border-amber-200 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                                        />
-                                        <Button
-                                            className="h-[42px] bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600">
-                                            Subscribe
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
+                            <h4 className="font-semibold text-coffee-900 mb-4">Connect With Us</h4>
+                            <Link
+                                href="https://twitter.com"
+                                target="_blank"
+                                className="inline-flex items-center gap-2 bg-gradient-to-br from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 text-white px-4 py-2 rounded-lg transition-all"
+                            >
+                                <Twitter className="h-5 w-5"/>
+                                <span>Follow on Twitter</span>
+                            </Link>
                         </div>
                     </div>
 
                     {/* Bottom bar with copyright */}
                     <div
-                        className="mt-12 pt-6 border-t border-amber-200 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div className="text-amber-700 text-sm">
+                        className="mt-12 pt-6 border-t border-coffee-200 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div className="text-coffee-700 text-sm">
                             © {new Date().getFullYear()} Crypto Coffee. All rights reserved.
                         </div>
 
-                        <div className="flex items-center gap-2 text-amber-700 text-sm">
+                        <div className="flex items-center gap-2 text-coffee-700 text-sm">
                             <span>Made with</span>
                             <Heart className="h-4 w-4 text-red-500 fill-red-500"/>
                             <span>and</span>
@@ -192,13 +174,13 @@ const Footer = () => {
                         </div>
 
                         <div className="flex gap-4">
-                            <Link href="#" className="text-amber-700 hover:text-amber-900 text-sm hover:underline">
+                            <Link href="#" className="text-coffee-700 hover:text-coffee-900 text-sm hover:underline">
                                 Cookies
                             </Link>
-                            <Link href="#" className="text-amber-700 hover:text-amber-900 text-sm hover:underline">
+                            <Link href="#" className="text-coffee-700 hover:text-coffee-900 text-sm hover:underline">
                                 Legal
                             </Link>
-                            <Link href="#" className="text-amber-700 hover:text-amber-900 text-sm hover:underline">
+                            <Link href="#" className="text-coffee-700 hover:text-coffee-900 text-sm hover:underline">
                                 Sitemap
                             </Link>
                         </div>

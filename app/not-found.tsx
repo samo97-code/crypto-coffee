@@ -56,7 +56,7 @@ export default function NotFound() {
 
                             {/* 404 text in coffee */}
                             <div
-                                className="absolute top-8 left-1/2 -translate-x-1/2 text-3xl font-bold text-amber-900/80">404
+                                className="absolute top-8 left-1/2 -translate-x-1/2 text-3xl font-bold text-coffee-900/80">404
                             </div>
                         </div>
                     </div>
@@ -80,19 +80,19 @@ export default function NotFound() {
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center">
                         <div
                             className="w-12 h-12 bg-amber-200 rounded-lg border-2 border-amber-900 flex items-center justify-center animate-wobble-left">
-                            <div className="text-amber-900 font-mono font-bold">01</div>
+                            <div className="text-coffee-900 font-mono font-bold">01</div>
                         </div>
 
                         <div className="h-1 bg-red-500 mx-1 animate-shrink-grow" style={{width: "40px"}}></div>
 
                         <div
                             className="w-12 h-12 bg-amber-200 rounded-lg border-2 border-amber-900 flex items-center justify-center animate-wobble-right">
-                            <div className="text-amber-900 font-mono font-bold">10</div>
+                            <div className="text-coffee-900 font-mono font-bold">10</div>
                         </div>
                     </div>
                 </div>
 
-                <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-4 animate-fade-in">
+                <h1 className="text-4xl md:text-5xl font-bold text-coffee-900 mb-4 animate-fade-in">
                     Oops! The Brew Overflowed
                 </h1>
 
@@ -116,7 +116,7 @@ export default function NotFound() {
                         <Button
                             variant="outline"
                             size="lg"
-                            className="border-amber-900 text-amber-900 hover:bg-amber-100"
+                            className="border-amber-900 text-coffee-900 hover:bg-amber-100"
                             onClick={handleBrewAgain}
                         >
                             <Coffee className="mr-2 h-5 w-5"/>
@@ -125,7 +125,7 @@ export default function NotFound() {
                     </div>
                 </div>
 
-                <div className="mt-12 text-amber-700 text-sm animate-fade-in animation-delay-800">
+                <div className="mt-12 text-coffee-700 text-sm animate-fade-in animation-delay-800">
                     <p>Error Code: COFFEE_CHAIN_DISCONNECTED</p>
                 </div>
             </div>

@@ -7,6 +7,7 @@ import {parseEther} from "viem";
 import {Button} from "@/components/ui/button"
 import {Coffee} from "lucide-react"
 import {INetworkCard} from "@/types";
+import {supabase} from "@/utils/supabase";
 
 interface IProps {
     ethPrice: number,
@@ -25,7 +26,7 @@ const abi = [
 ];
 
 const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurrentBuyedCoffee}) => {
-    const {isConnected, chainId} = useAccount();
+    const {address,isConnected, chainId} = useAccount();
     const {switchChain} = useSwitchChain();
 
     const [hash, setHash] = useState('');
@@ -54,6 +55,25 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
         return amount
     }
 
+    const updateCoffeeTimestamp = async (wallet: `0x${string}` | undefined, chainId: number, chain: string) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const {error} = await supabase
+            .from('coffee_activity')
+            .upsert({
+                wallet_address: wallet,
+                chain_id: chainId,
+                chain: chain,
+                timestamp: new Date().toISOString(),
+            }, {
+                onConflict: ['wallet_address', 'chain_id'],
+            });
+
+        if (error) {
+            console.error('Error updating coffee activity:', error);
+        }
+    }
+
 
     const coffeeSent = async () => {
         if (!isConnected || !writeContractAsync) {
@@ -77,6 +97,8 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
                 explorerUrl: project.explorerUrl
             })
             setShowSuccessModal(true)
+
+            // await updateCoffeeTimestamp(address,project.chainId, project.chain)
         } catch (error) {
             console.error('Transaction failed:', error);
         }

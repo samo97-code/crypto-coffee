@@ -22,7 +22,7 @@ const NetworkCard: FC<IProps> = ({ethPrice,project,setShowSuccessModal, setCurre
 
                 <div className='p-5'>
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="relative w-10 h-10">
+                        <div className="relative min-w-10 min-h-10">
                             <Image src={project.icon || "/placeholder.svg"} alt={project.name} fill
                                    className="rounded-full"/>
                         </div>
@@ -36,7 +36,7 @@ const NetworkCard: FC<IProps> = ({ethPrice,project,setShowSuccessModal, setCurre
                                 )}
                             </div>
                             {project.description &&
-                                <div className="text-xs text-coffee-600 font-medium">{project.description}</div>}
+                                <div className="text-xs text-coffee-600 font-medium truncate">{project.description}</div>}
                         </div>
                     </div>
 

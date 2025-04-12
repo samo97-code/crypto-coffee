@@ -2,7 +2,8 @@ export const dynamic = 'force-dynamic';
 import React from "react";
 import {WalletInfo} from "@/components/dashboard/WalletInfo"
 import {TimerCard} from "@/components/dashboard/TimerCard"
-import WelcomeSection from "@/components/dashboard/WelcomeSection";
+// import {WelcomeSection} from "@/components/dashboard/WelcomeSection";
+import WelcomeSection1 from "@/components/dashboard/WelcomeSection1";
 import SidebarActivitiesCard from "@/components/dashboard/SidebarActivitiesCard";
 import ProjectsSection from "@/components/dashboard/ProjectsSection";
 
@@ -15,14 +16,14 @@ const Dashboard = async() => {
         <main className="max-w-[1440px] mx-auto px-4 py-8">
             <div className="flex flex-col lg:flex-row gap-8">
                 <div className="flex-1">
-                    <WelcomeSection price={price} change24h={change24h}/>
+                    <WelcomeSection1 price={price} change24h={change24h}/>
                     <ProjectsSection/>
                 </div>
 
                 <div className="w-full lg:w-80 space-y-6">
                     <WalletInfo/>
                     <SidebarActivitiesCard/>
-                    <TimerCard/>
+                    {/*<TimerCard/>*/}
                 </div>
             </div>
         </main>

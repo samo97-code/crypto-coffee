@@ -44,7 +44,7 @@ const SidebarActivitiesCard =()=> {
                             </div>
                             <div>
                                 <div className="font-medium text-amber-950">{activity.title}</div>
-                                <div className="text-xs text-amber-700">{activity.description}</div>
+                                <div className="text-xs text-coffee-700">{activity.description}</div>
                             </div>
                         </div>
                     </Link>
@@ -52,9 +52,9 @@ const SidebarActivitiesCard =()=> {
             </div>
             <div className="p-4 pt-0">
                 <Link href="/daily-activities">
-                    <Button variant="outline" className="w-full border-coffee-200 hover:bg-coffee-200">
-                        View All Activities
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button variant="outline" className="w-full border-coffee-400 hover:bg-coffee-100 transition-all">
+                        <span className="text-coffee-800">View All Activities</span>
+                        <ArrowRight className="ml-2 h-4 w-4 text-coffee-800" />
                     </Button>
                 </Link>
             </div>

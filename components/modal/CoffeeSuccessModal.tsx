@@ -113,7 +113,7 @@ const CoffeeSuccessModal: FC<IProps> = ({isOpen, onClose, projectName, amount, t
                 <div className="space-y-4">
                     <div className="flex items-center gap-2">
                         <div className="p-2 bg-coffee-100 rounded-full">
-                            <Sparkles className="h-4 w-4 text-amber-700"/>
+                            <Sparkles className="h-4 w-4 text-coffee-700"/>
                         </div>
                         <span className="text-amber-900 font-medium">Transaction Details</span>
                     </div>

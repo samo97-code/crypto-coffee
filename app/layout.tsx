@@ -3,6 +3,8 @@
 import React, {FC} from 'react';
 import "./globals.css"
 import '@rainbow-me/rainbowkit/styles.css';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
 import {getDefaultConfig, RainbowKitProvider} from '@rainbow-me/rainbowkit';
 import {WagmiProvider} from 'wagmi';
 import { defineChain } from 'viem';
@@ -96,14 +98,16 @@ const RootLayout: FC<IChildren> = ({children}) => {
         <WagmiProvider config={config}>
             <QueryClientProvider client={queryClient}>
                 <RainbowKitProvider>
-                    <div className="min-h-screen bg-coffee-50">
-                        {/* Header */}
-                        <Header/>
+                    <Provider store={store}>
+                        <div className="min-h-screen bg-coffee-50">
+                            {/* Header */}
+                            <Header/>
 
-                        {children}
+                            {children}
 
-                        <Footer />
-                    </div>
+                            <Footer/>
+                        </div>
+                    </Provider>
                 </RainbowKitProvider>
             </QueryClientProvider>
         </WagmiProvider>
