@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import {supabase} from "@/utils/supabase";
+import {supabase} from "@/lib/supabase";
 
 
 // Import the projects data
@@ -334,7 +334,7 @@ async function updateProjects() {
                 button_text: project.buttonText,
                 button_color: project.buttonColor,
                 is_new: project.isNew,
-                updated_at: new Date().toISOString(),
+                updated_at: new Date(),
             },
             { onConflict: "id" },
         )

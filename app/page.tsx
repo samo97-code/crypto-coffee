@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 import React from "react";
 import {WalletInfo} from "@/components/dashboard/WalletInfo"
 // import {WelcomeSection} from "@/components/dashboard/WelcomeSection";
-import {supabase} from "@/utils/supabase";
+import {supabase} from "@/lib/supabase";
 import WelcomeSection1 from "@/components/dashboard/WelcomeSection1";
 import SidebarActivitiesCard from "@/components/dashboard/SidebarActivitiesCard";
 import ProjectsSection from "@/components/dashboard/ProjectsSection";
@@ -13,7 +13,7 @@ const Dashboard = async() => {
     const {price, change24h} = await fetchBitcoinPrice();
 
     const {projects} = await fetchProjects() as never
-    console.log(projects, '11111111')
+    // console.log(projects, '11111111')
 
     return (
         <main className="max-w-[1440px] mx-auto px-4 py-8">
@@ -45,8 +45,6 @@ async function fetchProjects() {
         console.error('Fetch Error:', err);
         return null; // Fallback clearly
     }
-
-
 }
 
 async function fetchBitcoinPrice() {

@@ -8,6 +8,8 @@ import {Button} from "@/components/ui/button"
 import {Coffee} from "lucide-react"
 import {IProject} from "@/types";
 import CustomWalletTrigger from "@/components/dashboard/CustomWalletTrigger";
+import {createSupportTransaction} from "@/lib/transaction-service";
+import {useSelector} from "react-redux";
 
 
 interface IProps {
@@ -27,23 +29,20 @@ const abi = [
 ];
 
 const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurrentBuyedCoffee}) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const {user} = useSelector(state => state.user)
     const {isConnected, chainId} = useAccount();
     const {switchChain} = useSwitchChain();
-
     const [hash, setHash] = useState('');
     const {writeContractAsync, isPending, error} = useWriteContract();
 
     const actionHandler = async () => {
-        if (!isConnected) return connectWallet()
-
         if (chainId === project.blockchain_networks[0].chain_id) return await coffeeSent()
 
         switchChain({chainId: project.blockchain_networks[0].chain_id});
     }
 
-    const connectWallet = ()=>{
-        console.log(project, 'connectWallet')
-    }
     const checkAmount = () => {
         // Real
         // const myEthAmount = 0.045
@@ -61,7 +60,7 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
         return amount
     }
 
-
+    //Buy Coffee
     const coffeeSent = async () => {
         if (!isConnected || !writeContractAsync) {
             console.error('Wallet or writeContractAsync not ready');
@@ -83,6 +82,13 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
                 amount: `${amount} ${project.blockchain_networks[0].chain_key}`,
                 explorerUrl: project.blockchain_networks[0].explorer_url
             })
+
+            // Create a support transaction
+            const transaction = await createSupportTransaction(user.id, project.id, hash, project.network_name, amount)
+
+            console.log(transaction, 'transaction')
+
+
             setShowSuccessModal(true)
         } catch (error) {
             console.error('Transaction failed:', error);
@@ -103,6 +109,7 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
     useEffect(() => {
         if (error) console.error('useWriteContract error:', error);
     }, [error]);
+
 
     return (
         <>

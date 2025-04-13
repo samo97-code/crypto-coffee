@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Coffee, Droplets } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils"
 
 const CoffeeLoader =({ className }: { className?: string }) =>{
     const [progress, setProgress] = useState(0)

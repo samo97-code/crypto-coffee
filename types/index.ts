@@ -25,7 +25,7 @@ export interface INetworkCard{
 
 // types/db.ts
 
-export interface User {
+export interface IUser {
     id: string;
     username?: string;
     display_name?: string;
@@ -77,7 +77,7 @@ export interface BlockchainNetwork {
     updated_at: string;
 }
 
-export interface Transaction {
+export interface ITransaction {
     id: number;
     user_id: string;
     project_id: number;
@@ -178,5 +178,12 @@ export interface UserStreak {
     user_id: string;
     streak_date: string;
     created_at: string;
+}
+
+export interface IStreakInfo {
+    current_streak: number
+    longest_streak: number
+    last_activity_date: string | null
+    streak_dates: string[]
 }
 

@@ -3,12 +3,15 @@ import {Coffee, Search} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {ConnectButton} from "@rainbow-me/rainbowkit";
 import {useAccount} from "wagmi";
-import {supabase} from "@/utils/supabase";
+import {supabase} from "@/lib/supabase";
 import AnnouncementCard from "@/components/dashboard/AnnouncementCard";
 import Link from "next/link";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {setAuthUser} from "@/store/slices/userSlice";
+import {useDispatch} from "react-redux";
 
 const Header = () => {
+    const dispatch = useDispatch();
     const {address, isConnected} = useAccount();
 
     useEffect(() => {
@@ -16,6 +19,7 @@ const Header = () => {
             (async () => {
                 try {
                     const user = await createOrGetUser(address);
+                    dispatch(setAuthUser(user))
 
                     // await getUserCoffeeActivity(address)
                     console.log('User from Supabase:', user);
@@ -51,13 +55,13 @@ const Header = () => {
             if (createError) throw createError;
 
             // Also insert initial achievements for the user
-            const { error: achievementError } = await supabase.from("user_achievements").insert([
+            const {error: achievementError} = await supabase.from("user_achievements").insert([
                 {
                     user_id: newUser.id,
                     achievement_id: 1, // Early Adopter achievement
                     progress: 100,
                     is_unlocked: true,
-                    unlocked_at: new Date().toISOString(),
+                    unlocked_at: new Date(),
                 },
             ])
 
@@ -66,10 +70,10 @@ const Header = () => {
                 // Continue anyway, not critical
             }
 
-            return { success: true, user: newUser, isNewUser: true }
+            return {success: true, user: newUser, isNewUser: true}
         } catch (e) {
             console.error("Error in saveOrGetUser:", e)
-            return { success: false, error: "Failed to process user" }
+            return {success: false, error: "Failed to process user"}
         }
     }
 
