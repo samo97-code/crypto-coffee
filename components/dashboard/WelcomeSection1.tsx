@@ -48,7 +48,7 @@ const WelcomeSection1: FC<IProps> = ({price, change24h}) => {
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
                         <div className="flex items-start gap-4">
                             <div
-                                className="p-3 bg-gradient-to-br from-coffee-600 to-coffee-800 rounded-2xl shadow-md transform -rotate-3">
+                                className="p-3 bg-gradient-to-br from-coffee-800 to-coffee-800 rounded-2xl shadow-md transform -rotate-3">
                                 <div className="relative">
                                     <div
                                         className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-white/70 blur-[1px]"></div>

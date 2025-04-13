@@ -6,12 +6,13 @@ import {WriteContractData} from "@wagmi/core/query";
 import {parseEther} from "viem";
 import {Button} from "@/components/ui/button"
 import {Coffee} from "lucide-react"
-import {INetworkCard} from "@/types";
-import {supabase} from "@/utils/supabase";
+import {IProject} from "@/types";
+import CustomWalletTrigger from "@/components/dashboard/CustomWalletTrigger";
+
 
 interface IProps {
     ethPrice: number,
-    project: INetworkCard,
+    project: IProject,
     setShowSuccessModal: (b: boolean) => void,
     setCurrentBuyedCoffee: (b: { explorerUrl: string; name: string; amount: string, hash: WriteContractData }) => void,
 }
@@ -26,18 +27,23 @@ const abi = [
 ];
 
 const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurrentBuyedCoffee}) => {
-    const {address,isConnected, chainId} = useAccount();
+    const {isConnected, chainId} = useAccount();
     const {switchChain} = useSwitchChain();
 
     const [hash, setHash] = useState('');
     const {writeContractAsync, isPending, error} = useWriteContract();
 
     const actionHandler = async () => {
-        if (chainId === project.chainId) return await coffeeSent()
+        if (!isConnected) return connectWallet()
 
-        switchChain({chainId: project.chainId});
+        if (chainId === project.blockchain_networks[0].chain_id) return await coffeeSent()
+
+        switchChain({chainId: project.blockchain_networks[0].chain_id});
     }
 
+    const connectWallet = ()=>{
+        console.log(project, 'connectWallet')
+    }
     const checkAmount = () => {
         // Real
         // const myEthAmount = 0.045
@@ -49,29 +55,10 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
 
         let amount = '';
 
-        if (project.chainKey === 'Eth') amount = (myEthAmount / ethPrice).toFixed(6)
-        if (project.chainKey === 'Mon') amount = myMonadAmount
+        if (project.blockchain_networks[0].chain_key === 'Eth') amount = (myEthAmount / ethPrice).toFixed(6)
+        if (project.blockchain_networks[0].chain_key === 'Mon') amount = myMonadAmount
 
         return amount
-    }
-
-    const updateCoffeeTimestamp = async (wallet: `0x${string}` | undefined, chainId: number, chain: string) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const {error} = await supabase
-            .from('coffee_activity')
-            .upsert({
-                wallet_address: wallet,
-                chain_id: chainId,
-                chain: chain,
-                timestamp: new Date().toISOString(),
-            }, {
-                onConflict: ['wallet_address', 'chain_id'],
-            });
-
-        if (error) {
-            console.error('Error updating coffee activity:', error);
-        }
     }
 
 
@@ -93,12 +80,10 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
             setCurrentBuyedCoffee({
                 hash: hash,
                 name: project.name,
-                amount: `${amount} ${project.chainKey}`,
-                explorerUrl: project.explorerUrl
+                amount: `${amount} ${project.blockchain_networks[0].chain_key}`,
+                explorerUrl: project.blockchain_networks[0].explorer_url
             })
             setShowSuccessModal(true)
-
-            // await updateCoffeeTimestamp(address,project.chainId, project.chain)
         } catch (error) {
             console.error('Transaction failed:', error);
         }
@@ -121,11 +106,15 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
 
     return (
         <>
-            <Button onClick={() => actionHandler()} disabled={isPending || isConfirming}
-                    className={`min-h-10 w-full text-white ${project.buttonColor} `}>
-                <Coffee className="h-4 w-4"/>
-                {isPending ? 'Sending...' : project.buttonText}
-            </Button>
+            {
+                isConnected ? <Button onClick={() => actionHandler()} disabled={isPending || isConfirming}
+                                      className={`min-h-10 w-full text-white ${project.button_color} `}>
+
+                    <Coffee className="h-4 w-4"/>
+                    {isPending ? 'Sending...' : `Buy Coffee on ${project.chain}`}
+                </Button> : <CustomWalletTrigger color={project?.button_color || ''}/>
+            }
+
         </>
     );
 };

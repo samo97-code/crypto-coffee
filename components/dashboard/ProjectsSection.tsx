@@ -1,11 +1,16 @@
 'use client'
 
-import React, {useEffect, useMemo, useState} from 'react';
-import {dashboardTabs, projects} from "@/constants";
+import React, {FC, useEffect, useMemo, useState} from 'react';
+import {dashboardTabs} from "@/constants";
 import NetworkCard from "@/components/dashboard/NetworkCard";
 import CoffeeSuccessModal from "@/components/modal/CoffeeSuccessModal";
+import {IProject} from "@/types";
 
-const ProjectSection = () => {
+interface IProps {
+    projects: IProject
+}
+
+const ProjectSection: FC<IProps> = ({projects}) => {
     const [ethPrice, setEthPrice] = useState(0);
     const [activeTab, setActiveTab] = useState("all");
     const [showSuccessModal, setShowSuccessModal] = useState(false)
@@ -23,7 +28,7 @@ const ProjectSection = () => {
     const currentProjects = useMemo(() => {
         if (activeTab === 'all') return projects
 
-        return projects.filter((item) => item.type === activeTab)
+        return projects.filter((item:IProject) => item.blockchain_networks[0].type === activeTab)
     }, [activeTab]);
 
 
@@ -87,7 +92,7 @@ const ProjectSection = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {currentProjects.map((project) => {
+                {currentProjects.map((project: IProject) => {
                     return <div key={project.id}>
                         <NetworkCard
                             ethPrice={ethPrice}

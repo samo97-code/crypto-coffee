@@ -5,11 +5,11 @@ import {WriteContractData} from "@wagmi/core/query";
 import Image from "next/image"
 import BuyButton from "@/components/dashboard/card/BuyButton";
 import {Badge} from "@/components/ui/badge"
-import {INetworkCard} from "@/types";
+import {IProject} from "@/types";
 
 interface IProps {
     ethPrice: number
-    project: INetworkCard
+    project: IProject
     setShowSuccessModal: (b: boolean) => void
     setCurrentBuyedCoffee: (b: { explorerUrl: string; name: string; amount: string ,hash: WriteContractData }) => void,
 }
@@ -23,13 +23,13 @@ const NetworkCard: FC<IProps> = ({ethPrice,project,setShowSuccessModal, setCurre
                 <div className='p-5'>
                     <div className="flex items-center gap-3 mb-6">
                         <div className="relative min-w-10 min-h-10">
-                            <Image src={project.icon || "/placeholder.svg"} alt={project.name} fill
+                            <Image src={project.icon_url || "/placeholder.svg"} alt={project.name} fill
                                    className="rounded-full"/>
                         </div>
                         <div>
                             <div className="flex items-center gap-4">
                                 <h3 className="font-bold text-lg text-coffee-900 truncate">{project.name}</h3>
-                                {project.isNew && (
+                                {project.is_new && (
                                     <Badge variant="secondary" className="bg-coffee-200 text-[10px] px-1.5 py-0.5">
                                         New
                                     </Badge>
