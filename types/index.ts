@@ -8,7 +8,7 @@ export interface ICurrentBuyedCoffee {
     hash: string,
 }
 
-export interface INetworkCard{
+export interface INetworkCard {
     name: string
     chain: string
     chainKey: string
@@ -62,7 +62,9 @@ export interface IProject {
     created_at: string;
     updated_at: string;
     blockchain_networks: BlockchainNetwork[]
+
     filter(param: (item: IProject) => boolean): IProject;
+
     map(element: (project: IProject) => React.JSX.Element): any;
 }
 
@@ -88,9 +90,10 @@ export interface ITransaction {
     status: 'pending' | 'completed' | 'failed';
     created_at: string;
     updated_at: string;
+    projects?: IProject
 }
 
-export interface Achievement {
+export interface IAchievement {
     id: number;
     name: string;
     description: string;
@@ -104,15 +107,58 @@ export interface Achievement {
     updated_at: string;
 }
 
-export interface UserAchievement {
-    id: number;
-    user_id: string;
-    achievement_id: number;
-    progress: number;
-    is_unlocked: boolean;
-    unlocked_at?: string;
-    created_at: string;
-    updated_at: string;
+export interface IActivity {
+    id: number
+    type: string
+    title: string
+    description: string
+    icon: string
+    icon_bg: string
+    icon_color: string
+    timestamp: string
+    project_id?: number
+    project_name?: string
+    project_chain?: string
+    project_icon?: string
+}
+
+export interface IActivityCompletion {
+    id: number
+    user_id: string
+    activity_id: number
+    completion_date?: string
+    completed_at: string
+    activity?: DailyActivity
+}
+
+export interface IProfileStates {
+    boughtCoffee: number,
+    achievementsCount: number,
+    totalAchievements: number,
+    levelProgress: number,
+}
+
+export interface IUserAchievement {
+    id: number
+    user_id: string
+    achievement_id: number
+    progress: number
+    is_unlocked: boolean
+    unlocked_at: string | null
+    achievement: IAchievement
+
+    slice(number: number, number2: number): any;
+
+    map(element: (achievement: IUserAchievement, index: number) => React.JSX.Element): any;
+}
+
+export interface IBadge {
+    id: string
+    name: string
+    description: string
+    icon: string
+    bg_color: string
+    text_color: string
 }
 
 export interface Level {

@@ -157,43 +157,6 @@ const CreativeCoverImage = ({
                 </AnimatePresence>
             </div>
 
-            {/* Coffee cup */}
-            <div className="absolute bottom-6 left-10">
-                <div className="relative">
-                    <div className="w-16 h-12 bg-coffee-900 rounded-b-full border-2 border-coffee-200 overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-full bg-coffee-800/20"></div>
-                        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-coffee-800/40 rounded-b-full"></div>
-                    </div>
-
-                    {/* Handle */}
-                    <div className="absolute top-2 -right-4 w-5 h-8 border-2 border-coffee-200 rounded-r-full"></div>
-
-                    {/* Cup top */}
-                    <div
-                        className="absolute -top-2 left-0 w-16 h-4 bg-coffee-800 border-2 border-coffee-200 rounded-full">
-                        <div
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-1 bg-coffee-900/50 rounded-full"></div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Decorative elements */}
-            <div className="absolute right-10 bottom-10">
-                <motion.div
-                    className="flex items-center justify-center w-16 h-16 rounded-full bg-coffee-800/30 backdrop-blur-sm"
-                    animate={{
-                        scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                        duration: 3,
-                        ease: "easeInOut",
-                        repeat: Number.POSITIVE_INFINITY,
-                    }}
-                >
-                    <Coffee className="h-8 w-8 text-coffee-100"/>
-                </motion.div>
-            </div>
-
             {/* Sparkles */}
             <div className="absolute inset-0">
                 {[...Array(10)].map((_, i) => (

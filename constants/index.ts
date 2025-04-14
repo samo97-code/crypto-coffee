@@ -292,7 +292,7 @@ export const projects = [
 ]
 
 export const dashboardTabs = [
-    {id: 1, label: 'All', value: 'all',  icon: Coffee, count: projects.length},
+    {id: 1, label: 'All', value: 'all', icon: Coffee, count: projects.length},
     {id: 2, label: 'Mainnet', value: 'mainnet', icon: Zap, count: projects.length - 2},
     {id: 3, label: 'Testnet', value: 'testnet', icon: Beaker, count: 2},
 ]
@@ -460,4 +460,20 @@ export const achievements = [
         featured: false,
         progress: 45,
     },
+]
+
+export const avatars = [
+    {id: 1, name: 'Ai Coder', path: '/images/avatars/ai_coder.png'},
+    {id: 2, name: 'Coffee Alchemist', path: '/images/avatars/coffee_alchemist.png'},
+    {id: 3, name: 'Crypto Shaman', path: '/images/avatars/crypto_shaman.png'},
+    {id: 4, name: 'Hacker Girl', path: '/images/avatars/cyberpunk_hacker_girl.png'},
+    {id: 5, name: 'Digital Samurai', path: '/images/avatars/digital_samurai.png'},
+    {id: 6, name: 'Enhanced Cat', path: '/images/avatars/enhanced_cat.png'},
+    {id: 7, name: 'Galactic Explorer', path: '/images/avatars/galactic_explorer.png'},
+    {id: 8, name: 'God of Coffee', path: '/images/avatars/god_of_coffee.png'},
+    {id: 9, name: 'Hacker Kid', path: '/images/avatars/hacker_kid.png'},
+    {id: 10, name: 'Masked Hacker', path: '/images/avatars/masked_hacker.png'},
+    {id: 11, name: 'Mystical Female', path: '/images/avatars/mystical_female.png'},
+    {id: 12, name: 'Synthwave Warrior', path: '/images/avatars/synthwave_warrior.png'},
+    {id: 13, name: 'VR Streamer', path: '/images/avatars/vr_streamer.png'},
 ]

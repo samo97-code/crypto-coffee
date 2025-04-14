@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Coffee, Search} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {ConnectButton} from "@rainbow-me/rainbowkit";
@@ -9,10 +9,12 @@ import Link from "next/link";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {setAuthUser} from "@/store/slices/userSlice";
 import {useDispatch} from "react-redux";
+import {randomAvatar} from "@/utils/utils";
 
 const Header = () => {
     const dispatch = useDispatch();
     const {address, isConnected} = useAccount();
+    const [userAvatar, setUserAvatar] = useState('');
 
     useEffect(() => {
         if (isConnected && address) {
@@ -37,6 +39,7 @@ const Header = () => {
             .eq('wallet_address', wallet_address)
             .maybeSingle();
 
+        setUserAvatar(data.avatar_url)
         if (data) return data;
 
         try {
@@ -46,11 +49,14 @@ const Header = () => {
                 .insert([
                     {
                         wallet_address,
-                        level_id: 1, // Start at level 1
+                        level_id: 1,
+                        avatar_url: randomAvatar(),
                     },
                 ])
                 .select()
                 .single()
+
+            setUserAvatar(newUser.avatar_url)
 
             if (createError) throw createError;
 
@@ -135,7 +141,7 @@ const Header = () => {
                     {isConnected &&
                         <Link href="/profile" className="flex items-center gap-2 text-coffee-800 font-bold text-xl">
                           <Avatar className="h-10 w-10 border-4 border-coffee-50 shadow-lg">
-                            <AvatarImage src="/placeholder.svg?height=128&width=128"/>
+                            <AvatarImage src={`${userAvatar}?height=128&width=128`}/>
                             <AvatarFallback
                                 className="bg-coffee-100 text-coffee-800 text-xs">CC</AvatarFallback>
                           </Avatar>

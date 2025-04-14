@@ -1,11 +1,28 @@
-import React from 'react';
-import {Award, Sparkles} from "lucide-react";
+import React, {FC} from 'react';
+import {Award, Coffee, Droplets, Sparkles, Users, Zap} from "lucide-react";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
-import {achievements} from "@/constants";
 import {Progress} from "@/components/ui/progress";
+import {IUserAchievement} from "@/types";
 
-const Achievements = () => {
+interface IProps {
+    achievements: IUserAchievement[]
+}
+
+const Achievements: FC<IProps> = ({achievements}) => {
+    // Map icon names to Lucide icons
+    const getIconComponent = (iconName: string) => {
+        const iconMap: Record<string, any> = {
+            Award: Award,
+            Coffee: Coffee,
+            Droplets: Droplets,
+            Zap: Zap,
+            Users: Users,
+            Sparkles: Sparkles,
+        }
+        return iconMap[iconName] || Award
+    }
+
     return (
         <div>
             <div className="bg-white rounded-xl p-6 shadow-sm border border-coffee-200">
@@ -24,81 +41,61 @@ const Achievements = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {achievements.slice(0, 4).map((achievement, index) => (
-                        <div
-                            key={index}
-                            className={`border rounded-lg p-4 ${
-                                achievement.unlocked ? "border-coffee-200" : "border-gray-200 opacity-60"
-                            }`}
-                        >
-                            <div className="flex items-start gap-3">
-                                <div
-                                    className={`w-12 h-12 rounded-full ${
-                                        achievement.unlocked ? achievement.iconBg : "bg-gray-100"
-                                    } flex items-center justify-center`}
-                                >
-                                    <achievement.icon
-                                        className={`h-6 w-6 ${achievement.unlocked ? achievement.iconColor : "text-gray-400"}`}
-                                    />
-                                </div>
+                    {achievements.slice(0, 4).map((achievement, index) => {
+                            const IconComponent = getIconComponent(achievement.achievement.icon_name)
+                            const isUnlocked = achievement.is_unlocked
 
-                                <div>
-                                    <h4 className="font-medium text-coffee-900">{achievement.name}</h4>
-                                    <p className="text-sm text-coffee-700 mt-1">{achievement.description}</p>
+                            return <div
+                                key={index}
+                                className={`border rounded-lg p-4 ${
+                                    isUnlocked ? "border-coffee-200" : "border-gray-200 opacity-60"
+                                }`}
+                            >
+                                <div className="flex items-start gap-3">
+                                    <div
+                                        className={`w-12 h-12 rounded-full ${
+                                            isUnlocked ? achievement.achievement.icon_bg : "bg-gray-100"
+                                        } flex items-center justify-center`}
+                                    >
+                                        <IconComponent
+                                            className={`h-6 w-6 ${isUnlocked ? achievement.achievement.icon_color : "text-gray-400"}`}
+                                        />
+                                    </div>
 
-                                    {achievement.unlocked ? (
-                                        <div
-                                            className="flex items-center gap-1 text-green-600 text-sm mt-2">
-                                            <Sparkles className="h-3 w-3"/>
-                                            <span>Unlocked on {achievement.unlockedDate}</span>
-                                        </div>
-                                    ) : (
-                                        <div className="mt-2">
-                                            <div className="flex justify-between text-xs mb-1">
-                                                <span className="text-coffee-600">Progress</span>
-                                                <span
-                                                    className="text-coffee-800">{achievement.progress}%</span>
+                                    <div>
+                                        <h4 className="font-medium text-coffee-900">{achievement.achievement.name}</h4>
+                                        <p className="text-sm text-coffee-700 mt-1">{achievement.achievement.description}</p>
+
+                                        {isUnlocked ? (
+                                            <div
+                                                className="flex items-center gap-1 text-green-600 text-sm mt-2">
+                                                <Sparkles className="h-3 w-3"/>
+                                                <span>
+                                                  Unlocked on {new Date(achievement.unlocked_at || "").toLocaleDateString()}
+                                                </span>
                                             </div>
-                                            <Progress value={achievement.progress} className="h-1.5"/>
-                                        </div>
-                                    )}
+                                        ) : (
+                                            <div className="mt-2">
+                                                <div className="flex justify-between text-xs mb-1">
+                                                    <span className="text-coffee-600">Progress</span>
+                                                    <span
+                                                        className="text-coffee-800">
+                                                        {Math.round(
+                                                            (achievement.progress / achievement.achievement.requirement_value) * 100,
+                                                        )}
+                                                        %
+                                                    </span>
+                                                </div>
+                                                <Progress value={Math.round(
+                                                    (achievement.progress / achievement.achievement.requirement_value) * 100,
+                                                )} className="h-1.5"/>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Achievement Showcase */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-coffee-200">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-semibold text-coffee-900">Achievement Showcase</h3>
-                    <Button variant="outline" size="sm" className="border-coffee-200">
-                        Edit Showcase
-                    </Button>
-                </div>
-
-                <div
-                    className="bg-gradient-to-br from-coffee-50 to-coffee-100 rounded-lg p-6 border border-coffee-200">
-                    <div className="flex flex-wrap justify-center gap-4">
-                        {achievements
-                            .filter((a) => a.unlocked && a.featured)
-                            .map((achievement, index) => (
-                                <div
-                                    key={index}
-                                    className="w-24 h-24 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center p-2 border border-coffee-200"
-                                >
-                                    <div
-                                        className={`w-12 h-12 rounded-full ${achievement.iconBg} flex items-center justify-center mb-2`}
-                                    >
-                                        <achievement.icon
-                                            className={`h-6 w-6 ${achievement.iconColor}`}/>
-                                    </div>
-                                    <div
-                                        className="text-xs font-medium text-coffee-900 text-center">{achievement.name}</div>
-                                </div>
-                            ))}
-                    </div>
+                        }
+                    )}
                 </div>
             </div>
         </div>

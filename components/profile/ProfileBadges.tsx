@@ -1,26 +1,38 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Badge} from "@/components/ui/badge";
-import {Award, Coffee, Droplets, Zap} from "lucide-react";
+import {Award, Coffee, Droplets, Zap, Users, Sparkles} from "lucide-react";
+import {IBadge} from "@/types";
 
-const ProfileBadges = () => {
+interface IProps {
+    badges: IBadge[]
+}
+
+const ProfileBadges: FC<IProps> = ({badges}) => {
+    // Map icon names to Lucide icons
+    const getIconComponent = (iconName: string) => {
+        const iconMap: Record<string, any> = {
+            Award: Award,
+            Coffee: Coffee,
+            Droplets: Droplets,
+            Zap: Zap,
+            Users: Users,
+            Sparkles: Sparkles,
+        }
+        return iconMap[iconName] || Award
+    }
+
     return (
         <div className="mt-4 flex flex-wrap gap-3">
-            <Badge className="bg-coffee-100 text-coffee-800 border-none px-3 py-1 shadow-sm">
-                <Coffee className="h-3 w-3 mr-1"/>
-                Coffee Supporter
-            </Badge>
-            <Badge className="bg-purple-100 text-purple-800 border-none px-3 py-1 shadow-sm">
-                <Award className="h-3 w-3 mr-1"/>
-                Early Adopter
-            </Badge>
-            <Badge className="bg-blue-100 text-blue-800 border-none px-3 py-1 shadow-sm">
-                <Zap className="h-3 w-3 mr-1"/>
-                SuperChain Explorer
-            </Badge>
-            <Badge className="bg-green-100 text-green-800 border-none px-3 py-1 shadow-sm">
-                <Droplets className="h-3 w-3 mr-1"/>
-                Generous Brewer
-            </Badge>
+            {
+                badges.map((badge) => {
+                    const IconComponent = getIconComponent(badge.icon)
+
+                    return <Badge key={badge.id} className={`${badge.bg_color} ${badge.text_color} border-none px-3 py-1 shadow-sm`}>
+                        <IconComponent className="h-3 w-3 mr-1"/>
+                        {badge.name}
+                    </Badge>
+                })
+            }
         </div>
     );
 };

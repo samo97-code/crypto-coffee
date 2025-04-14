@@ -1,44 +1,51 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import {clsx, type ClassValue} from "clsx"
+import {twMerge} from "tailwind-merge"
+import {avatars} from "@/constants";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs))
 }
 
 export const shortenAddress = (address: `0x${string}` | undefined, chars = 4) => {
-  return `${address?.substring(0, chars + 2)}...${address?.substring(address.length - chars)}`;
+    return `${address?.substring(0, chars + 2)}...${address?.substring(address.length - chars)}`;
+}
+
+export const randomAvatar = () => {
+    const randomNumber = Math.floor(Math.random() * 13) + 1;
+    const findAvatar = avatars.find((item) => item.id === randomNumber)
+    return findAvatar?.path
 }
 
 function isObject(value: any) {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 export function camelToSnake(obj: any): any {
-  if (Array.isArray(obj)) {
-    return obj.map(camelToSnake);
-  }
+    if (Array.isArray(obj)) {
+        return obj.map(camelToSnake);
+    }
 
-  if (!isObject(obj)) return obj;
+    if (!isObject(obj)) return obj;
 
-  return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => [
-        key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`),
-        camelToSnake(value),
-      ])
-  );
+    return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+            key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`),
+            camelToSnake(value),
+        ])
+    );
 }
 
 export function snakeToCamel(obj: any): any {
-  if (Array.isArray(obj)) {
-    return obj.map(snakeToCamel);
-  }
+    if (Array.isArray(obj)) {
+        return obj.map(snakeToCamel);
+    }
 
-  if (!isObject(obj)) return obj;
+    if (!isObject(obj)) return obj;
 
-  return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => [
-        key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()),
-        snakeToCamel(value),
-      ])
-  );
+    return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+            key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()),
+            snakeToCamel(value),
+        ])
+    );
 }

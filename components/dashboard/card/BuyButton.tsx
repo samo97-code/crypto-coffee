@@ -54,6 +54,9 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
 
         let amount = '';
 
+        // console.log((myEthAmount / ethPrice),'111111111')
+        // console.log((myEthAmount / ethPrice).toFixed(6),'2222222222')
+
         if (project.blockchain_networks[0].chain_key === 'Eth') amount = (myEthAmount / ethPrice).toFixed(6)
         if (project.blockchain_networks[0].chain_key === 'Mon') amount = myMonadAmount
 
