@@ -7,11 +7,13 @@ import {projects} from "@/constants";
 
 
 interface IProps {
+    dailySupporters: number
+    totalSupporters: number
     price: number
     change24h: string
 }
 
-const WelcomeSection1: FC<IProps> = ({price, change24h}) => {
+const WelcomeSection1: FC<IProps> = ({price, change24h, dailySupporters, totalSupporters}) => {
     const convertTotal = (count: number) => {
         const value = count.toLocaleString()
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -26,7 +28,7 @@ const WelcomeSection1: FC<IProps> = ({price, change24h}) => {
         <div className="space-y-8">
             {/* Welcome Card */}
             <div
-                className="relative overflow-hidden bg-gradient-to-br from-coffee--50 to-coffee-100-100 border border-coffee-200 rounded-lg shadow-sm">
+                className="relative overflow-hidden bg-gradient-to-br from-coffee--50 to-coffee-100 border border-coffee-200 rounded-lg shadow-sm">
                 {/* Decorative elements */}
                 <div
                     className="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-gradient-to-br from-amber-300/20 to-orange-400/20 blur-3xl"></div>
@@ -47,14 +49,6 @@ const WelcomeSection1: FC<IProps> = ({price, change24h}) => {
                     {/* Header section */}
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
                         <div className="flex items-start gap-4">
-                            <div
-                                className="p-3 bg-gradient-to-br from-coffee-800 to-coffee-800 rounded-2xl shadow-md transform -rotate-3">
-                                <div className="relative">
-                                    <div
-                                        className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-white/70 blur-[1px]"></div>
-                                    <Coffee className="h-8 w-8 text-white"/>
-                                </div>
-                            </div>
                             <div>
                                 <h1 className="text-3xl md:text-4xl font-bold text-amber-900 leading-tight">
                                     Morning Start With Crypto Coffee!
@@ -122,7 +116,7 @@ const WelcomeSection1: FC<IProps> = ({price, change24h}) => {
                             className="group bg-white/80 backdrop-blur-sm p-6 rounded-sm border border-coffee-200 shadow-sm hover:shadow-md transition-all duration-300">
                             <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
-                                    <div className="text-amber-900 font-medium">Daily Supporters</div>
+                                    <div className="text-amber-900 font-medium">Daily Users</div>
                                 </div>
                                 <div
                                     className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800">Active
@@ -131,14 +125,14 @@ const WelcomeSection1: FC<IProps> = ({price, change24h}) => {
                             <div className="flex items-end justify-between">
                                 <div
                                     className="text-3xl font-bold text-amber-900 transition-transform">
-                                    1,234
+                                    {totalSupporters}
                                 </div>
                                 <div className="flex items-center text-green-600 text-sm font-medium">
                                     <svg className="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 4L4 12H9V20H15V12H20L12 4Z" fill="currentColor"/>
                                     </svg>
-                                    <span>+42 today</span>
+                                    <span>+{dailySupporters} today</span>
                                 </div>
                             </div>
                         </div>

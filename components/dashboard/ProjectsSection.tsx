@@ -1,13 +1,13 @@
 'use client'
 
 import React, {FC, useEffect, useMemo, useState} from 'react';
-import {dashboardTabs} from "@/constants";
-import NetworkCard from "@/components/dashboard/NetworkCard";
 import CoffeeSuccessModal from "@/components/modal/CoffeeSuccessModal";
 import {IProject} from "@/types";
+import WowCard from "@/components/dashboard/WowCard";
+import {CreativeNetworkTabs} from "@/components/CreativeTabs";
 
 interface IProps {
-    projects: IProject
+    projects: IProject[]
 }
 
 const ProjectSection: FC<IProps> = ({projects}) => {
@@ -56,33 +56,35 @@ const ProjectSection: FC<IProps> = ({projects}) => {
                 <div className="relative">
                     <div className="flex justify-center overflow-x-auto pb-2 hide-scrollbar mt-6">
                         <div className="flex space-x-2 px-1">
-                            {dashboardTabs.map((tab) => (
-                                <button
-                                    key={tab.value}
-                                    onClick={() => setActiveTab(tab.value)}
-                                    className={`relative group flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${
-                                        activeTab === tab.value
-                                            ? "text-white shadow-lg scale-105"
-                                            : "text-amber-900 bg-white hover:bg-amber-50"
-                                    }`}
-                                >
-                                    <div className="flex items-center">
-                                        <tab.icon
-                                            className={`h-5 w-5 ${activeTab === tab.value ? "text-coffee-900" : "text-coffee-800"}`}/>
-                                        <span
-                                            className="text-coffee-800 ml-2 font-medium text-lg whitespace-nowrap">{tab.label}</span>
-                                    </div>
+                            <CreativeNetworkTabs counts={{ all: 18, mainnet: 16, testnet: 2 }} onTabChange={setActiveTab} />
 
-                                    <div
-                                        className={`ml-2 px-2 py-0.5 rounded-full text-sm font-medium ${
-                                            activeTab === tab.value ? "bg-coffee-400 text-coffee-900" : "bg-coffee-200 text-coffee-800"
-                                        }`}
-                                    >
-                                        {tab.count}
-                                    </div>
+                            {/*{dashboardTabs.map((tab) => (*/}
+                            {/*    <button*/}
+                            {/*        key={tab.value}*/}
+                            {/*        onClick={() => setActiveTab(tab.value)}*/}
+                            {/*        className={`relative group flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${*/}
+                            {/*            activeTab === tab.value*/}
+                            {/*                ? "text-white shadow-lg scale-105"*/}
+                            {/*                : "text-amber-900 bg-white hover:bg-amber-50"*/}
+                            {/*        }`}*/}
+                            {/*    >*/}
+                            {/*        <div className="flex items-center">*/}
+                            {/*            <tab.icon*/}
+                            {/*                className={`h-5 w-5 ${activeTab === tab.value ? "text-coffee-900" : "text-coffee-800"}`}/>*/}
+                            {/*            <span*/}
+                            {/*                className="text-coffee-800 ml-2 font-medium text-lg whitespace-nowrap">{tab.label}</span>*/}
+                            {/*        </div>*/}
 
-                                </button>
-                            ))}
+                            {/*        <div*/}
+                            {/*            className={`ml-2 px-2 py-0.5 rounded-full text-sm font-medium ${*/}
+                            {/*                activeTab === tab.value ? "bg-coffee-400 text-coffee-900" : "bg-coffee-200 text-coffee-800"*/}
+                            {/*            }`}*/}
+                            {/*        >*/}
+                            {/*            {tab.count}*/}
+                            {/*        </div>*/}
+
+                            {/*    </button>*/}
+                            {/*))}*/}
                         </div>
                     </div>
 
@@ -91,15 +93,21 @@ const ProjectSection: FC<IProps> = ({projects}) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 {currentProjects.map((project: IProject) => {
                     return <div key={project.id}>
-                        <NetworkCard
+                        <WowCard
                             ethPrice={ethPrice}
                             project={project}
                             setShowSuccessModal={setShowSuccessModal}
                             setCurrentBuyedCoffee={setCurrentBuyedCoffee}
                         />
+                        {/*<NetworkCard*/}
+                        {/*    ethPrice={ethPrice}*/}
+                        {/*    project={project}*/}
+                        {/*    setShowSuccessModal={setShowSuccessModal}*/}
+                        {/*    setCurrentBuyedCoffee={setCurrentBuyedCoffee}*/}
+                        {/*/>*/}
                     </div>
                 })}
             </div>

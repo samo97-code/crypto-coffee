@@ -85,8 +85,6 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
             return []
         }
 
-        console.log(transactions, 'transactions')
-
         // Transform transactions into activities
         const transactionActivities: IActivity[] = (transactions as unknown as ITransaction[] || []).map((transaction) => ({
             id: transaction.id,

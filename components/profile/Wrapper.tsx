@@ -17,22 +17,18 @@ import Achievements from "@/components/profile/Achievements";
 import {useAccount} from "wagmi";
 import {WriteContractData} from "@wagmi/core/query";
 import {getUserStreak} from "@/lib/streak-service";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "@/store/hook"
 import {IActivity, IBadge, IProfileStates, IStreakInfo, IUserAchievement} from "@/types";
 import {getUserAchievements, getUserBadges, getUserStats, getUserLevelProgress} from "@/lib/acheivements-service";
 import {useRouter} from "next/navigation";
-import {getUserTransactions} from "@/lib/transaction-service";
-
-// Import the activity service
-import { getUserRecentActivities } from "@/lib/activity-service"
+import {getUserRecentActivities} from "@/lib/activity-service"
 
 
 const Wrapper = () => {
     const router = useRouter()
     const {address} = useAccount();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const {user} = useSelector(state => state.user);
+    const {totalAchievements} = useAppSelector(state => state.acheivement);
+    const {user} = useAppSelector(state => state.user);
     const displayName = user?.display_name || user?.username || "Coffee Enthusiast"
 
     const [loading, setLoading] = useState(true)
@@ -49,12 +45,13 @@ const Wrapper = () => {
     const [stats, setStats] = useState<IProfileStates>({
         boughtCoffee: 0,
         achievementsCount: 0,
-        totalAchievements: 30,
+        totalAchievements: 10,
         levelProgress: 0,
     })
 
     // Add state for activities in the component
     const [activities, setActivities] = useState<IActivity[]>([])
+
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(address as WriteContractData)
@@ -65,8 +62,7 @@ const Wrapper = () => {
     useEffect(() => {
         if (user.id) {
             setLoading(true)
-            Promise.all([fetchUserStreak(), fetchUserData(), fetchStats()]).then((values) => {
-                console.log(values);
+            Promise.all([fetchUserStreak(), fetchUserData(), fetchStats()]).then(() => {
             }).finally(() => {
                 setLoading(false)
             });
@@ -75,7 +71,7 @@ const Wrapper = () => {
 
     const fetchUserStreak = async () => {
         try {
-            const streakInfo = await getUserStreak(user.id)
+            const streakInfo = await getUserStreak(user)
             setStreak(camelToSnake(streakInfo))
         } catch (e) {
             console.error("Error in saveOrGetUser:", e)
@@ -92,7 +88,7 @@ const Wrapper = () => {
             setAchievements(userAchievements)
 
             // Fetch badges
-            const userBadges = await getUserBadges(user.id, streak?.current_streak || 0)
+            const userBadges = await getUserBadges(user.id, streak?.current_streak || 0, userAchievements)
             setBadges(userBadges)
 
             // Fetch recent activities
@@ -103,23 +99,18 @@ const Wrapper = () => {
         }
     }
 
-    const fetchStats = async ()=> {
+    const fetchStats = async () => {
         try {
-            // Fetch user stats
-            // Fetch stats
+            // Get level Achievements
             const userStats = await getUserStats(user.id)
 
-            // Get transaction count
-            const transactions = await getUserTransactions(user.id)
-            const coffeeCount = transactions.length
-
             // Get level progress
-            const levelProgress = await getUserLevelProgress(user.id)
+            const levelProgress = await getUserLevelProgress(user)
 
             setStats({
-                boughtCoffee: coffeeCount,
+                boughtCoffee: user.transaction_count,
                 achievementsCount: userStats.achievementsCount,
-                totalAchievements: userStats.totalAchievements,
+                totalAchievements: totalAchievements || 10,
                 levelProgress: levelProgress || 0,
             })
         } catch (error) {
@@ -127,14 +118,12 @@ const Wrapper = () => {
         }
     }
 
-    console.log(user,'user')
-
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <>
             {loading ? (
                 <CoffeeLoader/>
             ) : (
-                <>
+                <div className="max-w-7xl mx-auto px-4 py-8">
                     {/*/!* Profile Header *!/*/}
                     <div className="relative mb-8">
                         {/* Cover Image */}
@@ -170,8 +159,8 @@ const Wrapper = () => {
                                     </div>
 
                                     <div className="flex gap-2">
-                                        <Button onClick={()=>router.push('/profile/settings')}
-                                            className="bg-gradient-to-r from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 text-white">
+                                        <Button onClick={() => router.push('/profile/settings')}
+                                                className="bg-gradient-to-r from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 text-white">
                                             <Edit className="h-4 w-4 mr-2"/>
                                             Edit Profile
                                         </Button>
@@ -216,9 +205,9 @@ const Wrapper = () => {
                             </Tabs>
                         </div>
                     </div>
-                </>
+                </div>
             )}
-        </div>
+        </>
     );
 };
 

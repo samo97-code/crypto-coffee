@@ -1,6 +1,10 @@
 import type { Config } from "tailwindcss"
 
 const config: Config = {
+  safelist: [
+    "bg-[url('/crypto-coffee-bg.jpg')]",
+    "bg-[url('/abstract-coffee-crypto-bg.jpg')]",
+  ],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -83,11 +87,16 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.5' },
         },
+        shine: {
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(100%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         'pulse-slow': 'pulse 2s ease-in-out infinite',
+        shine: "shine 3s infinite",
       },
     },
   },

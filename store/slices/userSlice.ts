@@ -23,7 +23,8 @@ const initialState:IState = {
         level_id: 1,
         experience_points: 0,
         created_at: '',
-        updated_at: ''
+        updated_at: '',
+        transaction_count: 0
     },
 };
 

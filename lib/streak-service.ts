@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase"
+import {IUser} from "@/types";
 
 export interface StreakInfo {
     currentStreak: number
@@ -29,30 +30,16 @@ function isValidUUID(uuid: string): boolean {
 
 /**
  * Gets the user's streak information
- * @param userId The user's ID
  * @returns The user's streak information
+ * @param user
  */
-export async function getUserStreak(userId: string): Promise<StreakInfo> {
+export async function getUserStreak(user: IUser): Promise<StreakInfo> {
+    const userId = user.id
+    const userData = user
+
     // Check if userId is valid
     if (!userId || !isValidUUID(userId)) {
         console.error("Invalid user ID:", userId)
-        return {
-            currentStreak: 0,
-            longestStreak: 0,
-            lastActivityDate: null,
-            streakDates: [],
-        }
-    }
-
-    // Get user streak data
-    const { data: userData, error: userError } = await supabase
-        .from("users")
-        .select("current_streak_days, longest_streak_days")
-        .eq("id", userId)
-        .single()
-
-    if (userError) {
-        console.error("Error fetching user streak:", userError)
         return {
             currentStreak: 0,
             longestStreak: 0,

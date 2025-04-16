@@ -65,7 +65,7 @@ CREATE TABLE transactions (
   project_id INTEGER REFERENCES projects(id) NOT NULL,
   network_name TEXT NOT NULL,
   transaction_hash TEXT,
-  amount DECIMAL(12,2) NOT NULL,
+  amount NUMERIC(12, 8),
   type TEXT NOT NULL CHECK (type IN ('support', 'reward')),
   status TEXT NOT NULL CHECK (status IN ('pending', 'completed', 'failed')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -331,15 +331,15 @@ BEGIN
   INSERT INTO user_streaks (user_id, streak_date)
   VALUES (NEW.user_id, CURRENT_DATE)
   ON CONFLICT (user_id, streak_date) DO NOTHING;
-  
+
   -- Update current streak in users table
   WITH streak_data AS (
-    SELECT 
+    SELECT
       user_id,
       COUNT(*) as current_streak
     FROM (
-      SELECT 
-        user_id, 
+      SELECT
+        user_id,
         streak_date,
         streak_date - ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY streak_date) AS grp
       FROM user_streaks
@@ -352,12 +352,12 @@ BEGIN
     LIMIT 1
   )
   UPDATE users
-  SET 
+  SET
     current_streak_days = streak_data.current_streak,
     longest_streak_days = GREATEST(longest_streak_days, streak_data.current_streak)
   FROM streak_data
   WHERE users.id = streak_data.user_id;
-  
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -374,17 +374,17 @@ BEGIN
   IF NEW.status = 'completed' AND NEW.type = 'support' THEN
     -- Update project totals
     UPDATE projects
-    SET 
+    SET
       total_supporters = total_supporters + 1,
       total_support_amount = total_support_amount + NEW.amount
     WHERE id = NEW.project_id;
-    
+
     -- Update user totals
     UPDATE users
     SET total_supported_amount = total_supported_amount + NEW.amount
     WHERE id = NEW.user_id;
   END IF;
-  
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -411,28 +411,28 @@ BEGIN
   SELECT u.id INTO user_id
   FROM users u
   WHERE u.wallet_address = wallet_addr;
-  
+
   -- If not, create a new user
   IF user_id IS NULL THEN
     is_new_user := true;
-    
+
     INSERT INTO users (wallet_address, username, display_name, level_id)
     VALUES (
-      wallet_addr, 
-      'user_' || substring(wallet_addr from 3 for 8), 
-      'Crypto Coffee User', 
+      wallet_addr,
+      'user_' || substring(wallet_addr from 3 for 8),
+      'Crypto Coffee User',
       1
     )
     RETURNING id INTO user_id;
   END IF;
-  
+
   -- Return the user data
   RETURN QUERY
-  SELECT 
-    u.id, 
-    u.wallet_address, 
-    u.username, 
-    u.display_name, 
+  SELECT
+    u.id,
+    u.wallet_address,
+    u.username,
+    u.display_name,
     is_new_user
   FROM users u
   WHERE u.id = user_id;
@@ -445,7 +445,7 @@ $$ LANGUAGE plpgsql;
 
 -- Insert blockchain projects
 INSERT INTO projects (id, name, chain, network_name, icon_url, description, status, button_text, button_color, is_new)
-VALUES 
+VALUES
   (1, 'Eth Sepolia', 'Eth', 'Eth Sepolia', '/images/chains/eth.svg', 'A decentralized exchange', 'Ready for your daily support!', 'Buy Coffee on ETH', 'bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500', true),
   (2, 'Monad', 'Monad', 'Monad', '/images/chains/monad.jpg', 'A decentralized exchange', 'Ready for your daily support!', 'Buy Coffee on Monad', 'bg-gradient-to-r from-purple-800 to-indigo-800 hover:from-purple-900 hover:to-indigo-900', true),
   (3, 'Optimism', 'Optimism', 'Optimism', '/images/chains/optimism.svg', 'A decentralized exchange', 'Ready for your daily support!', 'Buy Coffee on Optimism', 'bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600', true),

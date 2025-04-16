@@ -1,18 +1,21 @@
 'use client'
 
-import {useEffect, useState, FC} from "react";
+import React, {useEffect, useState, FC} from "react";
 import {useAccount, useWaitForTransactionReceipt, useWriteContract, useSwitchChain} from "wagmi";
 import {WriteContractData} from "@wagmi/core/query";
 import {parseEther} from "viem";
-import {Button} from "@/components/ui/button"
-import {Coffee} from "lucide-react"
+import {ArrowRight, Coffee} from "lucide-react"
 import {IProject} from "@/types";
 import CustomWalletTrigger from "@/components/dashboard/CustomWalletTrigger";
 import {createSupportTransaction} from "@/lib/transaction-service";
 import {useSelector} from "react-redux";
+import {motion} from "framer-motion";
+import {cn} from "@/utils/utils";
 
 
 interface IProps {
+    isHovering: boolean,
+    buttonControls: any,
     ethPrice: number,
     project: IProject,
     setShowSuccessModal: (b: boolean) => void,
@@ -28,7 +31,7 @@ const abi = [
     },
 ];
 
-const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurrentBuyedCoffee}) => {
+const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurrentBuyedCoffee, isHovering, buttonControls}) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const {user} = useSelector(state => state.user)
@@ -71,6 +74,7 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
         }
 
         const amount = checkAmount()
+
         try {
             const hash = await writeContractAsync({
                 address: process.env.NEXT_PUBLIC_BUY_COFFEE_CONTRACT as WriteContractData,
@@ -117,14 +121,42 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
     return (
         <>
             {
-                isConnected ? <Button onClick={() => actionHandler()} disabled={isPending || isConfirming}
-                                      className={`min-h-10 w-full text-white ${project.button_color} `}>
+                isConnected ? <motion.button
+                    onClick={() => actionHandler()}
+                    disabled={isPending || isConfirming}
+                    className={`${project.button_color} min-h-10 text-white relative w-full overflow-hidden group/button`}
+                    animate={buttonControls}
+                    whileTap={{scale: 0.98}}
+                >
+                    {/* Button background layers */}
+                    <div
+                        className="absolute -inset-x-full top-0 bottom-0 h-full w-[400%] bg-gradient-to-r from-coffee-600 via-amber-600 to-coffee-600 opacity-0 group-hover/button:opacity-100 animate-shine"/>
 
-                    <Coffee className="h-4 w-4"/>
-                    {isPending ? 'Sending...' : `Buy Coffee on ${project.chain}`}
-                </Button> : <CustomWalletTrigger color={project?.button_color || ''}/>
+                    {/* Button content */}
+                    <div className="relative px-6 py-3 rounded-xl flex items-center justify-center">
+                        <Coffee className="w-5 h-5 mr-2 text-coffee-100"/>
+                        <span
+                            className="text-coffee-100 font-bold">{isPending ? 'Sending...' : `Buy Coffee on ${project.chain}`}</span>
+                        <motion.div
+                            className="absolute right-4 opacity-0 group-hover/button:opacity-100 group-hover/button:translate-x-0 translate-x-2"
+                            transition={{duration: 0.2}}
+                        >
+                            <ArrowRight className="w-5 h-5 text-coffee-100"/>
+                        </motion.div>
+                    </div>
+
+                    {/* Button glow effect */}
+                    <div
+                        className={cn(
+                            "absolute inset-0 rounded-xl transition-opacity duration-300",
+                            isHovering ? "opacity-100" : "opacity-0",
+                        )}
+                        style={{
+                            background: "radial-gradient(circle at center, rgba(162, 125, 109, 0.4) 0%, transparent 70%)",
+                        }}
+                    />
+                </motion.button> : <CustomWalletTrigger color={project?.button_color || ''}/>
             }
-
         </>
     );
 };

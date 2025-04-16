@@ -40,12 +40,12 @@ const NetworkCard: FC<IProps> = ({ethPrice,project,setShowSuccessModal, setCurre
                         </div>
                     </div>
 
-                    <BuyButton
-                        ethPrice={ethPrice}
-                        project={project}
-                        setShowSuccessModal={setShowSuccessModal}
-                        setCurrentBuyedCoffee={setCurrentBuyedCoffee}
-                    />
+                    {/*<BuyButton*/}
+                    {/*    ethPrice={ethPrice}*/}
+                    {/*    project={project}*/}
+                    {/*    setShowSuccessModal={setShowSuccessModal}*/}
+                    {/*    setCurrentBuyedCoffee={setCurrentBuyedCoffee}*/}
+                    {/*/>*/}
                 </div>
             </div>
 

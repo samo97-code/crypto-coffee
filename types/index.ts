@@ -43,6 +43,19 @@ export interface IUser {
     experience_points: number;
     created_at: string;
     updated_at: string;
+    transaction_count: number;
+}
+
+export interface ISupportedProject {
+    id: number
+    name: string
+    description: string
+    network: string
+    support_amount: string
+    transaction_count: number
+    icon: string
+    badge_bg: string
+    badge_color: string
 }
 
 export interface IProject {
@@ -64,8 +77,8 @@ export interface IProject {
     blockchain_networks: BlockchainNetwork[]
 
     filter(param: (item: IProject) => boolean): IProject;
-
-    map(element: (project: IProject) => React.JSX.Element): any;
+    map(element: (project: IProject) => React.JSX.Element): never;
+    find(param: (item: IProject) => boolean): IProject;
 }
 
 export interface BlockchainNetwork {

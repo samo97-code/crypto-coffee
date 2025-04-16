@@ -32,7 +32,7 @@ const monadTestnet = defineChain({
     id: 10143,
     name: 'Monad Testnet',
     nativeCurrency: { name: 'Monad', symbol: 'MONAD', decimals: 18 },
-    rpcUrls: { default: { http: ['https://rpc.testnet.monad.xyz'] } },
+    rpcUrls: { default: { http: ['https://testnet-rpc.monad.xyz'] } },
     iconUrl: '/images/chains/monad.jpg',
 });
 const soneium = defineChain({

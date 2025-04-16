@@ -1,45 +1,49 @@
 export const dynamic = 'force-dynamic';
 import React from "react";
-import {WalletInfo} from "@/components/dashboard/WalletInfo"
-// import {WelcomeSection} from "@/components/dashboard/WelcomeSection";
 import {supabase} from "@/lib/supabase";
-import WelcomeSection1 from "@/components/dashboard/WelcomeSection1";
-import SidebarActivitiesCard from "@/components/dashboard/SidebarActivitiesCard";
-import ProjectsSection from "@/components/dashboard/ProjectsSection";
+import Dashboard from "@/components/dashboard/Dashboard";
 
-const Dashboard = async() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const {price, change24h} = await fetchBitcoinPrice();
+const DashboardPage = async () => {
+    const {price, change24h} = await fetchBitcoinPrice() as never;
 
     const {projects} = await fetchProjects() as never
-    // console.log(projects, '11111111')
+
+    const {dailySupporters, totalSupporters} = await getDailySupportersStats()
 
     return (
-        <main className="max-w-[1440px] mx-auto px-4 py-8">
-            <div className="flex flex-col lg:flex-row gap-8">
-                <div className="flex-1">
-                    <WelcomeSection1 price={price} change24h={change24h}/>
-                    <ProjectsSection projects={projects}/>
-                </div>
-
-                <div className="w-full lg:w-80 space-y-6">
-                    <WalletInfo/>
-                    <SidebarActivitiesCard/>
-                    {/*<TimerCard/>*/}
-                </div>
-            </div>
-        </main>
+        <Dashboard
+            price={price}
+            change24h={change24h}
+            projects={projects}
+            dailySupporters={dailySupporters}
+            totalSupporters={totalSupporters}
+        />
     )
 }
 
-export default Dashboard
+export default DashboardPage
+
+async function getDailySupportersStats() {
+    try {
+        // Single query using our custom RPC function
+        const {data, error} = await supabase.rpc('get_supporters_stats');
+
+        if (error) {
+            console.error('Error fetching supporter stats:', error);
+            return null;
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error in getDailySupportersStats:', error);
+        return null;
+    }
+}
 
 
 async function fetchProjects() {
     try {
-        const { data: projects } = await supabase.from('projects').select('*, blockchain_networks(chain_id, chain_key,explorer_url, type)').order('name', { ascending: true })
-
+        const {data: projects} = await supabase.from('projects').select('*, blockchain_networks(chain_id, chain_key,explorer_url, type)').order('name', {ascending: true})
         return {projects: projects};
     } catch (err) {
         console.error('Fetch Error:', err);
@@ -52,7 +56,7 @@ async function fetchBitcoinPrice() {
         const res = await fetch(
             'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true',
             {
-                next: { revalidate: 60 }, // clearly cache response for 60 seconds
+                next: {revalidate: 60}, // clearly cache response for 60 seconds
             }
         );
 

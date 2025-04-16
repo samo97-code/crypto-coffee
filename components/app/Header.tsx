@@ -24,7 +24,7 @@ const Header = () => {
                     dispatch(setAuthUser(user))
 
                     // await getUserCoffeeActivity(address)
-                    console.log('User from Supabase:', user);
+                    // console.log('User from Supabase:', user);
                 } catch (error) {
                     console.error('Supabase Error:', error);
                 }
@@ -34,10 +34,12 @@ const Header = () => {
 
     const createOrGetUser = async (wallet_address: string) => {
         const {data} = await supabase
-            .from('users')
+            .from('user_with_transaction_count')
             .select('*')
             .eq('wallet_address', wallet_address)
             .maybeSingle();
+
+        // console.log(data, 'data')
 
         setUserAvatar(data.avatar_url)
         if (data) return data;
@@ -105,7 +107,7 @@ const Header = () => {
 
 
     return (
-        <header className="border-b border-coffee-200 bg-white shadow-sm backdrop-blur-sm sticky top-0 z-10">
+        <header className="border-b border-coffee-200 bg-white shadow-sm backdrop-blur-sm sticky top-0 z-[11]">
             <div className="max-w-[1440px] mx-auto px-4 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-8">
                     <Link href="/" className="flex items-center gap-2 text-coffee-800 font-bold text-xl">

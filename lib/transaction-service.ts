@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase"
-import { recordStreakActivity } from "./streak-service"
+import {supabase} from "@/lib/supabase"
+import {recordStreakActivity} from "./streak-service"
 import {ITransaction} from "@/types";
 
 /**
