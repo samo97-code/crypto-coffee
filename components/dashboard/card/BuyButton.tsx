@@ -11,11 +11,12 @@ import {createSupportTransaction} from "@/lib/transaction-service";
 import {useSelector} from "react-redux";
 import {motion} from "framer-motion";
 import {cn} from "@/utils/utils";
+import type { AnimationControls } from 'framer-motion';
 
 
 interface IProps {
     isHovering: boolean,
-    buttonControls: never,
+    buttonControls: AnimationControls,
     ethPrice: number,
     project: IProject,
     setShowSuccessModal: (b: boolean) => void,
