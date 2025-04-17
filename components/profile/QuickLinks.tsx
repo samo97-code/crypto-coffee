@@ -1,5 +1,5 @@
 import React from 'react';
-import {Award, ChevronRight, Settings, LogOut, Wallet, Coffee, Link} from "lucide-react";
+import {Award, ChevronRight, Settings, LogOut, Wallet, Link} from "lucide-react";
 
 import {motion} from "framer-motion"
 import {useState} from "react"

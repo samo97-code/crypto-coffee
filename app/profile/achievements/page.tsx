@@ -4,7 +4,6 @@ import {
     Award,
     Heart,
     Edit,
-    Bell,
     Droplets,
     Zap,
     Sparkles,

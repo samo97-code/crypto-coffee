@@ -8,9 +8,8 @@ interface IProps {
 }
 
 const ProfileBadges: FC<IProps> = ({badges}) => {
-    // Map icon names to Lucide icons
     const getIconComponent = (iconName: string) => {
-        const iconMap: Record<string, any> = {
+        const iconMap = {
             Award: Award,
             Coffee: Coffee,
             Droplets: Droplets,
@@ -18,6 +17,9 @@ const ProfileBadges: FC<IProps> = ({badges}) => {
             Users: Users,
             Sparkles: Sparkles,
         }
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return iconMap[iconName] || Award
     }
 

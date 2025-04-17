@@ -3,8 +3,6 @@
 import type React from "react"
 
 import {useState, useEffect} from "react"
-import {Coffee, Edit} from "lucide-react"
-import {Button} from "@/components/ui/button"
 import {motion, AnimatePresence} from "framer-motion"
 
 interface CreativeCoverImageProps {
@@ -13,11 +11,7 @@ interface CreativeCoverImageProps {
     onEdit?: () => void
 }
 
-const CreativeCoverImage = ({
-                                username = "Coffee Enthusiast",
-                                subtitle = "Coffee Connoisseur & Blockchain Enthusiast",
-                                onEdit,
-                            }: CreativeCoverImageProps) => {
+const CreativeCoverImage = ({username = "Coffee Enthusiast"}: CreativeCoverImageProps) => {
     const [mousePosition, setMousePosition] = useState({x: 0, y: 0})
     const [isHovering, setIsHovering] = useState(false)
     const [activeBeans, setActiveBeans] = useState<number[]>([])

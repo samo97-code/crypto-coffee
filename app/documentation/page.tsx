@@ -1,6 +1,6 @@
 "use client"
 
-import {BookOpen, Code, Terminal, ExternalLink} from "lucide-react"
+import {BookOpen} from "lucide-react"
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 
 export default function DocumentationPage() {

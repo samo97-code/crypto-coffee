@@ -164,7 +164,7 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
                         options={filterDays}
                         value={selectedOptionPeriod}
                         onChange={(e) => changeHandler(e, 'day')}
-                        isSearchable
+                        isSearchable={false}
                         placeholder="Last 30 days"
                         styles={customStyles}
                     />

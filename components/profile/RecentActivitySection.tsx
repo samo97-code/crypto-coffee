@@ -20,7 +20,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
 
     // Map icon names to Lucide icons
     const getIconComponent = (iconName: string) => {
-        const iconMap: Record<string, any> = {
+        const iconMap = {
             Award: Award,
             Coffee: Coffee,
             Droplets: Droplets,
@@ -28,6 +28,9 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
             Users: Users,
             Sparkles: Sparkles,
         }
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return iconMap[iconName] || Award
     }
 
