@@ -27,7 +27,7 @@ export default function HowItWorksPage() {
                         and help build a stronger, more connected crypto ecosystem.
                     </p>
                     <Button className="bg-white text-coffee-700 hover:bg-coffee-100 transition-all"
-                            onClick={() => router.push('/')}>Get Started Now</Button>
+                            onClick={() => router.prefetch('/')}>Get Started Now</Button>
                 </div>
             </div>
 

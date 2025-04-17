@@ -4,8 +4,10 @@ import {Award, ChevronRight, Settings, LogOut, Wallet, Link} from "lucide-react"
 import {motion} from "framer-motion"
 import {useState} from "react"
 import {useRouter} from "next/navigation";
+import { useDisconnect } from 'wagmi';
 
 const QuickLinks = () => {
+    const { disconnect } = useDisconnect();
     const router = useRouter();
     const [hoveredLink, setHoveredLink] = useState<number | null>(null)
 
@@ -17,8 +19,11 @@ const QuickLinks = () => {
         {id: 4, label: 'Disconnect', link: '', icon: LogOut, danger: false},
     ]
 
-    const toLink = (url: string) => {
+    const toLink = async(url: string) => {
         if (url) return router.push(url)
+
+        disconnect()
+        router.prefetch('/')
     }
 
     return (

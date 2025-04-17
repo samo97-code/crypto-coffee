@@ -8,23 +8,14 @@ import {IProject} from "@/types";
 
 interface IProps {
     projects: IProject[];
-    dailySupporters: number
-    totalSupporters: number
-    price: number
-    change24h: string
 }
 
-const Dashboard: FC<IProps> = ({projects, price, change24h, dailySupporters, totalSupporters}) => {
+const Dashboard: FC<IProps> = ({projects}) => {
     return (
         <main className="max-w-[1440px] mx-auto px-4 py-8">
             <div className="flex flex-col lg:flex-row gap-8">
                 <div className="flex-1">
-                    <WelcomeSection
-                        price={price}
-                        change24h={change24h}
-                        dailySupporters={dailySupporters}
-                        totalSupporters={totalSupporters}
-                    />
+                    <WelcomeSection />
                     <ProjectsSection projects={projects}/>
                 </div>
 

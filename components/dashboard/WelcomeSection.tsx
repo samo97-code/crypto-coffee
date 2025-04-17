@@ -1,18 +1,20 @@
 "use client"
 
-
-import {FC, useEffect} from "react"
+import {useEffect, useState} from "react"
 import {Coffee, TrendingDown, TrendingUp, Clock, Database} from "lucide-react"
 import {projects} from "@/constants";
+import CircleLoader from "@/components/re-usable/CircleLoader";
+import {supabase} from "@/lib/supabase";
 
-interface IProps {
-    dailySupporters: number
-    totalSupporters: number
-    price: number
-    change24h: string
-}
 
-const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSupporters}) => {
+const WelcomeSection = () => {
+    const [price, setPrice] = useState<number>(0);
+    const [change24h, setChange24h] = useState<number>(0);
+    const [stats, setStats] = useState({
+        totalSupporters: 0,
+        dailySupporters: 0,
+    })
+
     // Floating animation for decorative elements
     useEffect(() => {
         const floatingElements = document.querySelectorAll(".floating-element")
@@ -22,7 +24,43 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
             const htmlElement = element as HTMLElement
             htmlElement.style.animation = `float 3s ease-in-out ${delay}s infinite`
         })
+
+        getDailySupportersStats()
+        fetchBitcoinPrice()
+        const interval = setInterval(fetchBitcoinPrice, 180000); // update every 3m
+        return () => clearInterval(interval);
     }, [])
+
+    const getDailySupportersStats = async () => {
+        try {
+            const data = await supabase.rpc('get_supporters_stats');
+            setStats({
+                totalSupporters: data.data.totalSupporters,
+                dailySupporters: data.data.dailySupporters,
+            })
+        } catch (error) {
+            console.error('Error in getDailySupportersStats:', error);
+            return null;
+        }
+    }
+
+    const fetchBitcoinPrice = async () => {
+        try {
+            const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true',);
+
+            if (!res.ok) {
+                throw new Error(`API response error: ${res.status}`);
+            }
+
+            const data = await res.json();
+            setPrice(data.bitcoin.usd);
+            setChange24h(Number(data.bitcoin.usd_24h_change.toFixed(2)));
+        } catch (err) {
+            console.error('Fetch Error:', err);
+            return null; // Fallback clearly
+        }
+    }
+
 
     const convertTotal = (count: number) => {
         const value = count.toLocaleString()
@@ -83,18 +121,26 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
                             24h
                         </div>
                     </div>
-                    <div className="flex items-end justify-between">
-                        <div className="text-3xl font-bold text-coffee-900">${convertTotal(price)}</div>
 
-                        <div className={`${+change24h > 0 ? 'text-green-600' : 'text-red-600'} flex items-center text-sm font-medium`}>
-                            {+change24h > 0 ? <TrendingUp className="h-4 w-4 mr-1"/> :
-                                <TrendingDown className="h-4 w-4 mr-1"/>}
-                            <span>{change24h}% today</span>
-                        </div>
-                    </div>
-                    <div className="mt-2 h-2 bg-red-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-red-500 to-red-400 w-[30%]"></div>
-                    </div>
+                    {
+                        price ? <>
+                                <div className="flex items-end justify-between">
+                                    <div className="text-3xl font-bold text-coffee-900">${convertTotal(price)}</div>
+
+                                    <div
+                                        className={`${+change24h > 0 ? 'text-green-600' : 'text-red-600'} flex items-center text-sm font-medium`}>
+                                        {+change24h > 0 ? <TrendingUp className="h-4 w-4 mr-1"/> :
+                                            <TrendingDown className="h-4 w-4 mr-1"/>}
+                                        <span>{change24h}% today</span>
+                                    </div>
+                                </div>
+                                <div className="mt-2 h-2 bg-red-100 rounded-full overflow-hidden">
+                                    <div
+                                        className={`${+change24h > 0 ? 'bg-gradient-to-r from-green-500 to-green-400' : 'bg-gradient-to-r from-red-500 to-red-400'} h-full w-[60%]`}></div>
+                                </div>
+                            </>
+                            : <div className="flex justify-center"><CircleLoader/></div>
+                    }
                 </div>
 
                 {/* Coffee Chains */}
@@ -126,13 +172,15 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
                             Active
                         </div>
                     </div>
-                    <div className="flex items-end justify-between">
-                        <div className="text-3xl font-bold text-coffee-900">{totalSupporters}</div>
-                        <div className="flex items-center text-green-600 text-sm font-medium">
-                            <TrendingUp className="h-4 w-4 mr-1"/>
-                            <span>+{dailySupporters} today</span>
-                        </div>
-                    </div>
+                    {
+                        stats.totalSupporters ? <div className="flex items-end justify-between">
+                            <div className="text-3xl font-bold text-coffee-900">{stats.totalSupporters}</div>
+                            <div className="flex items-center text-green-600 text-sm font-medium">
+                                <TrendingUp className="h-4 w-4 mr-1"/>
+                                <span>+{stats.dailySupporters} today</span>
+                            </div>
+                        </div> : <div className="flex justify-center"><CircleLoader/></div>
+                    }
                 </div>
             </div>
 

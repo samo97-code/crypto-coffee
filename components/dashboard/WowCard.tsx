@@ -4,7 +4,7 @@ import type React from "react"
 
 import {FC, useState, useEffect, useRef } from "react"
 import { motion, useAnimation, useMotionValue, useTransform } from "framer-motion"
-import { Droplets, Coins, Activity } from "lucide-react"
+import { Droplets, Activity } from "lucide-react"
 import { cn } from "@/utils/utils"
 import {IProject} from "@/types";
 import {WriteContractData} from "@wagmi/core/query";
@@ -149,20 +149,7 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
                     </div>
 
                     {/* NEW MIDDLE SECTION WITH STATS */}
-                    <div className="mb-4 grid grid-cols-2 gap-3" style={{ transform: "translateZ(40px)" }}>
-                        {/* Coffee Balance */}
-                        <div className="bg-coffee-800/50 backdrop-blur-sm rounded-xl p-3 border border-coffee-600/30">
-                            <div className="flex items-center justify-between mb-1">
-                                <div className="flex items-center">
-                                    <Coins className="w-4 h-4 text-amber-400 mr-1.5" />
-                                    <span className="text-xs font-medium text-coffee-300">Coffee Balance</span>
-                                </div>
-                            </div>
-                            <div className="flex items-end justify-between">
-                                <div className="text-xl font-bold text-coffee-100">2.45</div>
-                            </div>
-                        </div>
-
+                    <div className="mb-4 gap-3" style={{ transform: "translateZ(40px)" }}>
                         {/* Network Activity */}
                         <div className="bg-coffee-800/50 backdrop-blur-sm rounded-xl p-3 border border-coffee-600/30">
                             <div className="flex items-center justify-between mb-1">

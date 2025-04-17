@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Coffee, Zap, Bitcoin, } from 'lucide-react'
+import {useState, useEffect} from 'react'
+import {motion, AnimatePresence} from 'framer-motion'
+import {Coffee, Zap, Bitcoin,} from 'lucide-react'
 
-const CoffeeLoader =()=> {
+const CoffeeLoader = () => {
     const [progress, setProgress] = useState(0)
     const [isComplete, setIsComplete] = useState(false)
     const [loadingMessage, setLoadingMessage] = useState('Preparing your dashboard...')
@@ -19,24 +19,26 @@ const CoffeeLoader =()=> {
     ]
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
         // Simulate loading progress
         const interval = setInterval(() => {
             setProgress(prev => {
                 if (prev >= 100) {
                     clearInterval(interval)
-                    setTimeout(() => setIsComplete(true), 500)
+                    setTimeout(() => setIsComplete(true), 10)
                     return 100
                 }
                 return prev + 1
             })
-        }, 50)
+        }, 10)
 
         // Rotate loading messages
         const messageInterval = setInterval(() => {
             setLoadingMessage(messages[Math.floor(Math.random() * messages.length)])
-        }, 2000)
+        }, 150)
+
+        setTimeout(() => {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }, 100)
 
         return () => {
             clearInterval(interval)
@@ -45,11 +47,12 @@ const CoffeeLoader =()=> {
     }, [])
 
     return (
-        <div className="inset-0 h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-coffee-900/90 via-coffee-800/90 to-coffee-900/90 z-50">
+        <div
+            className="inset-0 h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-coffee-900/90 via-coffee-800/90 to-coffee-900/90 z-50">
             <div className="relative w-full max-w-md aspect-square">
                 {/* Background particles */}
                 <div className="absolute inset-0">
-                    {Array.from({ length: 20 }).map((_, i) => (
+                    {Array.from({length: 20}).map((_, i) => (
                         <motion.div
                             key={i}
                             className="absolute rounded-full bg-coffee-300/20"
@@ -75,7 +78,7 @@ const CoffeeLoader =()=> {
 
                 {/* Light rays */}
                 <div className="absolute inset-0 overflow-hidden opacity-30">
-                    {Array.from({ length: 8 }).map((_, i) => (
+                    {Array.from({length: 8}).map((_, i) => (
                         <motion.div
                             key={i}
                             className="absolute top-1/2 left-1/2 h-[500px] w-[40px] bg-gradient-to-t from-coffee-200 to-transparent origin-bottom"
@@ -103,15 +106,15 @@ const CoffeeLoader =()=> {
                         {/* Coffee cup */}
                         <motion.div
                             className="absolute w-40 h-40 bg-coffee-200 rounded-b-full rounded-t-lg border-4 border-coffee-300 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.5 }}
+                            initial={{scale: 0.8, opacity: 0}}
+                            animate={{scale: 1, opacity: 1}}
+                            transition={{duration: 0.5}}
                         >
                             {/* Coffee liquid */}
                             <motion.div
                                 className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-coffee-600 to-coffee-700"
-                                style={{ height: `${progress}%` }}
-                                transition={{ duration: 0.3 }}
+                                style={{height: `${progress}%`}}
+                                transition={{duration: 0.3}}
                             >
                                 {/* Coffee surface */}
                                 <motion.div
@@ -131,16 +134,16 @@ const CoffeeLoader =()=> {
                         {/* Cup handle */}
                         <motion.div
                             className="absolute w-10 h-16 border-4 border-coffee-300 rounded-r-full right-1 top-1/2 -translate-y-1/2"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
+                            initial={{opacity: 0, x: -10}}
+                            animate={{opacity: 1, x: 0}}
+                            transition={{duration: 0.5, delay: 0.2}}
                         />
 
                         {/* Steam */}
                         <AnimatePresence>
                             {progress > 30 && (
                                 <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-20 h-20 overflow-hidden">
-                                    {Array.from({ length: 3 }).map((_, i) => (
+                                    {Array.from({length: 3}).map((_, i) => (
                                         <motion.div
                                             key={i}
                                             className="absolute bottom-0 left-1/2 w-4 h-16 bg-gradient-to-t from-coffee-100/0 via-coffee-100/40 to-coffee-100/0"
@@ -149,7 +152,7 @@ const CoffeeLoader =()=> {
                                                 translateX: '-50%',
                                                 borderRadius: '50%',
                                             }}
-                                            initial={{ y: 20, opacity: 0 }}
+                                            initial={{y: 20, opacity: 0}}
                                             animate={{
                                                 y: -80,
                                                 opacity: [0, 0.8, 0],
@@ -162,7 +165,7 @@ const CoffeeLoader =()=> {
                                                 repeatType: "loop",
                                                 delay: i * 0.3,
                                             }}
-                                            exit={{ opacity: 0 }}
+                                            exit={{opacity: 0}}
                                         />
                                     ))}
                                 </div>
@@ -193,7 +196,7 @@ const CoffeeLoader =()=> {
                                 delay: i * 2,
                             }}
                         >
-                            <Icon className="text-coffee-200/60 w-8 h-8" />
+                            <Icon className="text-coffee-200/60 w-8 h-8"/>
                         </motion.div>
                     ))}
                 </div>
@@ -203,10 +206,10 @@ const CoffeeLoader =()=> {
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={loadingMessage}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.3 }}
+                            initial={{opacity: 0, y: 10}}
+                            animate={{opacity: 1, y: 0}}
+                            exit={{opacity: 0, y: -10}}
+                            transition={{duration: 0.3}}
                             className="text-coffee-100 text-lg font-medium mb-3"
                         >
                             {loadingMessage}
@@ -216,14 +219,14 @@ const CoffeeLoader =()=> {
                     <div className="w-64 h-2 bg-coffee-700/50 rounded-full overflow-hidden">
                         <motion.div
                             className="h-full bg-gradient-to-r from-coffee-400 to-coffee-300"
-                            style={{ width: `${progress}%` }}
+                            style={{width: `${progress}%`}}
                         />
                     </div>
 
                     <motion.div
                         className="text-coffee-200 mt-2 font-mono"
-                        animate={{ opacity: [0.7, 1, 0.7] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
+                        animate={{opacity: [0.7, 1, 0.7]}}
+                        transition={{duration: 1.5, repeat: Infinity}}
                     >
                         {progress}%
                     </motion.div>
@@ -234,15 +237,15 @@ const CoffeeLoader =()=> {
                     {isComplete && (
                         <motion.div
                             className="absolute inset-0 flex items-center justify-center bg-coffee-900/80 backdrop-blur-sm"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{opacity: 0}}
+                            animate={{opacity: 1}}
+                            exit={{opacity: 0}}
                         >
                             <motion.div
                                 className="flex flex-col items-center"
-                                initial={{ scale: 0.8, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.2 }}
+                                initial={{scale: 0.8, opacity: 0}}
+                                animate={{scale: 1, opacity: 1}}
+                                transition={{duration: 0.5, delay: 0.2}}
                             >
                                 <motion.div
                                     className="w-20 h-20 rounded-full bg-gradient-to-br from-coffee-400 to-coffee-600 flex items-center justify-center mb-4"
@@ -254,23 +257,23 @@ const CoffeeLoader =()=> {
                                             "0 0 0 0 rgba(180, 83, 9, 0)"
                                         ]
                                     }}
-                                    transition={{ duration: 2, repeat: Infinity }}
+                                    transition={{duration: 2, repeat: Infinity}}
                                 >
-                                    <Coffee className="w-10 h-10 text-white" />
+                                    <Coffee className="w-10 h-10 text-white"/>
                                 </motion.div>
                                 <motion.h2
                                     className="text-2xl font-bold text-coffee-100 mb-2"
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.4 }}
+                                    initial={{opacity: 0, y: 10}}
+                                    animate={{opacity: 1, y: 0}}
+                                    transition={{delay: 0.4}}
                                 >
                                     Ready to Start!
                                 </motion.h2>
                                 <motion.p
                                     className="text-coffee-200 text-center"
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.6 }}
+                                    initial={{opacity: 0, y: 10}}
+                                    animate={{opacity: 1, y: 0}}
+                                    transition={{delay: 0.6}}
                                 >
                                     Your crypto coffee experience awaits
                                 </motion.p>

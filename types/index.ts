@@ -287,7 +287,7 @@ export interface IPaginationInfo {
     totalPages: number;
 }
 
-interface INetwork {
+export interface INetwork {
     label: string
     value: string
 }

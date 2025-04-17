@@ -1,4 +1,6 @@
+import CoffeeLoader from "@/components/dashboard/CoffeeLoader";
+
 export default function Loading() {
-  return null
+    return <CoffeeLoader/>
 }
 
