@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Wrapper from "@/components/profile/Wrapper";
 import {supabase} from "@/lib/supabase";
 import {getUserStreak} from "@/lib/streak-service";
