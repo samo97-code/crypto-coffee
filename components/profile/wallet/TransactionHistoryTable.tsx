@@ -63,7 +63,7 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const changeHandler = (e: any | never, type: string) => {
+    const changeHandler = (e, type: string) => {
         if (type === 'network') {
             setSelectedOption(e)
             setSelectedNetwork(e?.value)

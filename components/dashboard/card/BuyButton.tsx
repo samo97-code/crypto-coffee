@@ -15,7 +15,7 @@ import {cn} from "@/utils/utils";
 
 interface IProps {
     isHovering: boolean,
-    buttonControls: any,
+    buttonControls: never,
     ethPrice: number,
     project: IProject,
     setShowSuccessModal: (b: boolean) => void,
