@@ -128,6 +128,10 @@ export interface IActivity {
     icon: string
     icon_bg: string
     icon_color: string
+    hash?: string
+    amount?: number
+    chain_key?: string
+    explorer_url?: string
     timestamp: string
     project_id?: number
     project_name?: string
@@ -244,5 +248,54 @@ export interface IStreakInfo {
     longest_streak: number
     last_activity_date: string | null
     streak_dates: string[]
+}
+
+export interface IWalletData {
+    id: string;
+    wallet_address: string;
+    username: string;
+    display_name: string;
+    total_supported_amount: number;
+}
+
+export interface IHistoryTransaction {
+    projects: never;
+    id: number;
+    created_at: string;
+    type: string;
+    project_name: string;
+    icon_url: string;
+    network_name: string;
+    chain_key: string;
+    explorer_url: string;
+    amount: number;
+    status: string;
+    transaction_hash: string;
+}
+
+export interface ITransactionStats {
+    total_supported: number;
+    transaction_count: number;
+    networks_used: number;
+    most_active_network: string;
+}
+
+export interface IPaginationInfo {
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+}
+
+interface INetwork {
+    label: string
+    value: string
+}
+
+export interface IWalletPageData {
+    allNetworks: INetwork[];
+    stats: ITransactionStats;
+    transactions: IHistoryTransaction[];
+    pagination: IPaginationInfo;
 }
 

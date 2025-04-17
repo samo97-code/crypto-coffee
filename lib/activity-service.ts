@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase"
+import {supabase} from "@/lib/supabase"
 import {IActivity, IActivityCompletion, ITransaction, IUserAchievement} from "@/types";
 
 /**
@@ -12,7 +12,7 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
 
     try {
         // Fetch recent transactions (support activities)
-        const { data: transactions, error: transactionsError } = await supabase
+        const {data: transactions, error: transactionsError} = await supabase
             .from("transactions")
             .select(`
         id,
@@ -20,16 +20,22 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
         amount,
         status,
         created_at,
+        transaction_hash,
         projects (
           id,
           name,
           chain,
-          icon_url
+          icon_url,
+          blockchain_networks (
+            explorer_url,
+            chain_key
+          )
+        )
         )
       `)
             .eq("user_id", userId)
             .eq("status", "completed")
-            .order("created_at", { ascending: false })
+            .order("created_at", {ascending: false})
             .limit(limit)
 
         if (transactionsError) {
@@ -38,7 +44,7 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
         }
 
         // Fetch recent achievement unlocks
-        const { data: achievements, error: achievementsError } = await supabase
+        const {data: achievements, error: achievementsError} = await supabase
             .from("user_achievements")
             .select(`
         id,
@@ -54,7 +60,7 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
       `)
             .eq("user_id", userId)
             .eq("is_unlocked", true)
-            .order("unlocked_at", { ascending: false })
+            .order("unlocked_at", {ascending: false})
             .limit(limit)
 
         if (achievementsError) {
@@ -63,7 +69,7 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
         }
 
         // Fetch recent activity completions
-        const { data: activities, error: activitiesError } = await supabase
+        const {data: activities, error: activitiesError} = await supabase
             .from("activity_completions")
             .select(`
         id,
@@ -77,7 +83,7 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
         )
       `)
             .eq("user_id", userId)
-            .order("completed_at", { ascending: false })
+            .order("completed_at", {ascending: false})
             .limit(limit)
 
         if (activitiesError) {
@@ -85,15 +91,21 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
             return []
         }
 
+        console.log(transactions, 'transactions')
+
         // Transform transactions into activities
         const transactionActivities: IActivity[] = (transactions as unknown as ITransaction[] || []).map((transaction) => ({
             id: transaction.id,
             type: "support",
             title: "Bought Coffee",
-            description: `You bought a crypto coffee with ${transaction.amount} ${transaction.projects?.chain} in ${transaction.projects?.name}.`,
+            description: `You bought a crypto coffee with ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}.`,
             icon: "Coffee",
             icon_bg: "bg-gradient-to-r from-coffee-500 to-coffee-700",
             icon_color: "text-white",
+            amount: transaction.amount,
+            chain_key: transaction.projects?.blockchain_networks[0].chain_key,
+            explorer_url: transaction.projects?.blockchain_networks[0].explorer_url + `/tx/${transaction.transaction_hash}`,
+            hash: transaction.transaction_hash,
             timestamp: transaction.created_at,
             project_id: transaction.projects?.id,
             project_name: transaction.projects?.name,
@@ -120,7 +132,7 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
             }))
 
         // Transform activity completions into activities
-        const activityCompletionActivities: IActivity[] = (activities as unknown as IActivityCompletion[]  || [])
+        const activityCompletionActivities: IActivity[] = (activities as unknown as IActivityCompletion[] || [])
             .filter((a) => a.activity && a.completed_at)
             .map((activity) => ({
                 id: activity.id,

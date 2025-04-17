@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useEffect, useState} from 'react';
 import {Coffee, Search} from "lucide-react";
 import {Input} from "@/components/ui/input";
@@ -10,6 +12,8 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {setAuthUser} from "@/store/slices/userSlice";
 import {useDispatch} from "react-redux";
 import {randomAvatar} from "@/utils/utils";
+// For client-side usage
+import {setCookie, hasCookie} from 'cookies-next/client';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -22,7 +26,8 @@ const Header = () => {
                 try {
                     const user = await createOrGetUser(address);
                     dispatch(setAuthUser(user))
-
+                    // hasCookie
+                    setCookie('userId',user.id)
                     // await getUserCoffeeActivity(address)
                     // console.log('User from Supabase:', user);
                 } catch (error) {

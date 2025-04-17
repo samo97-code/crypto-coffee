@@ -90,8 +90,10 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
                 explorerUrl: project.blockchain_networks[0].explorer_url
             })
 
+            console.log(hash,'hash')
+
             // Create a support transaction
-            const transaction = await createSupportTransaction(user.id, project.id, hash, project.network_name, amount)
+            const transaction = await createSupportTransaction(user.id, project.id, project.network_name,hash, amount)
 
             console.log(transaction, 'transaction')
 

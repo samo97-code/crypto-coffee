@@ -477,3 +477,10 @@ export const avatars = [
     {id: 12, name: 'Synthwave Warrior', path: '/images/avatars/synthwave_warrior.png'},
     {id: 13, name: 'VR Streamer', path: '/images/avatars/vr_streamer.png'},
 ]
+
+export const filterDays = [
+    {label: "All time", value: 'all'},
+    {label: "Last 7 days", value: '7'},
+    {label: "Last 30 days", value: '30'},
+    {label: "Last 90 days", value: '90'},
+]

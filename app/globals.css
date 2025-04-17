@@ -117,9 +117,9 @@
 
 /* Add this new style for smooth transitions */
 * {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+  /*transition-property: all;*/
+  /*transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);*/
+  /*transition-duration: 300ms;*/
 }
 
 :root {
@@ -330,4 +330,18 @@
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
 }
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 24px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l4 1s steps(4) infinite;
+}
+.loader:before {
+  content:"Loading..."
+}
+@keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
 

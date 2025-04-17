@@ -19,6 +19,8 @@ const CoffeeLoader =()=> {
     ]
 
     useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         // Simulate loading progress
         const interval = setInterval(() => {
             setProgress(prev => {
@@ -192,33 +194,6 @@ const CoffeeLoader =()=> {
                             }}
                         >
                             <Icon className="text-coffee-200/60 w-8 h-8" />
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Coffee beans */}
-                <div className="absolute inset-0">
-                    {Array.from({ length: 8 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-6 h-4 bg-coffee-700 rounded-full"
-                            style={{
-                                left: `${Math.random() * 80 + 10}%`,
-                                top: `${Math.random() * 80 + 10}%`,
-                            }}
-                            animate={{
-                                rotate: [0, 360],
-                                scale: [1, 1.1, 1],
-                                x: [0, Math.random() * 40 - 20, 0],
-                                y: [0, Math.random() * 40 - 20, 0],
-                            }}
-                            transition={{
-                                duration: Math.random() * 5 + 5,
-                                repeat: Infinity,
-                                repeatType: "reverse",
-                            }}
-                        >
-                            <div className="absolute inset-0 bg-coffee-800 rounded-full scale-[0.6] transform-gpu" />
                         </motion.div>
                     ))}
                 </div>
