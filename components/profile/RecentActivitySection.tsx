@@ -43,8 +43,6 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
         window.open(url)
     }
 
-    console.log(activities, 'activities')
-
     return (
         <div className="bg-white rounded-xl p-6 shadow-md border border-coffee-200 relative overflow-hidden mt-8">
             {/* Coffee bean pattern background */}

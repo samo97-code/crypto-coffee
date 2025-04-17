@@ -478,6 +478,22 @@ export const avatars = [
     {id: 13, name: 'VR Streamer', path: '/images/avatars/vr_streamer.png'},
 ]
 
+export const avatarsOptions = [
+    {label: 'Ai Coder', value: '/images/avatars/ai_coder.png'},
+    {label: 'Coffee Alchemist', value: '/images/avatars/coffee_alchemist.png'},
+    {label: 'Crypto Shaman', value: '/images/avatars/crypto_shaman.png'},
+    {label: 'Hacker Girl', value: '/images/avatars/cyberpunk_hacker_girl.png'},
+    {label: 'Digital Samurai', value: '/images/avatars/digital_samurai.png'},
+    {label: 'Enhanced Cat', value: '/images/avatars/enhanced_cat.png'},
+    {label: 'Galactic Explorer', value: '/images/avatars/galactic_explorer.png'},
+    {label: 'God of Coffee', value: '/images/avatars/god_of_coffee.png'},
+    {label: 'Hacker Kid', value: '/images/avatars/hacker_kid.png'},
+    {label: 'Masked Hacker', value: '/images/avatars/masked_hacker.png'},
+    {label: 'Mystical Female', value: '/images/avatars/mystical_female.png'},
+    {label: 'Synthwave Warrior', value: '/images/avatars/synthwave_warrior.png'},
+    {label: 'VR Streamer', value: '/images/avatars/vr_streamer.png'},
+]
+
 export const filterDays = [
     {label: "All time", value: 'all'},
     {label: "Last 7 days", value: '7'},

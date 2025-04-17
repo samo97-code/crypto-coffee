@@ -1,5 +1,5 @@
 import React from 'react';
-import {Award, ChevronRight, Settings, LogOut, Wallet, Coffee} from "lucide-react";
+import {Award, ChevronRight, Settings, LogOut, Wallet, Coffee, Link} from "lucide-react";
 
 import {motion} from "framer-motion"
 import {useState} from "react"
@@ -27,7 +27,7 @@ const QuickLinks = () => {
             <div className="relative z-10">
                 <h3 className="font-bold text-coffee-900 mb-4 flex items-center text-lg">
                     <div className="bg-coffee-100 p-2 rounded-full mr-3">
-                        <Coffee className="h-5 w-5 text-coffee-700"/>
+                        <Link className="h-5 w-5 text-coffee-700"/>
                     </div>
                     Quick Links
                 </h3>

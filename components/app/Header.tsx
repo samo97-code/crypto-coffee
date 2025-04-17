@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Coffee, Search} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {ConnectButton} from "@rainbow-me/rainbowkit";
@@ -12,13 +12,13 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {setAuthUser} from "@/store/slices/userSlice";
 import {useDispatch} from "react-redux";
 import {randomAvatar} from "@/utils/utils";
-// For client-side usage
 import {setCookie, hasCookie} from 'cookies-next/client';
+import {useAppSelector} from "@/store/hook";
 
 const Header = () => {
     const dispatch = useDispatch();
+    const {user} = useAppSelector(state => state.user);
     const {address, isConnected} = useAccount();
-    const [userAvatar, setUserAvatar] = useState('');
 
     useEffect(() => {
         if (isConnected && address) {
@@ -26,10 +26,7 @@ const Header = () => {
                 try {
                     const user = await createOrGetUser(address);
                     dispatch(setAuthUser(user))
-                    // hasCookie
-                    setCookie('userId',user.id)
-                    // await getUserCoffeeActivity(address)
-                    // console.log('User from Supabase:', user);
+                    if (!hasCookie('userId')) setCookie('userId', user.id)
                 } catch (error) {
                     console.error('Supabase Error:', error);
                 }
@@ -44,13 +41,9 @@ const Header = () => {
             .eq('wallet_address', wallet_address)
             .maybeSingle();
 
-        // console.log(data, 'data')
-
-        setUserAvatar(data.avatar_url)
         if (data) return data;
 
         try {
-
             const {data: newUser, error: createError} = await supabase
                 .from("users")
                 .insert([
@@ -62,8 +55,6 @@ const Header = () => {
                 ])
                 .select()
                 .single()
-
-            setUserAvatar(newUser.avatar_url)
 
             if (createError) throw createError;
 
@@ -90,27 +81,6 @@ const Header = () => {
         }
     }
 
-    // const getUserCoffeeActivity = async (wallet: string) => {
-    //     try {
-    //         const {data, error} = await supabase
-    //             .from('coffee_activity')
-    //             .select('chain_id, timestamp')
-    //             .eq('wallet_address', wallet);
-    //
-    //         if (error) {
-    //             console.error('Error fetching coffee activity:', error);
-    //             return [];
-    //         }
-    //
-    //         console.log(data, 'data')
-    //
-    //         return data; // returns array of { chain_id, timestamp }
-    //     } catch (e) {
-    //         console.log(e, 'e')
-    //     }
-    // }
-
-
     return (
         <header className="border-b border-coffee-200 bg-white shadow-sm backdrop-blur-sm sticky top-0 z-[11]">
             <div className="max-w-[1440px] mx-auto px-4 h-16 flex items-center justify-between">
@@ -134,11 +104,6 @@ const Header = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    {/*<Button variant="outline" className="gap-2 border-coffee-200">*/}
-                    {/*    <Coffee className="h-4 w-4"/>*/}
-                    {/*    <span>{projects.length} Coffee Chains</span>*/}
-                    {/*</Button>*/}
-
                     <AnnouncementCard/>
 
                     <div className="min-w-[143px]">
@@ -148,7 +113,7 @@ const Header = () => {
                     {isConnected &&
                         <Link href="/profile" className="flex items-center gap-2 text-coffee-800 font-bold text-xl">
                           <Avatar className="h-10 w-10 border-4 border-coffee-50 shadow-lg">
-                            <AvatarImage src={`${userAvatar}?height=128&width=128`}/>
+                            <AvatarImage src={`${user?.avatar_url}?height=128&width=128`}/>
                             <AvatarFallback
                                 className="bg-coffee-100 text-coffee-800 text-xs">CC</AvatarFallback>
                           </Avatar>

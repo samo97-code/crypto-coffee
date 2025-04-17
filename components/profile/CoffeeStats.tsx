@@ -51,7 +51,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                             <Coffee className="h-4 w-4 mr-2 text-coffee-700"/>
                             Bought Coffee
                         </div>
-                        <div className="font-medium text-coffee-900 bg-coffee-100 px-3 py-1 rounded-full">{stats.boughtCoffee}</div>
+                        <div className="whitespace-nowrap font-medium text-coffee-900 bg-coffee-100 px-3 py-1 rounded-full">{stats.boughtCoffee}</div>
                     </motion.div>
 
                     <motion.div
@@ -64,7 +64,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                             <Flame className="h-4 w-4 mr-2 text-coffee-700"/>
                             Daily Streak
                         </div>
-                        <div className="font-medium text-coffee-900 bg-coffee-100 px-3 py-1 rounded-full">{streak?.current_streak || 0} days</div>
+                        <div className="whitespace-nowrap font-medium text-coffee-900 bg-coffee-100 px-3 py-1 rounded-full">{streak?.current_streak || 0} days</div>
                     </motion.div>
 
                     <motion.div
@@ -77,7 +77,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                             <Trophy className="h-4 w-4 mr-2 text-coffee-700"/>
                             Achievements
                         </div>
-                        <div className="font-medium text-coffee-900 bg-coffee-100 px-3 py-1 rounded-full">{stats.achievementsCount}/{stats.totalAchievements}</div>
+                        <div className="whitespace-nowrap font-medium text-coffee-900 bg-coffee-100 px-3 py-1 rounded-full">{stats.achievementsCount}/{stats.totalAchievements}</div>
                     </motion.div>
                 </div>
 

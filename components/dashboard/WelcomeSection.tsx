@@ -2,7 +2,7 @@
 
 
 import {FC, useEffect} from "react"
-import { Coffee, TrendingDown, TrendingUp, Clock, Database } from "lucide-react"
+import {Coffee, TrendingDown, TrendingUp, Clock, Database} from "lucide-react"
 import {projects} from "@/constants";
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
     change24h: string
 }
 
-const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSupporters}) =>{
+const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSupporters}) => {
     // Floating animation for decorative elements
     useEffect(() => {
         const floatingElements = document.querySelectorAll(".floating-element")
@@ -62,7 +62,7 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
             ></div>
 
             {/* Header */}
-            <div className="relative mb-6 flex items-center" style={{ transform: "translateZ(20px)" }}>
+            <div className="relative mb-6 flex items-center" style={{transform: "translateZ(20px)"}}>
                 <div>
                     <h2 className="text-3xl font-bold bg-gradient-to-r from-coffee-800 to-coffee-600 bg-clip-text text-transparent">
                         Morning Start With Crypto Coffee!
@@ -72,20 +72,23 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
             </div>
 
             {/* Stats grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ transform: "translateZ(10px)" }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{transform: "translateZ(10px)"}}>
                 {/* Bitcoin Price */}
                 <div className="bg-white rounded-lg p-4 shadow-md border border-coffee-100 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Bitcoin Price</div>
-                        <div className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
-                            <Clock className="h-3 w-3 mr-1" />
+                        <div
+                            className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
+                            <Clock className="h-3 w-3 mr-1"/>
                             24h
                         </div>
                     </div>
                     <div className="flex items-end justify-between">
                         <div className="text-3xl font-bold text-coffee-900">${convertTotal(price)}</div>
-                        <div className="flex items-center text-red-600 text-sm font-medium">
-                            <TrendingDown className="h-4 w-4 mr-1" />
+
+                        <div className={`${+change24h > 0 ? 'text-green-600' : 'text-red-600'} flex items-center text-sm font-medium`}>
+                            {+change24h > 0 ? <TrendingUp className="h-4 w-4 mr-1"/> :
+                                <TrendingDown className="h-4 w-4 mr-1"/>}
                             <span>{change24h}% today</span>
                         </div>
                     </div>
@@ -98,15 +101,16 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
                 <div className="bg-white rounded-lg p-4 shadow-md border border-coffee-100 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Coffee Chains</div>
-                        <div className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
-                            <Database className="h-3 w-3 mr-1" />
+                        <div
+                            className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
+                            <Database className="h-3 w-3 mr-1"/>
                             Networks
                         </div>
                     </div>
                     <div className="flex items-end justify-between">
                         <div className="text-3xl font-bold text-coffee-900">{projects.length}</div>
                         <div className="flex items-center text-coffee-600 text-sm font-medium">
-                            <Coffee className="h-4 w-4 mr-1" />
+                            <Coffee className="h-4 w-4 mr-1"/>
                             <span>Soon more</span>
                         </div>
                     </div>
@@ -116,7 +120,8 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
                 <div className="bg-white rounded-lg p-4 shadow-md border border-coffee-100 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Daily Users</div>
-                        <div className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
+                        <div
+                            className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
                             <div className="h-2 w-2 rounded-full bg-green-500 mr-1 animate-pulse"></div>
                             Active
                         </div>
@@ -124,7 +129,7 @@ const WelcomeSection: FC<IProps> = ({price, change24h, dailySupporters, totalSup
                     <div className="flex items-end justify-between">
                         <div className="text-3xl font-bold text-coffee-900">{totalSupporters}</div>
                         <div className="flex items-center text-green-600 text-sm font-medium">
-                            <TrendingUp className="h-4 w-4 mr-1" />
+                            <TrendingUp className="h-4 w-4 mr-1"/>
                             <span>+{dailySupporters} today</span>
                         </div>
                     </div>
