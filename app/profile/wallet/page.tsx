@@ -1,6 +1,6 @@
+export const dynamic = 'force-dynamic';
 import {walletService} from "@/lib/wallet-service";
 import {cookies} from 'next/headers'
-
 import WalletHeader from "@/components/profile/wallet/WalletHeader";
 import ConnectedWalletCard from "@/components/profile/wallet/ConnectedWalletCard";
 import WalletStatsCards from "@/components/profile/wallet/WalletStats-Cards";
