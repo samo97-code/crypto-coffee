@@ -136,7 +136,9 @@ const WelcomeSection = () => {
                                 </div>
                                 <div className="mt-2 h-2 bg-red-100 rounded-full overflow-hidden">
                                     <div
-                                        className={`${+change24h > 0 ? 'bg-gradient-to-r from-green-500 to-green-400' : 'bg-gradient-to-r from-red-500 to-red-400'} h-full w-[60%]`}></div>
+                                        className={`${+change24h > 0 ? 'bg-gradient-to-r from-green-500 to-green-400' : 'bg-gradient-to-r from-red-500 to-red-400'} h-full`}
+                                        style={{width: `${(price / 100000 * 100).toFixed(0)}%`}}>
+                                    </div>
                                 </div>
                             </>
                             : <div className="flex justify-center"><CircleLoader/></div>

@@ -3,16 +3,18 @@
 import React, {useEffect, useState, FC} from "react";
 import {useAccount, useWaitForTransactionReceipt, useWriteContract, useSwitchChain} from "wagmi";
 import {WriteContractData} from "@wagmi/core/query";
+import {writeContract} from '@wagmi/core';
+import {config} from "@/lib/wagmi";
 import {parseEther} from "viem";
 import {ArrowRight, Coffee} from "lucide-react"
 import {IProject} from "@/types";
 import CustomWalletTrigger from "@/components/dashboard/CustomWalletTrigger";
-import {createSupportTransaction} from "@/lib/transaction-service";
+import {createSupportTransaction, updateTxTotalAmount} from "@/lib/transaction-service";
 import {useSelector} from "react-redux";
 import {motion} from "framer-motion";
 import {cn} from "@/utils/utils";
-import type { AnimationControls } from 'framer-motion';
-
+import type {AnimationControls} from 'framer-motion';
+import {toast} from "sonner"
 
 interface IProps {
     isHovering: boolean,
@@ -32,14 +34,23 @@ const abi = [
     },
 ];
 
-const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurrentBuyedCoffee, isHovering, buttonControls}) => {
+const BuyButton: FC<IProps> = ({
+                                   ethPrice,
+                                   project,
+                                   setShowSuccessModal,
+                                   setCurrentBuyedCoffee,
+                                   isHovering,
+                                   buttonControls
+                               }) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const {user} = useSelector(state => state.user)
     const {isConnected, chainId} = useAccount();
     const {switchChain} = useSwitchChain();
     const [hash, setHash] = useState('');
-    const {writeContractAsync, isPending, error} = useWriteContract();
+    const [amount, setAmount] = useState(0);
+    const [isSending, setIsSending] = useState(false);
+    const {writeContractAsync} = useWriteContract();
 
     const actionHandler = async () => {
         if (chainId === project.blockchain_networks[0].chain_id) return await coffeeSent()
@@ -53,8 +64,8 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
         // const myMonadAmount = '0.03'
 
         //For test
-        const myEthAmount = 0.0001
-        const myMonadAmount = '0.0001'
+        const myEthAmount = 0.001
+        const myMonadAmount = '0.00001'
 
         let amount = '';
 
@@ -74,59 +85,100 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
             return;
         }
 
+        setIsSending(true)
         const amount = checkAmount()
 
         try {
-            const hash = await writeContractAsync({
+            const hash = await writeContract(config, {
                 address: process.env.NEXT_PUBLIC_BUY_COFFEE_CONTRACT as WriteContractData,
                 abi: abi,
                 functionName: 'buyCoffee',
                 args: [`Coffee on ${project.chain}`],
                 value: parseEther(amount),
             });
-            setCurrentBuyedCoffee({
-                hash: hash,
-                name: project.name,
-                amount: `${amount} ${project.blockchain_networks[0].chain_key}`,
-                explorerUrl: project.blockchain_networks[0].explorer_url
-            })
 
-            console.log(hash,'hash')
+            //For testing error parts
+            // const hash = await writeContract(config, {
+            //     address: process.env.NEXT_PUBLIC_BUY_COFFEE_CONTRACT as WriteContractData,
+            //     abi,
+            //     functionName: 'buyCoffee',
+            //     args: [''], // invalid input to force revert
+            //     value: parseEther('0'), // too low
+            // });
 
-            // Create a support transaction
-            const transaction = await createSupportTransaction(user.id, project.id, project.network_name,hash, amount)
+            console.log(hash, 'hash')
+            console.log(hash.length, 'length')
 
-            console.log(transaction, 'transaction')
-
-
-            setShowSuccessModal(true)
+            if (hash.length === 66) {
+                setHash(hash);
+                setAmount(+amount)
+                setCurrentBuyedCoffee({
+                    hash: hash,
+                    name: project.name,
+                    amount: `${amount} ${project.blockchain_networks[0].chain_key}`,
+                    explorerUrl: project.blockchain_networks[0].explorer_url
+                })
+            }
         } catch (error) {
-            console.error('Transaction failed:', error);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            const name = error?.name
+
+            let log = ''
+            if (name === 'ContractFunctionExecutionError') {
+                log = 'Transaction reverted on chain. No token was spent.'
+            } else if (name === 'UserRejectedRequestError') {
+                log = 'You rejected the transaction.'
+            } else {
+                log = `Something went wrong. Try again later.`
+            }
+            toast.error(log)
+        } finally {
+            setIsSending(false);
         }
     };
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const {data: receipt, isLoading: isConfirming} = useWaitForTransactionReceipt({hash});
+    const {data: receipt, isLoading: isConfirming, error: waitError,} = useWaitForTransactionReceipt({
+        hash: hash as `0x${string}`,
+        query: {enabled: !!hash},
+    });
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     useEffect(() => {
         if (receipt) {
-            // console.log('Transaction confirmed!', receipt);
-            setHash('');
+            if (receipt.status === 'reverted') {
+                return toast.error('Transaction was mined but reverted.')
+            }
+
+            txFinishedSuccessfully()
         }
-    }, [receipt]);
+        if (waitError) {
+            toast.error('Something went wrong. Try again later.')
+        }
+    }, [receipt, waitError]);
 
-    useEffect(() => {
-        if (error) console.error('useWriteContract error:', error);
-    }, [error]);
-
+    const txFinishedSuccessfully = async () => {
+       try {
+           setShowSuccessModal(true)
+           await createSupportTransaction(user.id, project.id, project.network_name, hash, amount.toString())
+           await updateTxTotalAmount(user.id)
+       }catch (error) {
+           console.error('Supabase Error:', error);
+       }finally {
+           setHash('');
+           setAmount(0)
+       }
+    }
 
     return (
         <>
             {
                 isConnected ? <motion.button
                     onClick={() => actionHandler()}
-                    disabled={isPending || isConfirming}
+                    disabled={isSending || isConfirming}
                     className={`${project.button_color} min-h-10 text-white relative w-full overflow-hidden group/button`}
                     animate={buttonControls}
                     whileTap={{scale: 0.98}}
@@ -139,7 +191,7 @@ const BuyButton: FC<IProps> = ({ethPrice, project, setShowSuccessModal, setCurre
                     <div className="relative px-6 py-3 rounded-xl flex items-center justify-center">
                         <Coffee className="w-5 h-5 mr-2 text-coffee-100"/>
                         <span
-                            className="text-coffee-100 font-bold">{isPending ? 'Sending...' : `Buy Coffee on ${project.chain}`}</span>
+                            className="text-coffee-100 font-bold">{isSending || isConfirming ? 'Sending...' : `Buy Coffee on ${project.chain}`}</span>
                         <motion.div
                             className="absolute right-4 opacity-0 group-hover/button:opacity-100 group-hover/button:translate-x-0 translate-x-2"
                             transition={{duration: 0.2}}

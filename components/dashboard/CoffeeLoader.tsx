@@ -24,17 +24,17 @@ const CoffeeLoader = () => {
             setProgress(prev => {
                 if (prev >= 100) {
                     clearInterval(interval)
-                    setTimeout(() => setIsComplete(true), 10)
+                    setTimeout(() => setIsComplete(true), 500)
                     return 100
                 }
                 return prev + 1
             })
-        }, 10)
+        }, 50)
 
         // Rotate loading messages
         const messageInterval = setInterval(() => {
             setLoadingMessage(messages[Math.floor(Math.random() * messages.length)])
-        }, 150)
+        }, 2000)
 
         setTimeout(() => {
             window.scrollTo({top: 0, behavior: 'smooth'});

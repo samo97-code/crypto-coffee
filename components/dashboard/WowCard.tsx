@@ -80,7 +80,7 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
             {/* Main card - REDUCED HEIGHT by removing coffee cup */}
             <motion.div
                 ref={cardRef}
-                className="relative bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-700 rounded-2xl p-6 shadow-2xl border border-coffee-600/50 overflow-hidden group"
+                className="relative bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-700 rounded-2xl p-[20px] shadow-2xl border border-coffee-600/50 overflow-hidden group"
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={handleMouseLeave}
@@ -139,28 +139,22 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
                                     }
 
                                 </div>
-                                {
-                                    project.description &&
-                                    <p className="text-coffee-400 text-sm">A decentralized exchange</p>
-                                }
-
+                                <div className="flex items-center gap-2">
+                                    <div className="flex items-center justify-between mb-1">
+                                        <div className="flex items-center">
+                                            <Activity className="w-4 h-4 text-amber-400 mr-1.5" />
+                                            <span className="text-xs font-medium text-coffee-300">Active</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* NEW MIDDLE SECTION WITH STATS */}
-                    <div className="mb-4 gap-3" style={{ transform: "translateZ(40px)" }}>
-                        {/* Network Activity */}
-                        <div className="bg-coffee-800/50 backdrop-blur-sm rounded-xl p-3 border border-coffee-600/30">
-                            <div className="flex items-center justify-between mb-1">
-                                <div className="flex items-center">
-                                    <Activity className="w-4 h-4 text-amber-400 mr-1.5" />
-                                    <span className="text-xs font-medium text-coffee-300">Status</span>
-                                </div>
-                            </div>
-                            <div className="flex items-end justify-between">
-                                <div className="text-xl font-bold text-coffee-100">Active</div>
-                            </div>
+                    <div className="mb-4 gap-3" style={{transform: "translateZ(40px)"}}>
+                        <div className="bg-coffee-800/50 backdrop-blur-sm rounded-xl p-1.5 px-2.5 border border-coffee-600/30 min-h-[46px]">
+                            <p className="text-coffee-400 text-xs text-ellipsis line-clamp-2">{project.description}</p>
                         </div>
                     </div>
 
@@ -176,7 +170,7 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
                     />
 
                     {/* Decorative elements */}
-                    <div className="absolute top-2 right-2" style={{ transform: "translateZ(30px)" }}>
+                    <div className="absolute top-2 right-2" style={{transform: "translateZ(30px)"}}>
                         <motion.div
                             animate={{
                                 rotate: [0, 15, -15, 0],

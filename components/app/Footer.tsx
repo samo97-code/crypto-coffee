@@ -10,14 +10,14 @@ const Footer = () => {
 
     const quickLinks = [
         {id: 1, label: 'Home +', link: '/'},
-        {id: 2, label: 'Daily Activities +', link: '/daily-activities'},
+        // {id: 2, label: 'Daily Activities +', link: '/daily-activities'},
         {id: 3, label: 'How It Works +', link: '/how-it-works'},
         {id: 4, label: 'FAQ', link: '/faq'},
     ]
 
     const resources = [
-        {name: "Documentation", icon: ExternalLink, link: '/documentation'},
-        {name: "Support", icon: Heart, link: '/support'},
+        // {name: "Documentation", icon: ExternalLink, link: '/documentation'},
+        // {name: "Support", icon: Heart, link: '/support'},
         {name: "Terms of Service +", icon: ExternalLink, link: '/terms-of-service'},
         {name: "Privacy Policy +", icon: ExternalLink, link: '/privacy-policy'},
     ]
@@ -174,15 +174,7 @@ const Footer = () => {
                         </div>
 
                         <div className="flex gap-4">
-                            <Link href="#" className="text-coffee-700 hover:text-coffee-900 text-sm hover:underline">
-                                Cookies
-                            </Link>
-                            <Link href="#" className="text-coffee-700 hover:text-coffee-900 text-sm hover:underline">
-                                Legal
-                            </Link>
-                            <Link href="#" className="text-coffee-700 hover:text-coffee-900 text-sm hover:underline">
-                                Sitemap
-                            </Link>
+
                         </div>
                     </div>
                 </div>

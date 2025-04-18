@@ -14,6 +14,8 @@ export class WalletService {
             .eq('id', userId)
             .single()
 
+        console.log(userData, 'userData')
+
         if (userError) throw userError
 
         // Get transaction count

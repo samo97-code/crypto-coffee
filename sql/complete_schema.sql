@@ -41,7 +41,7 @@ CREATE TABLE projects (
   is_new BOOLEAN DEFAULT FALSE,
   is_featured BOOLEAN DEFAULT FALSE,
   total_supporters INTEGER DEFAULT 0,
-  total_support_amount DECIMAL(12,2) DEFAULT 0,
+  total_support_amount DECIMAL(12,6) DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
