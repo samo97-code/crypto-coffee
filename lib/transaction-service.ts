@@ -1,6 +1,6 @@
 import {supabase} from "@/lib/supabase"
 import {recordStreakActivity} from "./streak-service"
-import {ITransaction, IUser} from "@/types";
+import {ITransaction} from "@/types";
 
 
 /**

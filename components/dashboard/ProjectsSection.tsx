@@ -5,12 +5,14 @@ import CoffeeSuccessModal from "@/components/modal/CoffeeSuccessModal";
 import {IProject} from "@/types";
 import WowCard from "@/components/dashboard/WowCard";
 import {CreativeNetworkTabs} from "@/components/CreativeTabs";
+import {useAppSelector} from "@/store/hook";
 
 interface IProps {
     projects: IProject[]
 }
 
 const ProjectSection: FC<IProps> = ({projects}) => {
+    const {searchedProject} = useAppSelector(state => state.project);
     const [ethPrice, setEthPrice] = useState(0);
     const [activeTab, setActiveTab] = useState("all");
     const [showSuccessModal, setShowSuccessModal] = useState(false)
@@ -25,11 +27,26 @@ const ProjectSection: FC<IProps> = ({projects}) => {
         fetchEthPrice()
     }, []);
 
-    const currentProjects = useMemo(() => {
-        if (activeTab === 'all') return projects
+    const filteredProjects = useMemo(() => {
+        let result = projects;
 
-        return projects.filter((item:IProject) => item.blockchain_networks[0].type === activeTab)
-    }, [activeTab]);
+        // 1. Filter by active tab
+        if (activeTab !== 'all') {
+            result = result.filter(
+                (item) => item.blockchain_networks[0].type === activeTab
+            );
+        }
+
+        // 2. Filter by search term
+        if (searchedProject) {
+            result = result.filter(
+                (item) =>
+                    item.name.toLowerCase().includes(searchedProject.toLowerCase())
+            );
+        }
+
+        return result;
+    }, [projects, activeTab, searchedProject]);
 
 
     const fetchEthPrice = async () => {
@@ -56,35 +73,8 @@ const ProjectSection: FC<IProps> = ({projects}) => {
                 <div className="relative">
                     <div className="flex justify-center overflow-x-auto pb-2 hide-scrollbar mt-6">
                         <div className="flex space-x-2 px-1">
-                            <CreativeNetworkTabs counts={{ all: 18, mainnet: 16, testnet: 2 }} onTabChange={setActiveTab} />
-
-                            {/*{dashboardTabs.map((tab) => (*/}
-                            {/*    <button*/}
-                            {/*        key={tab.value}*/}
-                            {/*        onClick={() => setActiveTab(tab.value)}*/}
-                            {/*        className={`relative group flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${*/}
-                            {/*            activeTab === tab.value*/}
-                            {/*                ? "text-white shadow-lg scale-105"*/}
-                            {/*                : "text-amber-900 bg-white hover:bg-amber-50"*/}
-                            {/*        }`}*/}
-                            {/*    >*/}
-                            {/*        <div className="flex items-center">*/}
-                            {/*            <tab.icon*/}
-                            {/*                className={`h-5 w-5 ${activeTab === tab.value ? "text-coffee-900" : "text-coffee-800"}`}/>*/}
-                            {/*            <span*/}
-                            {/*                className="text-coffee-800 ml-2 font-medium text-lg whitespace-nowrap">{tab.label}</span>*/}
-                            {/*        </div>*/}
-
-                            {/*        <div*/}
-                            {/*            className={`ml-2 px-2 py-0.5 rounded-full text-sm font-medium ${*/}
-                            {/*                activeTab === tab.value ? "bg-coffee-400 text-coffee-900" : "bg-coffee-200 text-coffee-800"*/}
-                            {/*            }`}*/}
-                            {/*        >*/}
-                            {/*            {tab.count}*/}
-                            {/*        </div>*/}
-
-                            {/*    </button>*/}
-                            {/*))}*/}
+                            <CreativeNetworkTabs counts={{all: 18, mainnet: 16, testnet: 2}}
+                                                 onTabChange={setActiveTab}/>
                         </div>
                     </div>
 
@@ -93,24 +83,21 @@ const ProjectSection: FC<IProps> = ({projects}) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-                {currentProjects.map((project: IProject) => {
-                    return <div key={project.id}>
-                        <WowCard
-                            ethPrice={ethPrice}
-                            project={project}
-                            setShowSuccessModal={setShowSuccessModal}
-                            setCurrentBuyedCoffee={setCurrentBuyedCoffee}
-                        />
-                        {/*<NetworkCard*/}
-                        {/*    ethPrice={ethPrice}*/}
-                        {/*    project={project}*/}
-                        {/*    setShowSuccessModal={setShowSuccessModal}*/}
-                        {/*    setCurrentBuyedCoffee={setCurrentBuyedCoffee}*/}
-                        {/*/>*/}
-                    </div>
-                })}
-            </div>
+            {filteredProjects.length ?
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+                    {filteredProjects.map((project: IProject) => {
+                        return <div key={project.id}>
+                            <WowCard
+                                ethPrice={ethPrice}
+                                project={project}
+                                setShowSuccessModal={setShowSuccessModal}
+                                setCurrentBuyedCoffee={setCurrentBuyedCoffee}
+                            />
+                        </div>
+                    })}
+                </div>
+                : <p className="flex justify-center text-coffee-800 font-semibold text-xl capitalize">Your search burned more gas than results.</p>
+            }
 
             <CoffeeSuccessModal
                 isOpen={showSuccessModal}

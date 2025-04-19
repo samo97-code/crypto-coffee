@@ -297,18 +297,30 @@ export const dashboardTabs = [
     {id: 3, label: 'Testnet', value: 'testnet', icon: Beaker, count: 2},
 ]
 
-export const announcements = [
+export const mockAnnouncements = [
     {
-        icon: Zap,
+        id: 1,
         title: "New Features!",
         date: "2024-02-08",
         content: "Coffee staking pools are now live! Earn while you brew.",
+        icon: "Sparkles",
+        isNew: true,
     },
     {
-        icon: Bell,
+        id: 2,
         title: "New chain added!",
         date: "2024-02-01",
         content: "Arabica Network is now available for brewing!",
+        icon: "Zap",
+        isNew: true,
+    },
+    {
+        id: 3,
+        title: "Weekly Rewards Distributed",
+        date: "2024-01-25",
+        content: "Check your wallet for last week's activity rewards!",
+        icon: "Award",
+        isNew: false,
     },
 ]
 

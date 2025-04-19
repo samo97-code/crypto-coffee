@@ -1,8 +1,8 @@
 'use client'
 
 import React, {useEffect} from 'react';
-import {Coffee, Search} from "lucide-react";
-import {Input} from "@/components/ui/input";
+import {Coffee} from "lucide-react";
+import HeaderSearch from "@/components/app/HeaderSearch";
 import {ConnectButton} from "@rainbow-me/rainbowkit";
 import {useAccount} from "wagmi";
 import {supabase} from "@/lib/supabase";
@@ -96,14 +96,11 @@ const Header = () => {
                         </div>
                         <span>Crypto Coffee</span>
                     </Link>
-
-                    <div className="relative hidden md:block w-64">
-                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-coffee-600"/>
-                        <Input placeholder="Search projects..." className="pl-8 bg-white border-coffee-200"/>
-                    </div>
                 </div>
 
                 <div className="flex items-center gap-3">
+                    <HeaderSearch/>
+
                     <AnnouncementCard/>
 
                     <div className="min-w-[143px]">

@@ -1,12 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import coffeeReducer from './slices/coffeeSlice';
+import {configureStore} from '@reduxjs/toolkit';
+import projectReducer from './slices/projectSlice';
 import userReducer from './slices/userSlice';
 import acheivementReducer from './slices/acheivementSlice';
 
 
 export const store = configureStore({
     reducer: {
-        coffee: coffeeReducer,
+        project: projectReducer,
         user: userReducer,
         acheivement: acheivementReducer,
         // Add more slices here as needed
