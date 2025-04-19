@@ -120,6 +120,25 @@ export interface IAchievement {
     updated_at: string;
 }
 
+export interface IDailyActivity {
+    id: number
+    type: string
+    title: string
+    description: string
+    icon: string
+    icon_bg: string
+    icon_color: string
+    hash?: string
+    amount?: number
+    chain_key?: string
+    explorer_url?: string
+    timestamp: string
+    project_id?: number
+    project_name?: string
+    project_chain?: string
+    project_icon?: string
+}
+
 export interface IActivity {
     id: number
     type: string

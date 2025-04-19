@@ -1,5 +1,27 @@
 import {supabase} from "@/lib/supabase"
-import {IActivity, IActivityCompletion, ITransaction, IUserAchievement} from "@/types";
+import {IActivity, IActivityCompletion, IDailyActivity, ITransaction, IUserAchievement} from "@/types";
+
+
+export async function getAllActivities(): Promise<IDailyActivity[]> {
+    try {
+        const {data, error} = await supabase
+            .from("daily_activities")
+            .select("*")
+            .eq("is_active", true)
+            .order("id", {ascending: true})
+
+        if (error) {
+            console.error("Error fetching achievements:", error)
+            return []
+        }
+
+        return data
+    } catch (error) {
+        console.error("Error in getUserRecentActivities:", error)
+        return []
+    }
+}
+
 
 /**
  * Gets recent activities for a user

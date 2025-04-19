@@ -547,3 +547,4 @@ VALUES
   ('Daily Crypto Joke', 'Reveal a daily crypto-themed joke that you can share on social media.', 'Laugh', 'bg-yellow-100', 'text-yellow-600', 0.045, 'Shareable content', 'fun', 'Reveal Joke', 'Joke Revealed'),
   ('Blockchain Bingo', 'Get daily bingo numbers and win rewards for completed rows or cards.', 'Dice', 'bg-green-100', 'text-green-600', 0.045, 'Weekly/monthly prizes', 'games', 'Play Bingo', 'Played Today'),
   ('Crypto Pet', 'Feed your virtual Crypto Cat daily and watch it grow and evolve.', 'Cat', 'bg-orange-100', 'text-orange-600', 0.045, 'Pet collectibles', 'fun', 'Feed Pet', 'Pet Fed Today');
+  ('Rock Paper Scissors', 'Play rock paper scissors against the blockchain and win crypto rewards.', 'Hand', 'bg-orange-100', 'text-orange-600', 0.045, 'Double your bet', 'fun', 'Feed Pet', 'Pet Fed Today');

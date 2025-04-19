@@ -1,5 +1,5 @@
 import React from 'react';
-import {Award, ChevronRight, Settings, LogOut, Wallet, Link} from "lucide-react";
+import {Award, ChevronRight, Settings, LogOut, Wallet, Link, Zap} from "lucide-react";
 
 import {motion} from "framer-motion"
 import {useState} from "react"
@@ -15,8 +15,9 @@ const QuickLinks = () => {
     const links = [
         {id: 1, label: 'Account Settings', link: '/profile/settings', icon: Settings, danger: false},
         {id: 2, label: 'Wallet & Payments', link: '/profile/wallet', icon: Wallet, danger: false},
-        {id: 3, label: 'Achievements', link: '/profile/achievements', icon: Award, danger: false},
-        {id: 4, label: 'Disconnect', link: '', icon: LogOut, danger: false},
+        {id: 3, label: 'Daily Activities', link: '/daily-activities', icon: Zap, danger: false},
+        {id: 4, label: 'Achievements', link: '/profile/achievements', icon: Award, danger: false},
+        {id: 5, label: 'Disconnect', link: '', icon: LogOut, danger: false},
     ]
 
     const toLink = async(url: string) => {
