@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
                 <h1 className="text-3xl font-bold text-coffee-900">Privacy Policy</h1>
             </div>
 
-            <div className="bg-white rounded-lg p-8 shadow-sm border border-coffee-200">
+            <div className="bg-card rounded-lg p-8 shadow-sm border border-coffee-200">
                 <div className="prose prose-amber max-w-none">
                     <p className="text-amber-800 font-medium">Last Updated: April 3, 2025</p>
 

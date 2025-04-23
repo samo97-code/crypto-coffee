@@ -16,7 +16,7 @@ export default function DocumentationPage() {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 {/* Sidebar */}
                 <div className="lg:col-span-1">
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-amber-100 sticky top-24">
+                    <div className="bg-card rounded-xl p-4 shadow-sm border border-amber-100 sticky top-24">
                         <h3 className="font-semibold text-coffee-900 mb-4">Contents</h3>
                         <ul className="space-y-2">
                             <li>
@@ -73,7 +73,7 @@ export default function DocumentationPage() {
 
                 {/* Main content */}
                 <div className="lg:col-span-3">
-                    <div className="bg-white rounded-xl p-8 shadow-sm border border-amber-100">
+                    <div className="bg-card rounded-xl p-8 shadow-sm border border-amber-100">
                         <div className="prose prose-amber max-w-none">
                             <section id="introduction">
                                 <h2 className="text-2xl font-semibold text-coffee-900">Introduction to Crypto Coffee</h2>

@@ -72,7 +72,7 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
             {/* Ambient glow effect */}
             <div
                 className={cn(
-                    "absolute inset-0 bg-gradient-to-r from-coffee-700/30 via-amber-500/20 to-coffee-500/30 rounded-2xl blur-xl transition-all duration-700",
+                    "absolute inset-0 bg-gradient-to-r from-coffee-700/30 via-amber-500/20 dark:from-coffee-50 dark:via-coffee-50 dark:to-coffee-50 to-coffee-500/30 rounded-2xl blur-xl transition-all duration-700",
                     isHovering ? "opacity-70 scale-110" : "opacity-0 scale-100",
                 )}
             />
@@ -80,7 +80,7 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
             {/* Main card - REDUCED HEIGHT by removing coffee cup */}
             <motion.div
                 ref={cardRef}
-                className="relative bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-700 rounded-2xl p-[20px] shadow-2xl border border-coffee-600/50 overflow-hidden group"
+                className="relative bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-700 dark:from-coffee-50 dark:via-coffee-100 dark:to-coffee-50 rounded-2xl p-[20px] shadow-2xl border border-coffee-600/50 overflow-hidden group"
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={handleMouseLeave}
@@ -94,12 +94,12 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
                 <div className="absolute inset-0 bg-[url('/crypto-coffee-bg.jpg')] bg-cover opacity-10 group-hover:opacity-30 transition-opacity duration-700" />
                 {/*crypto-coffee-bg.jpg*/}
 
-                <div className="absolute inset-0 bg-gradient-to-br from-coffee-800/80 via-transparent to-coffee-700/80" />
+                <div className="absolute inset-0 bg-gradient-to-br from-coffee-800/80 via-transparent to-coffee-700/80 dark:from-coffee-100/30 dark:via-transparent dark:to-coffee-200/20" />
 
                 {/* Animated gradient overlay */}
                 <div
                     className={cn(
-                        "absolute inset-0 bg-gradient-to-br from-amber-600/10 via-coffee-500/5 to-coffee-400/10 transition-all duration-700 animate-gradient-shift",
+                        "absolute inset-0 bg-gradient-to-br from-coffee-600/10 via-coffee-500/5 to-coffee-400/10 transition-all duration-700 animate-gradient-shift",
                         isHovering ? "opacity-40" : "opacity-0",
                     )}
                 />
@@ -128,7 +128,7 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
 
                             <div>
                                 <div className="flex items-center">
-                                    <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-coffee-200 to-amber-300">
+                                    <h3 className="truncate text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-coffee-200 to-amber-300">
                                         {project.name}
                                     </h3>
                                     {
@@ -143,7 +143,7 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
                                     <div className="flex items-center justify-between mb-1">
                                         <div className="flex items-center">
                                             <Activity className="w-4 h-4 text-amber-400 mr-1.5" />
-                                            <span className="text-xs font-medium text-coffee-300">Active</span>
+                                            <span className="text-xs font-medium text-coffee-300 dark:text-coffee-700">Active</span>
                                         </div>
                                     </div>
                                 </div>
@@ -153,8 +153,8 @@ const WowCard:FC<IProps>=({ethPrice,project,setShowSuccessModal, setCurrentBuyed
 
                     {/* NEW MIDDLE SECTION WITH STATS */}
                     <div className="mb-4 gap-3" style={{transform: "translateZ(40px)"}}>
-                        <div className="bg-coffee-800/50 backdrop-blur-sm rounded-xl p-1.5 px-2.5 border border-coffee-600/30 min-h-[46px]">
-                            <p className="text-coffee-400 text-xs text-ellipsis line-clamp-2">{project.description}</p>
+                        <div className="bg-coffee-800/50 dark:bg-coffee-600/50 backdrop-blur-sm rounded-xl p-1.5 px-2.5 border border-coffee-600/30 min-h-[46px]">
+                            <p className="text-coffee-400 dark:text-coffee-200 text-xs text-ellipsis line-clamp-2">{project.description}</p>
                         </div>
                     </div>
 

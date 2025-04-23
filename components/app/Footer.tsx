@@ -1,9 +1,10 @@
 "use client"
 
-import {useState, useEffect} from "react"
+import React, {useState, useEffect} from "react"
 import Link from "next/link"
 import {Coffee, Twitter, ExternalLink, Heart, ChevronUp} from "lucide-react"
 import {Button} from "@/components/ui/button"
+import Image from "next/image";
 
 const Footer = () => {
     const [showScrollTop, setShowScrollTop] = useState(false)
@@ -70,30 +71,15 @@ const Footer = () => {
             </div>
 
             {/* Main footer content */}
-            <div className="bg-coffee-100 pt-12 pb-8">
+            <div className="bg-coffee-100 dark:bg-coffee-100 pt-12 pb-8">
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {/* Logo and about section */}
                         <div className="space-y-4">
                             <div className="flex items-center gap-2">
-                                <div
-                                    className="p-3 bg-gradient-to-br from-coffee-600 to-coffee-800 rounded-2xl shadow-md transform -rotate-3">
-                                    <div className="relative">
-                                        <div
-                                            className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-white/70 blur-[1px]"></div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                             strokeLinecap="round" strokeLinejoin="round"
-                                             className="lucide lucide-coffee h-5 w-5 text-white">
-                                            <path d="M10 2v2"></path>
-                                            <path d="M14 2v2"></path>
-                                            <path
-                                                d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"></path>
-                                            <path d="M6 2v2"></path>
-                                        </svg>
-                                    </div>
+                                <div className="relative">
+                                    <img src={"/crypto-coffee-logo-footer.png"} alt="logo" width={200} height={120}/>
                                 </div>
-                                <h3 className="text-xl font-bold text-coffee-900">Crypto Coffee</h3>
                             </div>
                             <p className="text-amber-800">
                                 Power up Web3, one coffee at a time. Support your favorite projects and be part of the

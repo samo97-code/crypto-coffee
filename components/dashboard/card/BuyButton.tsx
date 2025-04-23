@@ -60,12 +60,12 @@ const BuyButton: FC<IProps> = ({
 
     const checkAmount = () => {
         // Real
-        // const myEthAmount = 0.045
+        const myEthAmount = 0.045
         // const myMonadAmount = '0.03'
 
         //For test
-        const myEthAmount = 0.001
-        const myMonadAmount = '0.00001'
+        // const myEthAmount = 0.001
+        const myMonadAmount = '0.000001'
 
         let amount = '';
 
@@ -189,14 +189,14 @@ const BuyButton: FC<IProps> = ({
 
                     {/* Button content */}
                     <div className="relative px-6 py-3 rounded-xl flex items-center justify-center">
-                        <Coffee className="w-5 h-5 mr-2 text-coffee-100"/>
+                        <Coffee className="w-5 h-5 mr-2 text-coffee-100 dark:text-coffee-800"/>
                         <span
-                            className="text-coffee-100 font-bold">{isSending || isConfirming ? 'Sending...' : `Buy Coffee on ${project.chain}`}</span>
+                            className="text-coffee-100 dark:text-coffee-800 font-bold truncate">{isSending || isConfirming ? 'Sending...' : `Buy Coffee on ${project.chain}`}</span>
                         <motion.div
                             className="absolute right-4 opacity-0 group-hover/button:opacity-100 group-hover/button:translate-x-0 translate-x-2"
                             transition={{duration: 0.2}}
                         >
-                            <ArrowRight className="w-5 h-5 text-coffee-100"/>
+                            <ArrowRight className="w-5 h-5 text-coffee-100 dark:text-coffee-800"/>
                         </motion.div>
                     </div>
 

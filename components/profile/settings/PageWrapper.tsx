@@ -118,7 +118,7 @@ const PageWrapper =()=> {
     }
 
     return (
-        <div className="container mx-auto py-8 px-4 bg-coffee-50 min-h-screen">
+        <div className="container mx-auto py-8 px-4 min-h-screen">
             <div className="max-w-5xl mx-auto space-y-6">
                 <SettingsHeader/>
 
@@ -128,7 +128,7 @@ const PageWrapper =()=> {
                         initial={{opacity: 0, y: 20}}
                         animate={{opacity: 1, y: 0}}
                         transition={{duration: 0.5}}
-                        className="bg-white rounded-xl p-8 shadow-sm border border-coffee-100"
+                        className="bg-card rounded-xl p-8 shadow-sm border border-coffee-100"
                     >
                         <section className="mb-8">
                             <h2 className="text-xl font-semibold text-coffee-900 mb-6 flex items-center">
@@ -170,7 +170,7 @@ const PageWrapper =()=> {
                                     <Input
                                         type="text"
                                         id="display_name"
-                                        className="border-coffee-400 focus:border-coffee-600 "
+                                        className="border-coffee-400 focus:border-coffee-600 dark:border-coffee-200"
                                         value={formData.display_name}
                                         onChange={handleChange}
                                     />
@@ -183,7 +183,7 @@ const PageWrapper =()=> {
                                     <Input
                                         type="email"
                                         id="email"
-                                        className="border-coffee-400 focus:border-coffee-600"
+                                        className="border-coffee-400 focus:border-coffee-600 dark:border-coffee-200"
                                         value={formData.email}
                                         onChange={handleChange}
                                     />
@@ -196,7 +196,7 @@ const PageWrapper =()=> {
                                 <Label htmlFor="bio">Bio</Label>
                                 <Textarea
                                     id="bio"
-                                    className="border-coffee-400 focus:border-coffee-600 min-h-[150px] resize-none"
+                                    className="border-coffee-400 focus:border-coffee-600 min-h-[150px] resize-none dark:border-coffee-200"
                                     value={formData.bio}
                                     onChange={handleChange}
                                 />
@@ -248,7 +248,7 @@ const PageWrapper =()=> {
                             <Button
                                 onClick={handleSave}
                                 disabled={isSaving}
-                                className="bg-gradient-to-r from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 text-white px-8"
+                                className="bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-50/80 dark:to-coffee-50/50 hover:from-coffee-600 hover:to-coffee-800 text-white px-8"
                             >
                                 {isSaved ? (
                                     <>

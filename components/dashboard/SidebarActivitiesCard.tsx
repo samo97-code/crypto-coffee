@@ -56,10 +56,10 @@ const SidebarActivitiesCard = () => {
 
             {/* Card container with glass effect */}
             <div
-                className="relative backdrop-blur-sm bg-white/80 rounded-xl overflow-hidden border border-coffee-200 shadow-lg"
+                className="relative backdrop-blur-sm bg-card/80 rounded-xl overflow-hidden border border-coffee-200 dark:border-coffee-600/50 shadow-lg"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-coffee-100">
+                <div className="flex items-center justify-between p-4 border-b border-coffee-100 dark:border-coffee-300">
                     <div className="flex items-center space-x-2">
                         <motion.div
                             animate={{rotate: [0, 10, 0]}}
@@ -79,7 +79,7 @@ const SidebarActivitiesCard = () => {
                         <div
                             key={activity.id}
                             className={cn(
-                                "cursor-pointer relative overflow-hidden rounded-lg border border-coffee-100 transition-all duration-300 bg-white hover:bg-coffee-50",
+                                "cursor-pointer relative overflow-hidden rounded-lg border border-coffee-100 dark:border-coffee-300 transition-colors duration-300 bg-card hover:bg-coffee-50 dark:hover:bg-coffee-50/60",
                             )}
                         >
                             <div className="p-3">
@@ -104,7 +104,7 @@ const SidebarActivitiesCard = () => {
                         onClick={() => router.push("/daily-activities")}
                         whileHover={{scale: 1.02}}
                         whileTap={{scale: 0.98}}
-                        className="w-full flex items-center justify-center space-x-2 py-2.5 bg-white border border-coffee-200 text-coffee-800 rounded-lg text-sm font-medium hover:bg-coffee-50 transition-colors"
+                        className="w-full flex items-center justify-center space-x-2 py-2.5 bg-card border border-coffee-200 text-coffee-800 rounded-lg text-sm font-medium hover:bg-coffee-50 dark:hover:bg-coffee-50/60 transition-colors"
                     >
                         <span>View All Activities</span>
                         <motion.div
@@ -123,34 +123,6 @@ const SidebarActivitiesCard = () => {
             <div
                 className="absolute bottom-0 left-0 -ml-4 -mb-4 h-24 w-24 bg-purple-300 rounded-full blur-3xl opacity-20"></div>
         </div>
-        // <div className="bg-white shadow-sm border border-coffee-200 backdrop-blur-sm rounded-lg overflow-hidden">
-        //     <div className="p-4 border-b border-coffee-200">
-        //         <h3 className="font-semibold text-amber-900">Daily Activities</h3>
-        //     </div>
-        //     <div className="p-4 space-y-4">
-        //         {activities.map((activity) => (
-        //             <Link key={activity.title} href={activity.href}>
-        //                 <div className="flex items-center gap-3 hover:bg-coffee-100 p-2 rounded-md transition-colors">
-        //                     <div className={`${activity.bgColor} w-10 h-10 rounded-full flex items-center justify-center`}>
-        //                         <activity.icon className={`h-5 w-5 ${activity.color}`} />
-        //                     </div>
-        //                     <div>
-        //                         <div className="font-medium text-amber-950">{activity.title}</div>
-        //                         <div className="text-xs text-coffee-700">{activity.description}</div>
-        //                     </div>
-        //                 </div>
-        //             </Link>
-        //         ))}
-        //     </div>
-        //     <div className="p-4 pt-0">
-        //         <Link href="/daily-activities">
-        //             <Button variant="outline" className="w-full border-coffee-400 hover:bg-coffee-100 transition-all">
-        //                 <span className="text-coffee-800">View All Activities</span>
-        //                 <ArrowRight className="ml-2 h-4 w-4 text-coffee-800" />
-        //             </Button>
-        //         </Link>
-        //     </div>
-        // </div>
     )
 }
 

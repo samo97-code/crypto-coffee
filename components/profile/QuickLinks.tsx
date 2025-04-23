@@ -28,11 +28,11 @@ const QuickLinks = () => {
     }
 
     return (
-        <div className="bg-white rounded-xl p-6 shadow-md border border-coffee-200 relative overflow-hidden"
+        <div className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 relative overflow-hidden"
         >
             <div className="relative z-10">
                 <h3 className="font-bold text-coffee-900 mb-4 flex items-center text-lg">
-                    <div className="bg-coffee-100 p-2 rounded-full mr-3">
+                    <div className="bg-coffee-100 dark:bg-coffee-50/40 p-2 rounded-full mr-3">
                         <Link className="h-5 w-5 text-coffee-700"/>
                     </div>
                     Quick Links
@@ -46,11 +46,11 @@ const QuickLinks = () => {
                             animate={{x: 0, opacity: 1}}
                             transition={{delay: 0.3 + index * 0.1}}
                             className={`w-full flex items-center justify-between p-3 rounded-lg 
-                ${hoveredLink === link.id ? "bg-coffee-50" : "bg-white"} 
+                ${hoveredLink === link.id ? "bg-coffee-50" : "bg-card"} 
                 ${link.danger ? "text-destructive hover:text-destructive" : "text-coffee-700 hover:text-coffee-800"} 
                 border ${link.danger ? "border-destructive/20" : "border-coffee-200"}
-                hover:border-coffee-300
-                transition-all duration-200 shadow-sm relative overflow-hidden`}
+                hover:border-coffee-300 dark:hover:bg-coffee-50/60
+                transition-all duration-200 shadow-sm relative overflow-hidden dark:border-coffee-600/50`}
                             onMouseEnter={() => setHoveredLink(link.id)}
                             onMouseLeave={() => setHoveredLink(null)}
                             onClick={() => toLink(link.link)}
@@ -65,7 +65,7 @@ const QuickLinks = () => {
                             )}
                             <div className="flex items-center gap-3 relative z-10">
                                 <div
-                                    className={`p-2 rounded-full ${link.danger ? "bg-destructive/10" : "bg-coffee-100"}`}>
+                                    className={`p-2 rounded-full ${link.danger ? "bg-destructive/10" : "bg-coffee-100 dark:bg-coffee-300"}`}>
                                     <link.icon
                                         className={`h-4 w-4 ${link.danger ? "text-destructive" : "text-coffee-700"}`}/>
                                 </div>
@@ -80,7 +80,7 @@ const QuickLinks = () => {
             </div>
         </div>
 
-        // <div className="bg-white rounded-xl p-6 shadow-sm border border-coffee-200">
+        // <div className="bg-card rounded-xl p-6 shadow-sm border border-coffee-200">
         //     <h3 className="font-semibold text-coffee-900 mb-4">Quick Links</h3>
         //
         //     <nav className="space-y-1">

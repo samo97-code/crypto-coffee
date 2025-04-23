@@ -77,9 +77,9 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
 
     const getStatusColor = (status: string) => {
         const statusColors: Record<string, string> = {
-            "completed": "text-green-600",
-            "pending": "text-amber-600",
-            "failed": "text-red-600",
+            "completed": "text-green-600 dark:text-green-500",
+            "pending": "text-amber-600 dark:text-amber-500",
+            "failed": "text-red-600 dark:text-red-500",
         }
         return statusColors[status.toLowerCase()] || "text-gray-600"
     }
@@ -145,7 +145,7 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
             initial={{opacity: 0, y: 20}}
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.5, delay: 0.5}}
-            className="bg-white rounded-xl p-6 shadow-md border border-coffee-200 mt-8"
+            className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 mt-8"
         >
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-semibold text-coffee-900">Transaction History</h2>
@@ -174,7 +174,7 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
             <div className="overflow-x-auto hide-scrollbar">
                 <table className="w-full">
                     <thead>
-                    <tr className="border-b border-coffee-200">
+                    <tr className="border-b border-coffee-200 dark:border-coffee-600/50">
                         <th className="text-left py-3 px-4 text-coffee-700 text-sm font-medium">Network</th>
                         <th className="text-left py-3 px-4 text-coffee-700 text-sm font-medium">Type</th>
                         <th className="text-left py-3 px-4 text-coffee-700 text-sm font-medium">Amount</th>
@@ -197,7 +197,7 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
                                     initial={{opacity: 0, y: 10}}
                                     animate={{opacity: 1, y: 0}}
                                     transition={{delay: 0.6 + index * 0.1}}
-                                    className="border-b border-coffee-100 hover:bg-coffee-50 transition-colors"
+                                    className="border-b border-coffee-100 dark:border-coffee-200/30 hover:bg-coffee-50 dark:hover:bg-coffee-50/30 transition-colors"
                                 >
                                     <td className="py-3 px-4">
                                         <div className="flex items-center gap-1.5">

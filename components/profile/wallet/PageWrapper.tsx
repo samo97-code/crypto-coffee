@@ -55,7 +55,7 @@ const PageWrapper = () => {
     if (loading) return <CoffeeLoader/>
 
     return (
-        <div className="container mx-auto py-8 px-4 bg-coffee-50 min-h-screen">
+        <div className="container mx-auto py-8 px-4 min-h-screen">
             <div className="max-w-5xl mx-auto space-y-6">
                 <WalletHeader/>
 

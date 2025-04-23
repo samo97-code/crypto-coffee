@@ -47,18 +47,18 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
     }
 
     return (
-        <div className="bg-white rounded-xl p-6 shadow-md border border-coffee-200 relative overflow-hidden mt-8">
+        <div className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 relative overflow-hidden mt-8">
             {/* Coffee bean pattern background */}
 
             <div className="relative z-10">
                 <h3 className="font-bold text-coffee-900 mb-4 flex items-center text-lg">
-                    <div className="bg-coffee-100 p-2 rounded-full mr-3">
+                    <div className="bg-coffee-100 dark:bg-coffee-50/40 p-2 rounded-full mr-3">
                         <Clock className="h-5 w-5 text-coffee-700"/>
                     </div>
                     Activity Feed
                 </h3>
 
-                <div className="flex mb-4 border-b border-coffee-200">
+                <div className="flex mb-4 border-b border-coffee-200 dark:border-coffee-600/50">
                     <button
                         onClick={() => setActiveTab("activity")}
                         className={`px-4 py-2 font-medium text-sm relative ${
@@ -95,7 +95,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                                 initial={{x: 0, opacity: 0}}
                                 animate={{x: 0, opacity: 1}}
                                 transition={{delay: 0.2 + index * 0.1}}
-                                className={`bg-coffee-50 rounded-lg shadow-sm border border-coffee-200 
+                                className={`bg-coffee-50 dark:bg-coffee-50/40 rounded-lg shadow-sm border border-coffee-200 dark:border-coffee-600/50
                   hover:border-coffee-300 transition-all duration-300 overflow-hidden
                   ${expandedActivity === activity.id ? "scale-[1.02]" : ""}`}
                             >
@@ -103,7 +103,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                                     <div className="flex items-start gap-2 cursor-pointer"
                                          onClick={() => setExpandedActivity(expandedActivity === activity.id ? null : activity.id)}>
                                         <div
-                                            className={`w-10 h-10 rounded-full ${activity.icon_bg} flex items-center justify-center shrink-0`}
+                                            className={`w-10 h-10 rounded-full ${activity.icon_bg} bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-100/60 dark:to-coffee-50/20 flex items-center justify-center shrink-0`}
                                         >
                                             <IconComponent className={`h-5 w-5 ${activity.icon_color}`}/>
                                         </div>
@@ -120,10 +120,10 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
 
                                     {expandedActivity === activity.id && (
                                         <div
-                                            className="mt-3 pt-3 border-t border-coffee-200"
+                                            className="mt-3 pt-3 border-t border-coffee-200 dark:border-coffee-600/50"
                                         >
                                             <div className="grid grid-cols-2 gap-2 text-xs">
-                                                <div className="bg-white p-2 rounded border border-coffee-200">
+                                                <div className="bg-card p-2 rounded border border-coffee-200 dark:border-coffee-600/50">
                                                     <div className="text-coffee-600 mb-1">Network</div>
 
                                                     <div className="flex items-center gap-1">
@@ -136,7 +136,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                                                             className="font-medium text-coffee-800">{activity.project_name}</div>
                                                     </div>
                                                 </div>
-                                                <div className="bg-white p-2 rounded border border-coffee-200">
+                                                <div className="bg-card p-2 rounded border border-coffee-200 dark:border-coffee-600/50">
                                                     <div className="text-coffee-600 mb-1">Amount</div>
                                                     <div
                                                         className="font-medium text-coffee-800">{activity.amount} {activity.chain_key}
@@ -144,7 +144,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                                                 </div>
                                                 <div
                                                     onClick={() => toLink(activity?.explorer_url)}
-                                                    className="cursor-pointer col-span-2 bg-white p-2 rounded border border-coffee-200 flex justify-between items-center">
+                                                    className="cursor-pointer col-span-2 bg-card p-2 rounded border border-coffee-200 dark:border-coffee-600/50 flex justify-between items-center">
                                                     <div>
                                                         <div className="text-coffee-600 mb-1">Transaction</div>
                                                         <div
@@ -161,7 +161,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
 
                                 {expandedActivity !== activity.id && (
                                     <div
-                                        className="h-1 w-full bg-gradient-to-r from-coffee-200 via-coffee-400 to-coffee-200 opacity-50 animate-gradient-shift"></div>
+                                        className="h-1 w-full bg-gradient-to-r from-coffee-200 via-coffee-400 to-coffee-200 dark:border-coffee-600/50 opacity-50 animate-gradient-shift"></div>
                                 )}
                             </motion.div>
                         })}
@@ -172,7 +172,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                                     onClick={() => router.push("/profile/wallet")}
                                     whileHover={{scale: 1.02}}
                                     whileTap={{scale: 0.98}}
-                                    className="flex items-center justify-center space-x-2 px-6 py-2.5 bg-white border border-coffee-200 text-coffee-800 rounded-lg text-sm font-medium hover:bg-coffee-50 transition-colors"
+                                    className="flex items-center justify-center space-x-2 px-6 py-2.5 bg-card border border-coffee-200 dark:border-coffee-600/50 text-coffee-800 rounded-lg text-sm font-medium hover:bg-coffee-50 dark:hover:bg-coffee-50/60 transition-colors"
                                 >
                                     <span>View All Activities</span>
                                     <motion.div
@@ -190,7 +190,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                         }
                     </div>
                 ) : (
-                    <div className="bg-coffee-50 p-3 rounded-lg shadow-sm text-center">
+                    <div className="bg-coffee-50 dark:bg-coffee-50/60 p-3 rounded-lg shadow-sm text-center">
                         <h4 className="text-coffee-900 font-medium text-2xl">Achievements</h4>
                         <p className="text-coffee-700 text-sm mt-1">Keep buying coffee to unlock special
                             achievements!</p>
@@ -202,13 +202,13 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
 
                                     return <div
                                         key={index}
-                                        className={`border rounded-lg p-4 bg-white ${
-                                            isUnlocked ? "border-coffee-200" : "border-gray-200 opacity-60"
+                                        className={`border rounded-lg p-4 bg-card ${
+                                            isUnlocked ? "border-coffee-200 dark:border-coffee-600/50" : "border-gray-200 opacity-60"
                                         }`}
                                     >
                                         <div className="flex items-start gap-3">
                                             <div
-                                                className={`w-12 h-12 rounded-full ${
+                                                className={`min-w-12 min-h-12 rounded-full ${
                                                     isUnlocked ? achievement.achievement.icon_bg : "bg-gray-100"
                                                 } flex items-center justify-center`}
                                             >
@@ -219,7 +219,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
 
                                             <div>
                                                 <h4 className="font-medium text-coffee-900 text-left">{achievement.achievement.name}</h4>
-                                                <p className="text-sm text-coffee-700 mt-1">{achievement.achievement.description}</p>
+                                                <p className="text-sm text-coffee-700 mt-1 text-left">{achievement.achievement.description}</p>
 
                                                 {isUnlocked ? (
                                                     <div
@@ -259,7 +259,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                                     onClick={() => router.push("/profile/achievements")}
                                     whileHover={{scale: 1.02}}
                                     whileTap={{scale: 0.98}}
-                                    className="flex items-center justify-center space-x-2 px-6 py-2.5 bg-white border border-coffee-200 text-coffee-800 rounded-lg text-sm font-medium hover:bg-coffee-50 transition-colors"
+                                    className="flex items-center justify-center space-x-2 px-6 py-2.5 bg-card border border-coffee-200 dark:border-coffee-600/50 text-coffee-800 rounded-lg text-sm font-medium hover:bg-coffee-50 dark:hover:bg-coffee-50/60 transition-colors"
                                 >
                                     <span>View All Achievements</span>
                                     <motion.div

@@ -5,6 +5,7 @@ import {IProject} from "@/types";
 const initialState = {
     searchedProject: '',
     projects: [],
+    pageTheme: 'light',
 };
 
 const projectSlice = createSlice({
@@ -19,8 +20,11 @@ const projectSlice = createSlice({
         setSearchedProject: (state, action: PayloadAction<string>) => {
             state.searchedProject = action.payload;
         },
+        setPageTheme: (state, action: PayloadAction<string>) => {
+            state.pageTheme = action.payload;
+        },
     },
 });
 
-export const {setProjects, setSearchedProject} = projectSlice.actions;
+export const {setProjects, setSearchedProject, setPageTheme} = projectSlice.actions;
 export default projectSlice.reducer;

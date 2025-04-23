@@ -14,7 +14,7 @@ interface IProps {
 
 const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
     return (
-        <div className="bg-white rounded-xl p-6 shadow-md border border-coffee-200 relative overflow-hidden"
+        <div className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 relative overflow-hidden"
         >
             {/* Coffee cup background pattern */}
             <div className="absolute inset-0 opacity-[0.03] overflow-hidden">
@@ -34,7 +34,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
 
             <div className="relative z-10">
                 <h3 className="font-bold text-coffee-900 mb-4 flex items-center text-lg">
-                    <div className="bg-coffee-100 p-2 rounded-full mr-3">
+                    <div className="bg-coffee-100 dark:bg-coffee-50/40 p-2 rounded-full mr-3">
                         <Coffee className="h-5 w-5 text-coffee-700"/>
                     </div>
                     Coffee Stats
@@ -45,7 +45,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                         initial={{x: -20, opacity: 0}}
                         animate={{x: 0, opacity: 1}}
                         transition={{delay: 0.1}}
-                        className="flex justify-between items-center p-3 bg-coffee-50 rounded-lg shadow-sm border border-coffee-200"
+                        className="flex justify-between items-center p-3 bg-coffee-50 dark:bg-coffee-50/40 rounded-lg shadow-sm border border-coffee-200 dark:border-coffee-600/50"
                     >
                         <div className="text-coffee-800 flex items-center">
                             <Coffee className="h-4 w-4 mr-2 text-coffee-700"/>
@@ -58,7 +58,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                         initial={{x: -20, opacity: 0}}
                         animate={{x: 0, opacity: 1}}
                         transition={{delay: 0.2}}
-                        className="flex justify-between items-center p-3 bg-coffee-50 rounded-lg shadow-sm border border-coffee-200"
+                        className="flex justify-between items-center p-3 bg-coffee-50 dark:bg-coffee-50/40 rounded-lg shadow-sm border border-coffee-200 dark:border-coffee-600/50"
                     >
                         <div className="text-coffee-800 flex items-center">
                             <Flame className="h-4 w-4 mr-2 text-coffee-700"/>
@@ -71,7 +71,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                         initial={{x: -20, opacity: 0}}
                         animate={{x: 0, opacity: 1}}
                         transition={{delay: 0.3}}
-                        className="flex justify-between items-center p-3 bg-coffee-50 rounded-lg shadow-sm border border-coffee-200"
+                        className="flex justify-between items-center p-3 bg-coffee-50 dark:bg-coffee-50/40 rounded-lg shadow-sm border border-coffee-200 dark:border-coffee-600/50"
                     >
                         <div className="text-coffee-800 flex items-center">
                             <Trophy className="h-4 w-4 mr-2 text-coffee-700"/>
@@ -85,11 +85,11 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                     initial={{y: 20, opacity: 0}}
                     animate={{y: 0, opacity: 1}}
                     transition={{delay: 0.4}}
-                    className="mt-6 pt-4 border-t border-coffee-200"
+                    className="mt-6 pt-4 border-t border-coffee-200 dark:border-coffee-600/50"
                 >
                     <div className="flex items-center justify-between mb-2">
                         <div className="text-coffee-800 font-medium">Level</div>
-                        <Badge className="bg-coffee-700 text-white border-none px-3 py-1">Level {level}</Badge>
+                        <Badge className="bg-coffee-700 dark:bg-coffee-50/40 text-white border-none px-3 py-1">Level {level}</Badge>
                     </div>
                     <div className="mt-2">
                         <div className="flex justify-between text-xs mb-1">
@@ -97,7 +97,7 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                             <span className="text-coffee-600 font-medium">{stats.levelProgress}%</span>
                         </div>
                         <div className="relative pt-1">
-                            <div className="overflow-hidden h-3 text-xs flex rounded-full bg-coffee-100">
+                            <div className="overflow-hidden h-2.5 text-xs flex rounded-full bg-coffee-100 dark:bg-coffee-50/40">
                                 <div
                                     style={{width: `${stats.levelProgress}%`}}
                                     className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-coffee-700 rounded-full"

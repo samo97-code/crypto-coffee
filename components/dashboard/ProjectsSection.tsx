@@ -79,7 +79,7 @@ const ProjectSection: FC<IProps> = ({projects}) => {
                     </div>
 
                     <div
-                        className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-amber-50 to-transparent pointer-events-none"/>
+                        className="absolute right-0 top-0 bottom-0 w-8 pointer-events-none"/>
                 </div>
             </div>
 

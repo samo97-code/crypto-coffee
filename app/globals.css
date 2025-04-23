@@ -6,108 +6,104 @@
 
 @layer base {
   :root {
-    /* Coffee theme - Light Mode */
-    --coffee-50: #fdf8f3;
-    --coffee-100: #fdf1e7;
-    --coffee-200: #e6d5c7;
-    --coffee-300: #d4b8a5;
-    --coffee-400: #c4a99a;
-    --coffee-500: #b87e5f;
-    --coffee-600: #a27d6d;
-    --coffee-700: #8b4513;
-    --coffee-800: #6f4e37;
-    --coffee-900: #3a2820;
+    /* Coffee theme - Light Mode (HSL) */
+    --coffee-50: 30 76% 97%;
+    --coffee-100: 28 78% 94%;
+    --coffee-200: 28 52% 85%;
+    --coffee-300: 28 39% 75%;
+    --coffee-400: 22 27% 68%;
+    --coffee-500: 20 41% 55%;
+    --coffee-600: 20 21% 53%;
+    --coffee-700: 25 71% 29%;
+    --coffee-800: 20 29% 33%;
+    --coffee-900: 18 30% 16%;
 
-    /* UI Colors - Light Mode */
-    --background: #fdf8f3;
-    --foreground: #3a2820;
+    /* UI Colors - Light Mode (HSL) */
+    --foreground: 20 30% 17%;    /* #3a2820 */
+    --background: 30 77% 97%;    /* #fdf8f3 */
 
-    --card: #ffffff;
-    --card-foreground: #3a2820;
+    --card: 0 0% 100%;           /* #ffffff */
+    --card-foreground: 20 30% 17%; /* #3a2820 */
 
-    --popover: #ffffff;
-    --popover-foreground: #3a2820;
+    --popover: 0 0% 100%;        /* #ffffff */
+    --popover-foreground: 20 30% 17%;
 
-    --primary: #8b4513;
-    --primary-foreground: #ffffff;
+    --primary: 25 76% 29%;       /* #8b4513 */
+    --primary-foreground: 0 0% 100%; /* #ffffff */
 
-    --secondary: #fdf1e7;
-    --secondary-foreground: #6f4e37;
+    --secondary: 28 78% 94%;     /* #fdf1e7 */
+    --secondary-foreground: 20 29% 33%; /* #6f4e37 */
 
-    --muted: #e6d5c7;
-    --muted-foreground: #a27d6d;
+    --muted: 28 52% 85%;         /* #e6d5c7 */
+    --muted-foreground: 28 39% 75%; /* #a27d6d */
 
-    --accent: #fdf1e7;
-    --accent-foreground: #8b4513;
+    --accent: 28 78% 94%;        /* #fdf1e7 */
+    --accent-foreground: 25 76% 29%; /* #8b4513 */
 
-    --destructive: #ef4444;
-    --destructive-foreground: #ffffff;
+    --destructive: 0 84% 60%;    /* #ef4444 */
+    --destructive-foreground: 0 0% 100%; /* #ffffff */
 
-    --border: #e6d5c7;
-    --input: #e6d5c7;
-    --ring: #8b4513;
+    --border: 28 52% 85%;        /* #e6d5c7 */
+    --input: 28 52% 85%;         /* #e6d5c7 */
+    --ring: 25 76% 29%;          /* #8b4513 */
 
     --radius: 0.5rem;
 
-    /* Success/Error Colors */
-    --success: #16a34a;
-    --error: #ef4444;
+    /* Success/Error Colors (HSL) */
+    --success: 142 71% 45%;      /* #16a34a */
+    --error: 0 84% 60%;          /* #ef4444 */
   }
 
   .dark {
     /* Coffee theme - Dark Mode */
-    --coffee-50: #1a0f06;
-    --coffee-100: #241610;
-    --coffee-200: #2c1b0e;
-    --coffee-300: #3a2820;
-    --coffee-400: #493429;
-    --coffee-500: #6f4e37;
-    --coffee-600: #805240;
-    --coffee-700: #a27d6d;
-    --coffee-800: #c4a99a;
-    --coffee-900: #e6d5c7;
+    --coffee-50: 18 30% 16%;
+    --coffee-100: 20 29% 33%;
+    --coffee-200: 28 52% 85%;
+    --coffee-300: 20 21% 53%;
+    --coffee-400: 20 41% 55%;
+    --coffee-500: 22 27% 68%;
+    --coffee-600: 28 39% 75%;
+    --coffee-700: 28 52% 85%;
+    --coffee-800: 28 78% 94%;
+    --coffee-900: 30 76% 97%;
 
     /* UI Colors - Dark Mode */
-    --background: #1a0f06;
-    --foreground: #e6d5c7;
+    --foreground: 30 77% 97%;    /* ✅ fixed commas */
+    --background: 18, 30%, 22%;    /* ✅ fixed commas */
 
-    --card: #241610;
-    --card-foreground: #e6d5c7;
+    --card: 20 29% 33%;
+    --card-foreground: 30 76% 97%;
 
-    --popover: #241610;
-    --popover-foreground: #e6d5c7;
+    --popover: 20 29% 33%;
+    --popover-foreground: 30 76% 97%;
 
-    --primary: #c4a99a;
-    --primary-foreground: #3a2820;
+    --primary: 28 78% 94%;
+    --primary-foreground: 30 21% 13%;
 
-    --secondary: #2c1b0e;
-    --secondary-foreground: #c4a99a;
+    --secondary: 25 71% 29%;
+    --secondary-foreground: 28 78% 94%;
 
-    --muted: #3a2820;
-    --muted-foreground: #a27d6d;
+    --muted: 30 21% 13%;
+    --muted-foreground: 28 52% 85%;
 
-    --accent: #3a2820;
-    --accent-foreground: #c4a99a;
+    --accent: 30 21% 13%;
+    --accent-foreground: 28 78% 94%;
 
-    --destructive: #ef4444;
-    --destructive-foreground: #ffffff;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: #3a2820;
-    --input: #3a2820;
-    --ring: #c4a99a;
+    --border: 30 21% 13%;
+    --input: 30 21% 13%;
+    --ring: 28 78% 94%;
 
-    /* Success/Error Colors */
-    --success: #22c55e;
-    --error: #ef4444;
+    --success: 142 71% 45%;
+    --error: 0 84% 60%;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
   button,
   [role='button'] {
@@ -122,27 +118,33 @@
   /*transition-duration: 300ms;*/
 }
 
-:root {
-  --sidebar: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+html{
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dark {
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
-}
+/*:root {*/
+/*  --sidebar: hsl(0 0% 98%);*/
+/*  --sidebar-foreground: hsl(240 5.3% 26.1%);*/
+/*  --sidebar-primary: hsl(240 5.9% 10%);*/
+/*  --sidebar-primary-foreground: hsl(0 0% 98%);*/
+/*  --sidebar-accent: hsl(240 4.8% 95.9%);*/
+/*  --sidebar-accent-foreground: hsl(240 5.9% 10%);*/
+/*  --sidebar-border: hsl(220 13% 91%);*/
+/*  --sidebar-ring: hsl(217.2 91.2% 59.8%);*/
+/*}*/
+
+/*.dark {*/
+/*  --coffee-50: #1a0f06;*/
+/*  --coffee-100: #241610;*/
+/*  --coffee-200: #2c1b0e;*/
+/*  --coffee-300: #3a2820;*/
+/*  --coffee-400: #493429;*/
+/*  --coffee-500: #6f4e37;*/
+/*  --coffee-600: #805240;*/
+/*  --coffee-700: #a27d6d;*/
+/*  --coffee-800: #c4a99a;*/
+/*  --coffee-900: #e6d5c7;*/
+/*}*/
 
 @theme inline {
   --color-sidebar: var(--sidebar);
@@ -159,15 +161,16 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-[role="dialog"] {
-  background-color: white;
-  border-color: #E6D5C7;
-}
+/*[role="dialog"] {*/
+/*  background-color: white;*/
+/*  border-color: #E6D5C7;*/
+/*}*/
 
 
 /* Additional utility classes */

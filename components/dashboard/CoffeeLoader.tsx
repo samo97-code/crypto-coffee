@@ -48,7 +48,7 @@ const CoffeeLoader = () => {
 
     return (
         <div
-            className="inset-0 h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-coffee-900/90 via-coffee-800/90 to-coffee-900/90 z-50">
+            className="inset-0 h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-coffee-900/90 via-coffee-800/90 to-coffee-900/90 dark:from-coffee-50/90 dark:via-coffee-100/90 dark:to-coffee-200/90 z-50">
             <div className="relative w-full max-w-md aspect-square">
                 {/* Background particles */}
                 <div className="absolute inset-0">
@@ -210,7 +210,7 @@ const CoffeeLoader = () => {
                             animate={{opacity: 1, y: 0}}
                             exit={{opacity: 0, y: -10}}
                             transition={{duration: 0.3}}
-                            className="text-coffee-100 text-lg font-medium mb-3"
+                            className="text-coffee-100 dark:text-coffee-700 text-lg font-medium mb-3"
                         >
                             {loadingMessage}
                         </motion.div>
@@ -236,7 +236,7 @@ const CoffeeLoader = () => {
                 <AnimatePresence>
                     {isComplete && (
                         <motion.div
-                            className="absolute inset-0 flex items-center justify-center bg-coffee-900/80 backdrop-blur-sm"
+                            className="absolute inset-0 flex items-center justify-center bg-coffee-900/80 dark:bg-coffee-50/80 backdrop-blur-sm"
                             initial={{opacity: 0}}
                             animate={{opacity: 1}}
                             exit={{opacity: 0}}
@@ -262,7 +262,7 @@ const CoffeeLoader = () => {
                                     <Coffee className="w-10 h-10 text-white"/>
                                 </motion.div>
                                 <motion.h2
-                                    className="text-2xl font-bold text-coffee-100 mb-2"
+                                    className="text-2xl font-bold text-coffee-100 dark:text-coffee-700 mb-2"
                                     initial={{opacity: 0, y: 10}}
                                     animate={{opacity: 1, y: 0}}
                                     transition={{delay: 0.4}}

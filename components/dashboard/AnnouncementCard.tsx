@@ -89,10 +89,10 @@ const AnnouncementCard = () => {
         <div className="relative" ref={notificationRef}>
             <button
                 onClick={handleNotificationClick}
-                className="relative p-2 rounded-full bg-gradient-to-r from-coffee-100 to-coffee-200 hover:from-coffee-200 hover:to-coffee-300 shadow-md transition-all duration-300 group"
+                className="relative p-2 rounded-full bg-gradient-to-r from-coffee-100 to-coffee-200 dark:from-coffee-500 dark:to-coffee-700 hover:from-coffee-200 hover:to-coffee-300 dark:hover:from-coffee-600 dark:hover:to-coffee-700 shadow-md transition-colors duration-300 group"
                 style={{animation: showNotifications ? "none" : unreadCount > 0 ? "bellRing 2s infinite" : "none"}}
             >
-                <Bell className="h-5 w-5 text-coffee-700 group-hover:text-coffee-800 transition-colors"/>
+                <Bell className="h-5 w-5 text-coffee-700 dark:text-coffee-100 group-hover:text-coffee-800 transition-colors"/>
 
                 {unreadCount > 0 && (
                     <span
@@ -101,30 +101,15 @@ const AnnouncementCard = () => {
                 </span>
                 )}
 
-                {/* Coffee steam animation when hovering */}
-                <div
-                    className="absolute -top-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {[...Array(3)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute h-3 w-1.5 bg-amber-300/40 rounded-full blur-sm"
-                            style={{
-                                left: `${i * 3 - 3}px`,
-                                animation: `float ${1 + i * 0.3}s ease-in-out infinite`,
-                                animationDelay: `${i * 0.1}s`,
-                            }}
-                        ></div>
-                    ))}
-                </div>
             </button>
 
             {/* Notification Dropdown */}
             {showNotifications && (
                 <div
-                    className="absolute right-0 mt-2 w-80 rounded-lg bg-white shadow-xl border border-coffee-200 overflow-hidden z-50"
+                    className="absolute right-0 mt-2 w-80 rounded-lg bg-card shadow-xl border border-coffee-200 overflow-hidden z-50"
                     style={{animation: "dropIn 0.3s ease-out forwards"}}
                 >
-                    <div className="bg-gradient-to-r from-coffee-50 to-orange-50 px-4 py-3 border-b border-coffee-200">
+                    <div className="bg-gradient-to-r from-coffee-50 to-orange-50 dark:from-coffee-50 dark:to-coffee-100 px-4 py-3 border-b border-coffee-200">
                         <h3 className="font-semibold text-coffee-900">Announcements</h3>
                     </div>
 
@@ -132,7 +117,7 @@ const AnnouncementCard = () => {
                         {announcements.map((announcement) => (
                             <div
                                 key={announcement.id}
-                                className={`px-4 py-3 border-b border-coffee-100 hover:bg-coffee-50/50 transition-colors ${
+                                className={`px-4 py-3 border-b border-coffee-100 dark:border-coffee-800 hover:bg-coffee-50/50 transition-colors ${
                                     announcement.isNew ? "bg-amber-50/30" : ""
                                 }`}
                                 style={{
@@ -142,7 +127,7 @@ const AnnouncementCard = () => {
                                 <div className="flex items-start">
                                     <div
                                         className={`flex-shrink-0 mr-3 mt-0.5 rounded-full p-1.5 ${
-                                            announcement.isNew ? "bg-amber-100" : "bg-gray-100"
+                                            announcement.isNew ? "bg-amber-100" : "bg-gray-100 dark:bg-coffee-400"
                                         }`}
                                     >
                                         {getIconComponent(announcement.icon)}

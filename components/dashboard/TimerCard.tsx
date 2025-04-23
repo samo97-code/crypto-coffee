@@ -16,7 +16,7 @@ const timers = [
 
 export function TimerCard() {
   return (
-    <Card className="bg-white border-coffee-200">
+    <Card className="bg-card border-coffee-200">
       <CardHeader className="flex flex-row items-center gap-2">
         <Timer className="h-5 w-5" />
         <h3 className="font-semibold">Next Support Timers</h3>

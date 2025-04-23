@@ -54,7 +54,7 @@ export function DailyActivitiesSection() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {activities.map((activity) => (
           <Link key={activity.title} href="/daily-activities" className="block">
-            <div className="bg-white border border-coffee-200 rounded-lg p-4 text-center hover:border-coffee-300 hover:shadow-sm transition-all">
+            <div className="bg-card border border-coffee-200 rounded-lg p-4 text-center hover:border-coffee-300 hover:shadow-sm transition-all">
               <div
                 className={`${activity.bgColor} w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3`}
               >

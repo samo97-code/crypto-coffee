@@ -22,14 +22,14 @@ export default function FAQPage() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-coffee-700"/>
                     <Input
                         placeholder="Search for answers..."
-                        className="pl-10 py-6 border-amber-200 focus:border-amber-500 bg-white"
+                        className="pl-10 py-6 border-amber-200 focus:border-amber-500 bg-card"
                     />
                 </div>
             </div>
 
             {/* FAQ Categories */}
             <Tabs defaultValue="general" className="mb-12">
-                <TabsList className="bg-white border border-amber-200 p-1 mb-8">
+                <TabsList className="bg-card border border-amber-200 p-1 mb-8">
                     <TabsTrigger value="general">General</TabsTrigger>
                     <TabsTrigger value="wallet">Wallet & Payments</TabsTrigger>
                     <TabsTrigger value="projects">Projects</TabsTrigger>
@@ -39,7 +39,7 @@ export default function FAQPage() {
 
                 <TabsContent value="general">
                     <div className="grid grid-cols-1 gap-4">
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">What is Crypto Coffee?</h3>
                             <p className="text-coffee-700">
                                 Crypto Coffee is a platform that allows users to support blockchain projects through
@@ -50,7 +50,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">How does Crypto Coffee work?</h3>
                             <p className="text-coffee-700">
                                 Users connect their cryptocurrency wallets to the platform, browse through listed
@@ -63,7 +63,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">Is Crypto Coffee free to use?</h3>
                             <p className="text-coffee-700">
                                 Creating an account and browsing projects on Crypto Coffee is completely free. When you
@@ -75,7 +75,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">
                                 How is Crypto Coffee different from other funding platforms?
                             </h3>
@@ -90,7 +90,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">Who can use Crypto Coffee?</h3>
                             <p className="text-coffee-700">
                                 Anyone with a compatible cryptocurrency wallet can use Crypto Coffee to support
@@ -107,7 +107,7 @@ export default function FAQPage() {
 
                 <TabsContent value="wallet">
                     <div className="grid grid-cols-1 gap-4">
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">Which wallets are supported?</h3>
                             <p className="text-coffee-700">
                                 Crypto Coffee supports most major Ethereum-compatible wallets, including MetaMask,
@@ -118,7 +118,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">How much does a &#34;coffee&#34;
                                 cost?</h3>
                             <p className="text-coffee-700">
@@ -129,7 +129,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">
                                 What cryptocurrencies can I use to support projects?
                             </h3>
@@ -141,7 +141,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">How are gas fees handled?</h3>
                             <p className="text-coffee-700">
                                 Gas fees are paid by the user making the transaction. We recommend using Layer 2
@@ -152,7 +152,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">Is my wallet information
                                 secure?</h3>
                             <p className="text-coffee-700">
@@ -168,7 +168,7 @@ export default function FAQPage() {
                 <TabsContent value="projects">
                     {/* Project-related FAQs would go here */}
                     <div className="grid grid-cols-1 gap-4">
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">How do projects receive the
                                 funds?</h3>
                             <p className="text-coffee-700">
@@ -178,7 +178,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">
                                 How do I list my project on Crypto Coffee?
                             </h3>
@@ -191,7 +191,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">What types of projects are
                                 eligible?</h3>
                             <p className="text-coffee-700">
@@ -205,7 +205,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">Can I support multiple
                                 projects?</h3>
                             <p className="text-coffee-700">
@@ -216,7 +216,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">
                                 How can projects engage with their supporters?
                             </h3>
@@ -234,7 +234,7 @@ export default function FAQPage() {
                 <TabsContent value="activities">
                     {/* Daily activities FAQs would go here */}
                     <div className="grid grid-cols-1 gap-4">
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">What are daily activities?</h3>
                             <p className="text-coffee-700">
                                 Daily activities are fun, interactive features on Crypto Coffee that users can
@@ -245,7 +245,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">How does the Gas Fee Lottery
                                 work?</h3>
                             <p className="text-coffee-700">
@@ -258,7 +258,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">
                                 What rewards can I earn from daily activities?
                             </h3>
@@ -271,7 +271,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">
                                 Do I have to participate in daily activities?
                             </h3>
@@ -284,7 +284,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">How do I care for my Crypto
                                 Pet?</h3>
                             <p className="text-coffee-700">
@@ -301,7 +301,7 @@ export default function FAQPage() {
                 <TabsContent value="technical">
                     {/* Technical FAQs would go here */}
                     <div className="grid grid-cols-1 gap-4">
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">Which blockchain networks are
                                 supported?</h3>
                             <p className="text-coffee-700">
@@ -313,7 +313,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">Is Crypto Coffee open source?</h3>
                             <p className="text-coffee-700">
                                 Yes, parts of the Crypto Coffee platform are open source. You can find our repositories
@@ -324,7 +324,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">Does Crypto Coffee have an
                                 API?</h3>
                             <p className="text-coffee-700">
@@ -336,7 +336,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">How are transactions
                                 verified?</h3>
                             <p className="text-coffee-700">
@@ -348,7 +348,7 @@ export default function FAQPage() {
                             </p>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 shadow-sm border border-amber-100">
+                        <div className="bg-card rounded-xl p-6 shadow-sm border border-amber-100">
                             <h3 className="text-lg font-semibold text-amber-900 mb-2">What happens if a transaction
                                 fails?</h3>
                             <p className="text-coffee-700">
@@ -366,7 +366,7 @@ export default function FAQPage() {
             </Tabs>
 
             {/* Still Have Questions */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-amber-100 text-center">
+            <div className="bg-card rounded-xl p-8 shadow-sm border border-amber-100 text-center">
                 <h2 className="text-2xl font-semibold text-amber-900 mb-4">Still Have Questions?</h2>
                 <p className="text-coffee-700 max-w-2xl mx-auto mb-6">
                     If you couldn&#39;t find the answer you were looking for, our support team is here to help. Reach out to

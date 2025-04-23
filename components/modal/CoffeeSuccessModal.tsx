@@ -74,38 +74,38 @@ const CoffeeSuccessModal: FC<IProps> = ({isOpen, onClose, projectName, amount, t
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md shadow-lg border dark:border-coffee-700 bg-white dark:bg-coffee-100">
                 <DialogHeader>
-                    <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                    <div className="mx-auto w-16 h-16 bg-green-100 dark:border-green-500 rounded-full flex items-center justify-center mb-2">
                         <Check className="h-8 w-8 text-green-600"/>
                     </div>
-                    <DialogTitle className="text-center text-xl">Successful!</DialogTitle>
-                    <DialogDescription className="text-center">
-                        Thank you for supporting {projectName} with your daily coffee!
+                    <DialogTitle className="text-center text-xl dark:text-coffee-800">Successful!</DialogTitle>
+                    <DialogDescription className="text-center dark:text-coffee-900">
+                        Thank you for buying coffee on {projectName}!
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="p-6 bg-coffee-100/50 rounded-lg border border-coffee-200 mb-4">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
-                            <Coffee className="h-5 w-5 text-amber-900"/>
-                            <span className="font-medium text-amber-900">Coffee Bought</span>
+                            <Coffee className="h-5 w-5 text-amber-900 dark:text-coffee-800"/>
+                            <span className="font-medium text-amber-900 dark:text-coffee-800">Coffee Bought</span>
                         </div>
                         <Badge className="bg-green-100 text-green-800 border-none">Completed</Badge>
                     </div>
 
                     <div className="space-y-3">
                         <div className="flex justify-between">
-                            <span className="text-coffee-700">Amount:</span>
-                            <span className="font-medium text-amber-900">{amount}</span>
+                            <span className="text-coffee-700 dark:text-coffee-800">Amount:</span>
+                            <span className="font-medium text-amber-900 dark:text-coffee-900">{amount}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-coffee-700">Project:</span>
-                            <span className="font-medium text-amber-900">{projectName}</span>
+                            <span className="text-coffee-700 dark:text-coffee-800">Project:</span>
+                            <span className="font-medium text-amber-900 dark:text-coffee-900">{projectName}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-coffee-700">Time:</span>
-                            <span className="font-medium text-amber-900">{new Date().toLocaleString()}</span>
+                            <span className="text-coffee-700 dark:text-coffee-800">Time:</span>
+                            <span className="font-medium text-amber-900 dark:text-coffee-900">{new Date().toLocaleString()}</span>
                         </div>
                     </div>
                 </div>
@@ -115,12 +115,12 @@ const CoffeeSuccessModal: FC<IProps> = ({isOpen, onClose, projectName, amount, t
                         <div className="p-2 bg-coffee-100 rounded-full">
                             <Sparkles className="h-4 w-4 text-coffee-700"/>
                         </div>
-                        <span className="text-amber-900 font-medium">Transaction Details</span>
+                        <span className="text-amber-900 font-medium dark:text-coffee-800">Transaction Details</span>
                     </div>
 
                     <div
-                        className="flex items-center justify-between p-3 bg-gray-100 rounded-md border border-coffee-300">
-                        <div className="text-sm text-gray-600 truncate">{shortenTxHash(txHash)}</div>
+                        className="flex items-center justify-between bg-coffee-50 dark:bg-coffee-50/60 p-2 rounded-lg">
+                        <div className="text-sm truncate font-mono text-coffee-800">{shortenTxHash(txHash)}</div>
                         <div className="flex gap-2">
                             <Button variant="ghost" size="sm" className="h-8 px-2" onClick={copyToClipboard}>
                                 {isCopied ? <Check className="h-4 w-4 text-green-600"/> :
@@ -132,8 +132,7 @@ const CoffeeSuccessModal: FC<IProps> = ({isOpen, onClose, projectName, amount, t
 
                 <DialogFooter className="flex justify-center gap-2">
                     <Button
-                        variant="outline"
-                        className="flex-1 w-full border-coffee-200 hover:bg-coffee-200"
+                        className="mt-4 w-full flex items-center justify-center space-x-2 py-2 bg-gradient-to-r from-coffee-600 to-coffee-700 dark:from-coffee-50/50 dark:to-coffee-50/30 text-white rounded-lg text-sm font-medium"
                         onClick={() => window.open(explorerUrl, "_blank")}
                     >
                         <ExternalLink className="mr-2 h-4 w-4"/>

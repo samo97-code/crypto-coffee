@@ -43,7 +43,7 @@ const Wrapper: FC<IProps> = ({streak, stats, achievements, badges, activities}) 
     }, []);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 pb-8">
             {/*/!* Profile Header *!/*/}
             <div className="relative mb-8">
                 {/* Cover Image */}
@@ -80,7 +80,7 @@ const Wrapper: FC<IProps> = ({streak, stats, achievements, badges, activities}) 
 
                             <div className="flex gap-2">
                                 <Button onClick={() => router.push('/profile/settings')}
-                                        className="bg-gradient-to-r from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 text-white">
+                                        className="bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-100/80 dark:to-coffee-100/50 hover:from-coffee-600 hover:to-coffee-800 text-white">
                                     <Edit className="h-4 w-4 mr-2"/>
                                     Edit Profile
                                 </Button>
@@ -112,23 +112,6 @@ const Wrapper: FC<IProps> = ({streak, stats, achievements, badges, activities}) 
                         activities={activities}
                         achievements={achievements}
                     />
-
-                    {/*<Tabs defaultValue="activity" className="w-full mt-8">*/}
-                    {/*    <TabsList className="bg-white border border-coffee-200 mb-6">*/}
-                    {/*        <TabsTrigger value="activity">Activity</TabsTrigger>*/}
-                    {/*        <TabsTrigger value="achievements">Achievements</TabsTrigger>*/}
-                    {/*    </TabsList>*/}
-
-                    {/*    <TabsContent value="activity" className="space-y-6">*/}
-                    {/*        /!* Recent Activity *!/*/}
-                    {/*        <Activity activities={activities}/>*/}
-                    {/*    </TabsContent>*/}
-
-                    {/*    <TabsContent value="achievements" className="space-y-6">*/}
-                    {/*        /!* Achievements *!/*/}
-                    {/*        <Achievements achievements={achievements}/>*/}
-                    {/*    </TabsContent>*/}
-                    {/*</Tabs>*/}
                 </div>
             </div>
         </div>

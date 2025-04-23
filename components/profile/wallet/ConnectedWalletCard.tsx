@@ -25,11 +25,11 @@ const ConnectedWalletCard = () => {
             initial={{opacity: 0, y: 20}}
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.5}}
-            className="bg-white rounded-xl p-6 shadow-md border border-coffee-200 overflow-hidden"
+            className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 overflow-hidden"
         >
             <h2 className="text-lg font-semibold text-coffee-900 mb-4">Connected Wallet</h2>
 
-            <div className="bg-coffee-50 border border-coffee-200 rounded-lg p-4 relative overflow-hidden">
+            <div className="bg-coffee-50 dark:bg-coffee-50/40 border border-coffee-200 dark:border-coffee-600/50 rounded-lg p-4 relative overflow-hidden">
                 {/* Decorative coffee beans */}
                 <div className="absolute -right-4 -bottom-4 opacity-5 rotate-12">
                     <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,7 @@ const ConnectedWalletCard = () => {
                 </div>
 
                 <div className="flex items-center relative z-10 gap-2">
-                    <Avatar className="bg-white rounded-full mr-3 border border-coffee-200 h-12 w-12 shadow-lg">
+                    <Avatar className="bg-card rounded-full mr-3 border border-coffee-200 dark:border-coffee-600/50 h-12 w-12 shadow-lg">
                         <AvatarImage src={`${user.avatar_url}`}/>
                         <AvatarFallback>
                             <div
@@ -59,7 +59,7 @@ const ConnectedWalletCard = () => {
 
                     <div>
                         <div className="flex items-center">
-                            <span className="text-green-600 text-sm font-medium mr-2">Connected</span>
+                            <span className="text-green-600 dark:text-green-500 text-sm font-medium mr-2">Connected</span>
                         </div>
                         <div className="flex items-center mt-1">
                             <span className="text-coffee-900 font-mono">{shortAddress}</span>

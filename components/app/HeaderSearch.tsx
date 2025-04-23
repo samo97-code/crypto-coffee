@@ -28,7 +28,7 @@ const HeaderSearch = () => {
             {/* Search Bar */}
             <div className="relative group">
                 <div
-                    className={`flex items-center overflow-hidden rounded-full border border-coffee-200 bg-white/80 px-3 py-1.5 shadow-sm transition-all duration-300 focus-within:border-coffee-400 focus-within:shadow-md ${
+                    className={`flex items-center overflow-hidden rounded-full border border-coffee-200 bg-card/80 px-3 py-1.5 shadow-sm transition-all duration-300 focus-within:border-coffee-400 focus-within:shadow-md ${
                         searchFocused ? "w-[300px]" : "w-[200px]"
                     }`}
                     style={{
@@ -41,13 +41,13 @@ const HeaderSearch = () => {
                 >
 
                     <div className="min-w-4">
-                        <Search className={`transition-all h-4 min-w-4 text-coffee-400`} />
+                        <Search className={`transition-all h-4 min-w-4 text-coffee-400 dark:text-coffee-600`} />
                     </div>
                     <input
                         type="text"
                         disabled={path !== '/'}
                         placeholder="Search projects..."
-                        className="pl-2 flex-1 bg-transparent text-sm text-coffee-800 outline-none placeholder:text-coffee-400"
+                        className="pl-2 flex-1 bg-transparent text-sm text-coffee-800 outline-none placeholder:text-coffee-400 dark:placeholder:text-coffee-600"
                         value={searchQuery}
                         onChange={(e) => changeHandler(e.target.value)}
                         onFocus={() => setSearchFocused(true)}

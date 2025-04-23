@@ -9,7 +9,7 @@ const WalletSecurityCard =()=> {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-white rounded-xl p-6 shadow-md border border-coffee-200 h-full"
+            className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 h-full"
         >
             <h2 className="text-lg font-semibold text-coffee-900 mb-4">Wallet Security</h2>
 
@@ -18,7 +18,7 @@ const WalletSecurityCard =()=> {
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="bg-green-50 border border-green-200 rounded-lg p-4 relative overflow-hidden"
+                    className="bg-green-50 dark:bg-green-100 border border-green-200 dark:border-green-300 rounded-lg p-4 relative overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 h-16 w-16 -mr-8 -mt-8 opacity-10">
                         <div className="h-full w-full rounded-full bg-green-500"></div>
@@ -39,7 +39,7 @@ const WalletSecurityCard =()=> {
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="bg-amber-50 border border-amber-200 rounded-lg p-4"
+                    className="bg-amber-50 dark:bg-amber-100/80 border border-amber-200 dark:border-amber-200 rounded-lg p-4"
                 >
                     <div className="flex items-start">
                         <div className="bg-amber-100 p-1.5 rounded-full mr-3">

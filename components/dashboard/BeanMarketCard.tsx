@@ -31,7 +31,7 @@ const tokens = [
 
 export function BeanMarketCard() {
   return (
-    <Card className="bg-white border-coffee-200">
+    <Card className="bg-card border-coffee-200">
       <CardHeader>
         <CardTitle className="text-coffee-800">Bean Market</CardTitle>
       </CardHeader>

@@ -45,7 +45,7 @@ const WalletStatsCards:FC<IProps> = ({allStats}) => {
                     initial={{opacity: 0, y: 20}}
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 0.5, delay: stat.delay}}
-                    className="bg-white rounded-xl shadow-md border border-coffee-200 overflow-hidden"
+                    className="bg-card rounded-xl shadow-md border border-coffee-200 dark:border-coffee-600/50 overflow-hidden"
                 >
                     <div className="p-4 relative">
                         <div className="absolute top-0 right-0 h-20 w-20 -mr-10 -mt-10 opacity-10">

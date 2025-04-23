@@ -55,6 +55,8 @@ const WelcomeSection = () => {
             const data = await res.json();
             setPrice(data.bitcoin.usd);
             setChange24h(Number(data.bitcoin.usd_24h_change.toFixed(2)));
+            // setPrice(10);
+            // setChange24h(10);
         } catch (err) {
             console.error('Fetch Error:', err);
             return null; // Fallback clearly
@@ -74,7 +76,7 @@ const WelcomeSection = () => {
 
     return (
         <div
-            className="relative bg-gradient-to-br from-coffee-50 to-coffee-100 rounded-xl p-6 shadow-lg border border-coffee-200 overflow-hidden transition-all duration-300 ease-out"
+            className="relative bg-gradient-to-br from-coffee-50 to-coffee-100 rounded-xl p-6 shadow-lg border border-coffee-200 dark:border-coffee-600/50 overflow-hidden transition-all duration-300 ease-out"
             style={{
                 transformStyle: "preserve-3d",
                 transition: "transform 0.1s ease-out",
@@ -112,11 +114,11 @@ const WelcomeSection = () => {
             {/* Stats grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{transform: "translateZ(10px)"}}>
                 {/* Bitcoin Price */}
-                <div className="bg-white rounded-lg p-4 shadow-md border border-coffee-100 transition-all duration-300">
+                <div className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Bitcoin Price</div>
                         <div
-                            className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
+                            className="text-xs font-medium px-2 py-1 bg-coffee-100 dark:bg-coffee-300 rounded-full text-coffee-800 flex items-center">
                             <Clock className="h-3 w-3 mr-1"/>
                             24h
                         </div>
@@ -128,7 +130,7 @@ const WelcomeSection = () => {
                                     <div className="text-3xl font-bold text-coffee-900">${convertTotal(price)}</div>
 
                                     <div
-                                        className={`${+change24h > 0 ? 'text-green-600' : 'text-red-600'} flex items-center text-sm font-medium`}>
+                                        className={`${+change24h > 0 ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'} flex items-center text-sm font-medium`}>
                                         {+change24h > 0 ? <TrendingUp className="h-4 w-4 mr-1"/> :
                                             <TrendingDown className="h-4 w-4 mr-1"/>}
                                         <span>{change24h}% today</span>
@@ -146,11 +148,11 @@ const WelcomeSection = () => {
                 </div>
 
                 {/* Coffee Chains */}
-                <div className="bg-white rounded-lg p-4 shadow-md border border-coffee-100 transition-all duration-300">
+                <div className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Coffee Chains</div>
                         <div
-                            className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
+                            className="text-xs font-medium px-2 py-1 bg-coffee-100 dark:bg-coffee-300 rounded-full text-coffee-800 flex items-center">
                             <Database className="h-3 w-3 mr-1"/>
                             Networks
                         </div>
@@ -165,11 +167,11 @@ const WelcomeSection = () => {
                 </div>
 
                 {/* Daily Users */}
-                <div className="bg-white rounded-lg p-4 shadow-md border border-coffee-100 transition-all duration-300">
+                <div className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Daily Users</div>
                         <div
-                            className="text-xs font-medium px-2 py-1 bg-coffee-100 rounded-full text-coffee-800 flex items-center">
+                            className="text-xs font-medium px-2 py-1 bg-coffee-100 dark:bg-coffee-300 rounded-full text-coffee-800 flex items-center">
                             <div className="h-2 w-2 rounded-full bg-green-500 mr-1 animate-pulse"></div>
                             Active
                         </div>
@@ -177,7 +179,7 @@ const WelcomeSection = () => {
                     {
                         stats.totalSupporters ? <div className="flex items-end justify-between">
                             <div className="text-3xl font-bold text-coffee-900">{stats.totalSupporters}</div>
-                            <div className="flex items-center text-green-600 text-sm font-medium">
+                            <div className="flex items-center text-green-600 dark:text-green-500 text-sm font-medium">
                                 <TrendingUp className="h-4 w-4 mr-1"/>
                                 <span>+{stats.dailySupporters} today</span>
                             </div>

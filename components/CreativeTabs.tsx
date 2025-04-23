@@ -78,10 +78,10 @@ export function CreativeNetworkTabs({
             label: "All",
             icon: Coffee,
             count: counts.all,
-            gradient: "from-coffee-600 to-coffee-800",
+            gradient: "from-coffee-600 to-coffee-800 dark:from-coffee-50 dark:to-coffee-50",
             hoverGradient: "from-coffee-500 to-coffee-700",
             bgLight: "bg-coffee-50",
-            bgDark: "bg-coffee-100",
+            bgDark: "bg-coffee-100 dark:bg-coffee-50"
         },
         {
             id: "mainnet",
@@ -91,7 +91,7 @@ export function CreativeNetworkTabs({
             gradient: "from-blue-600 to-indigo-700",
             hoverGradient: "from-blue-500 to-indigo-600",
             bgLight: "bg-blue-50",
-            bgDark: "bg-blue-100",
+            bgDark: "bg-blue-100 dark:bg-blue-300",
         },
         {
             id: "testnet",
@@ -101,14 +101,14 @@ export function CreativeNetworkTabs({
             gradient: "from-rose-600 to-pink-700",
             hoverGradient: "from-rose-500 to-pink-600",
             bgLight: "bg-rose-50",
-            bgDark: "bg-rose-100",
+            bgDark: "bg-rose-100 dark:bg-rose-300",
         },
     ]
 
     return (
         <div className="relative mb-8 z-10">
             <div className="flex justify-center">
-                <div className="inline-flex p-1.5 rounded-xl bg-white/80 backdrop-blur-sm shadow-lg border border-coffee-100">
+                <div className="inline-flex p-1.5 rounded-xl bg-card/80 backdrop-blur-sm shadow-lg border border-coffee-100">
                     {tabs.map((tab) => {
                         const isActive = activeTab === tab.id
                         const isHovered = hoverTab === tab.id
@@ -140,7 +140,7 @@ export function CreativeNetworkTabs({
                                         {particles.map((particle, i) => (
                                             <motion.div
                                                 key={i}
-                                                className="absolute rounded-full bg-white"
+                                                className="absolute rounded-full bg-card"
                                                 style={{
                                                     width: `${particle.size}px`,
                                                     height: `${particle.size}px`,
@@ -164,7 +164,7 @@ export function CreativeNetworkTabs({
                                     {/* Count badge */}
                                     <div
                                         className={`ml-2 px-2 py-0.5 rounded-full text-xs font-medium ${
-                                            isActive ? "bg-white/20 text-white" : `${tab.bgDark} text-coffee-800`
+                                            isActive ? "bg-card/20 text-white" : `${tab.bgDark} text-coffee-800`
                                         }`}
                                     >
                                         {tab.count}

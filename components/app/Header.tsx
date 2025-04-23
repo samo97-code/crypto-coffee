@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useEffect} from 'react';
-import {Coffee} from "lucide-react";
+import DarkMode from "@/components/re-usable/DarkMode";
 import HeaderSearch from "@/components/app/HeaderSearch";
 import {ConnectButton} from "@rainbow-me/rainbowkit";
 import {useAccount} from "wagmi";
@@ -14,6 +14,7 @@ import {useDispatch} from "react-redux";
 import {randomAvatar} from "@/utils/utils";
 import {setCookie, hasCookie} from 'cookies-next/client';
 import {useAppSelector} from "@/store/hook";
+import Image from "next/image";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -82,19 +83,13 @@ const Header = () => {
     }
 
     return (
-        <header className="border-b border-coffee-200 bg-white shadow-sm backdrop-blur-sm sticky top-0 z-[11]">
-            <div className="max-w-[1440px] mx-auto px-4 h-16 flex items-center justify-between">
+        <header className="border-b border-coffee-200 bg-coffee-100 shadow-sm backdrop-blur-xl sticky top-0 z-[11] h-[98px] py-2">
+            <div className="max-w-[1440px] h-full mx-auto px-4 flex items-center justify-between">
                 <div className="flex items-center gap-8">
                     <Link href="/" className="flex items-center gap-2 text-coffee-800 font-bold text-xl">
-                        <div
-                            className="p-3 bg-gradient-to-br from-coffee-600 to-coffee-800 rounded-2xl shadow-md transform -rotate-3">
-                            <div className="relative">
-                                <div
-                                    className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-white/70 blur-[1px]"></div>
-                                <Coffee className="h-5 w-5 text-white"/>
-                            </div>
+                        <div className="relative">
+                            <Image src={"/crypto-coffee-logo1.png"} alt="logo" width={120} height={82}/>
                         </div>
-                        <span>Crypto Coffee</span>
                     </Link>
                 </div>
 
@@ -102,6 +97,8 @@ const Header = () => {
                     <HeaderSearch/>
 
                     <AnnouncementCard/>
+
+                    <DarkMode/>
 
                     <div className="min-w-[143px]">
                         <ConnectButton accountStatus="full"/>

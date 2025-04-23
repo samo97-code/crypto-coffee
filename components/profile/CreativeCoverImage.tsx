@@ -55,12 +55,13 @@ const CreativeCoverImage = ({username = "Coffee Enthusiast"}: CreativeCoverImage
 
     return (
         <div
-            className="relative h-64 rounded-xl overflow-hidden"
+            className="relative h-64 rounded-bl-xl rounded-br-xl overflow-hidden"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
             {/* Base gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-coffee-700 via-coffee-600 to-coffee-500"></div>
+            <div
+                className="absolute inset-0 bg-gradient-to-r from-coffee-700 via-coffee-600 to-coffee-500 dark:from-coffee-50 dark:via-coffee-100 dark:to-coffee-50"></div>
 
             {/* Animated coffee pattern overlay */}
             <div className="absolute inset-0 opacity-10">
@@ -132,7 +133,7 @@ const CreativeCoverImage = ({username = "Coffee Enthusiast"}: CreativeCoverImage
                     {[...Array(3)].map((_, i) => (
                         <motion.div
                             key={i}
-                            className="absolute bottom-0 w-4 h-4 rounded-full bg-white/10"
+                            className="absolute bottom-0 w-4 h-4 rounded-full bg-card/10"
                             initial={{y: 0, opacity: 0}}
                             animate={{
                                 y: [-20, -60 - i * 15],
@@ -177,14 +178,14 @@ const CreativeCoverImage = ({username = "Coffee Enthusiast"}: CreativeCoverImage
 
             {/* User info overlay - improved visibility with more space */}
             <div
-                className="absolute bottom-0 left-0 h-[137px] right-0 pt-10 pb-6 px-6 bg-gradient-to-t from-coffee-900/95 via-coffee-900/80 to-transparent backdrop-blur-[2px]">
+                className="absolute bottom-0 left-0 h-[137px] right-0 pt-10 pb-6 px-6 bg-gradient-to-t from-coffee-900/95 via-coffee-900/80 to-transparent dark:from-coffee-50/95 dark:via-coffee-50/70 dark:to-transparent backdrop-blur-[2px]">
                 <h2 className="text-3xl font-bold text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]">{username}</h2>
             </div>
 
             {/* Edit button */}
             {/*<Button*/}
             {/*    onClick={onEdit}*/}
-            {/*    className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"*/}
+            {/*    className="absolute top-4 right-4 bg-card/20 hover:bg-card/30 text-white backdrop-blur-sm"*/}
             {/*>*/}
             {/*    <Edit className="h-4 w-4 mr-2"/>*/}
             {/*    Edit Cover*/}

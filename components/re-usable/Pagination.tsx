@@ -57,8 +57,8 @@ const Pagination: FC<IProps> = ({
                 onClick={() => goToPage(1)}
                 className={`h-8 w-8 min-w-[2rem] px-0 border border-coffee-600 transition-colors ${
                     currentPage === 1
-                        ? 'bg-coffee-700 text-white hover:bg-coffee-700'
-                        : 'text-coffee-700 hover:bg-coffee-50'
+                        ? 'bg-coffee-700 text-white hover:bg-coffee-700 dark:bg-coffee-50/70 dark:hover:bg-coffee-50/60'
+                        : 'text-coffee-700 hover:bg-coffee-50 bg-white dark:bg-coffee-50/40 dark:hover:bg-coffee-50/60'
                 }`}
             >
                 1
@@ -79,8 +79,8 @@ const Pagination: FC<IProps> = ({
                     onClick={() => goToPage(i)}
                     className={`h-8 w-8 min-w-[2rem] px-0 border border-coffee-600 transition-colors ${
                         currentPage === i
-                            ? 'bg-coffee-700 text-white hover:bg-coffee-700'
-                            : 'text-coffee-700 hover:bg-coffee-50'
+                            ? 'bg-coffee-700 text-white hover:bg-coffee-700 dark:bg-coffee-50/70 dark:hover:bg-coffee-50/60'
+                            : 'text-coffee-700 hover:bg-coffee-50 bg-white dark:bg-coffee-50/40 dark:hover:bg-coffee-50/60'
                     }`}
                 >
                     {i}
@@ -102,8 +102,8 @@ const Pagination: FC<IProps> = ({
                     onClick={() => goToPage(totalPages)}
                     className={`h-8 w-8 min-w-[2rem] px-0 border border-coffee-600 transition-colors ${
                         currentPage === totalPages
-                            ? 'bg-coffee-700 text-white hover:bg-coffee-700'
-                            : 'text-coffee-700 hover:bg-coffee-50'
+                            ? 'bg-coffee-700 text-white hover:bg-coffee-700 dark:bg-coffee-50/70 dark:hover:bg-coffee-50/60'
+                            : 'text-coffee-700 hover:bg-coffee-50 bg-white dark:bg-coffee-50/40 dark:hover:bg-coffee-50/60'
                     }`}
                 >
                     {totalPages}
@@ -126,7 +126,7 @@ const Pagination: FC<IProps> = ({
                 <Button
                     variant="default"
                     size="icon"
-                    className="h-8 w-8 border border-coffee-600 hover:bg-coffee-50 transition-colors"
+                    className="h-8 w-8 border border-coffee-600 bg-white dark:bg-coffee-50/40 hover:bg-coffee-50 dark:hover:bg-coffee-50/60 transition-colors"
                     onClick={goToPreviousPage}
                     disabled={currentPage === 1}
                 >
@@ -138,7 +138,7 @@ const Pagination: FC<IProps> = ({
                 <Button
                     variant="default"
                     size="icon"
-                    className="h-8 w-8 border border-coffee-600 hover:bg-coffee-50 transition-colors"
+                    className="h-8 w-8 border border-coffee-600 bg-white dark:bg-coffee-50/40 hover:bg-coffee-50 dark:hover:bg-coffee-50/60 transition-colors"
                     onClick={goToNextPage}
                     disabled={currentPage === totalPages}
                 >

@@ -8,18 +8,7 @@ import ActivityHeader from "@/components/activities/ActivityHeader";
 
 const Wrapper = () => {
     return (
-        <div className="relative min-h-screen overflow-hidden bg-coffee-50">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 z-0 opacity-5">
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage:
-                            "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%238B4513' fillOpacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-                    }}
-                ></div>
-            </div>
-
+        <div className="relative min-h-screen overflow-hidden">
             {/* Floating Coffee Beans */}
             <div className="max-w-7xl mx-auto absolute inset-0 z-0 overflow-hidden">
                 {[...Array(10)].map((_, i) => (
@@ -45,7 +34,7 @@ const Wrapper = () => {
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {/* Gas Fee Lottery */}
                     <Card
-                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-card shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                         <div
                             className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full duration-1000"></div>
                         <div
@@ -70,20 +59,20 @@ const Wrapper = () => {
                         </CardHeader>
                         <CardContent className="relative pt-2">
                             <div
-                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
+                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
                                 $0.045
                             </div>
                             <p className="text-sm text-coffee-700">
                                 Pay a fixed fee and get a chance to win accumulated rewards or a special NFT.
                             </p>
-                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 p-3 text-sm">
+                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 dark:bg-coffee-50/60 p-3 text-sm">
                                 <span className="font-medium text-coffee-800">Reward:</span>
                                 <span className="text-coffee-700">Daily prize pool or NFT</span>
                             </div>
                         </CardContent>
                         <CardFooter className="relative">
                             <Button
-                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 text-white shadow-md transition-all hover:from-coffee-800 hover:to-coffee-900 hover:shadow-lg">
+                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 dark:from-coffee-50/80 dark:to-coffee-50/60 text-white shadow-md transition-colors hover:from-coffee-800 hover:to-coffee-900 dark:hover:from-coffee-50/90 dark:hover:to-coffee-50/80 hover:shadow-lg">
                                 Enter Lottery
                             </Button>
                         </CardFooter>
@@ -91,11 +80,11 @@ const Wrapper = () => {
 
                     {/* Crypto Trivia */}
                     <Card
-                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-card shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                         <div
                             className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full duration-1000"></div>
                         <div
-                            className="absolute inset-0 bg-gradient-to-br from-blue-100/80 to-blue-50/50 opacity-50"></div>
+                            className="absolute inset-0 bg-gradient-to-br from-blue-100/80 to-blue-50/50 dark:from-blue-500/80 dark:to-blue-400/50 opacity-50"></div>
                         <div className="absolute right-0 top-0 h-20 w-20 overflow-hidden">
                             <div
                                 className="absolute right-0 top-0 h-8 w-8 origin-bottom-left rotate-45 transform bg-blue-500"></div>
@@ -115,20 +104,20 @@ const Wrapper = () => {
                         </CardHeader>
                         <CardContent className="relative pt-2">
                             <div
-                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
+                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
                                 $0.045
                             </div>
                             <p className="text-sm text-coffee-700">
                                 Answer a daily crypto question correctly to earn badges or points.
                             </p>
-                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 p-3 text-sm">
+                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 dark:bg-coffee-50/60 p-3 text-sm">
                                 <span className="font-medium text-coffee-800">Reward:</span>
                                 <span className="text-coffee-700">Badges & Points</span>
                             </div>
                         </CardContent>
                         <CardFooter className="relative">
                             <Button
-                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 text-white shadow-md transition-all hover:from-coffee-800 hover:to-coffee-900 hover:shadow-lg">
+                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 dark:from-coffee-50/80 dark:to-coffee-50/60 text-white shadow-md transition-colors hover:from-coffee-800 hover:to-coffee-900 dark:hover:from-coffee-50/90 dark:hover:to-coffee-50/80 hover:shadow-lg">
                                 Answer Question
                             </Button>
                         </CardFooter>
@@ -136,11 +125,11 @@ const Wrapper = () => {
 
                     {/* Daily Crypto Joke */}
                     <Card
-                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-card shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                         <div
                             className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full duration-1000"></div>
                         <div
-                            className="absolute inset-0 bg-gradient-to-br from-yellow-100/80 to-yellow-50/50 opacity-50"></div>
+                            className="absolute inset-0 bg-gradient-to-br from-yellow-100/80 to-yellow-50/50 dark:from-yellow-200/80 dark:to-yellow-100/50 opacity-50"></div>
                         <div className="absolute right-0 top-0 h-20 w-20 overflow-hidden">
                             <div
                                 className="absolute right-0 top-0 h-8 w-8 origin-bottom-left rotate-45 transform bg-yellow-500"></div>
@@ -161,20 +150,20 @@ const Wrapper = () => {
                         </CardHeader>
                         <CardContent className="relative pt-2">
                             <div
-                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
+                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
                                 $0.045
                             </div>
                             <p className="text-sm text-coffee-700">
                                 Reveal a daily crypto-themed joke that you can share on social media.
                             </p>
-                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 p-3 text-sm">
+                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 dark:bg-coffee-50/60 p-3 text-sm">
                                 <span className="font-medium text-coffee-800">Reward:</span>
                                 <span className="text-coffee-700">Shareable content</span>
                             </div>
                         </CardContent>
                         <CardFooter className="relative">
                             <Button
-                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 text-white shadow-md transition-all hover:from-coffee-800 hover:to-coffee-900 hover:shadow-lg">
+                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 dark:from-coffee-50/80 dark:to-coffee-50/60 text-white shadow-md transition-colors hover:from-coffee-800 hover:to-coffee-900 dark:hover:from-coffee-50/90 dark:hover:to-coffee-50/80 hover:shadow-lg">
                                 Reveal Joke
                             </Button>
                         </CardFooter>
@@ -182,11 +171,11 @@ const Wrapper = () => {
 
                     {/* Blockchain Bingo */}
                     <Card
-                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-card shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                         <div
                             className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full duration-1000"></div>
                         <div
-                            className="absolute inset-0 bg-gradient-to-br from-green-100/80 to-green-50/50 opacity-50"></div>
+                            className="absolute inset-0 bg-gradient-to-br from-green-100/80 to-green-50/50 dark:from-green-300/80 dark:to-green-200/50 opacity-50"></div>
                         <div className="absolute right-0 top-0 h-20 w-20 overflow-hidden">
                             <div
                                 className="absolute right-0 top-0 h-8 w-8 origin-bottom-left rotate-45 transform bg-green-500"></div>
@@ -207,20 +196,20 @@ const Wrapper = () => {
                         </CardHeader>
                         <CardContent className="relative pt-2">
                             <div
-                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
+                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
                                 $0.045
                             </div>
                             <p className="text-sm text-coffee-700">
                                 Get daily bingo numbers and win rewards for completed rows or cards.
                             </p>
-                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 p-3 text-sm">
+                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 dark:bg-coffee-50/60 p-3 text-sm">
                                 <span className="font-medium text-coffee-800">Reward:</span>
                                 <span className="text-coffee-700">Weekly/monthly prizes</span>
                             </div>
                         </CardContent>
                         <CardFooter className="relative">
                             <Button
-                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 text-white shadow-md transition-all hover:from-coffee-800 hover:to-coffee-900 hover:shadow-lg">
+                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 dark:from-coffee-50/80 dark:to-coffee-50/60 text-white shadow-md transition-colors hover:from-coffee-800 hover:to-coffee-900 dark:hover:from-coffee-50/90 dark:hover:to-coffee-50/80 hover:shadow-lg">
                                 Play Bingo
                             </Button>
                         </CardFooter>
@@ -232,7 +221,7 @@ const Wrapper = () => {
                         <div
                             className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full duration-1000"></div>
                         <div
-                            className="absolute inset-0 bg-gradient-to-br from-orange-100/80 to-orange-50/50 opacity-50"></div>
+                            className="absolute inset-0 bg-gradient-to-br from-orange-100/80 to-orange-50/50 dark:from-orange-900 dark:to-orange-800/80 opacity-50"></div>
                         <div className="absolute right-0 top-0 h-20 w-20 overflow-hidden">
                             <div
                                 className="absolute right-0 top-0 h-8 w-8 origin-bottom-left rotate-45 transform bg-orange-500"></div>
@@ -252,20 +241,20 @@ const Wrapper = () => {
                         </CardHeader>
                         <CardContent className="relative pt-2">
                             <div
-                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
+                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
                                 $0.045
                             </div>
                             <p className="text-sm text-coffee-700">
                                 Feed your virtual Crypto Cat daily and watch it grow and evolve.
                             </p>
-                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 p-3 text-sm">
+                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 dark:bg-coffee-50/60 p-3 text-sm">
                                 <span className="font-medium text-coffee-800">Reward:</span>
                                 <span className="text-coffee-700">Pet collectibles</span>
                             </div>
                         </CardContent>
                         <CardFooter className="relative">
                             <Button
-                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 text-white shadow-md transition-all hover:from-coffee-800 hover:to-coffee-900 hover:shadow-lg">
+                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 dark:from-coffee-50/80 dark:to-coffee-50/60 text-white shadow-md transition-colors hover:from-coffee-800 hover:to-coffee-900 dark:hover:from-coffee-50/90 dark:hover:to-coffee-50/80 hover:shadow-lg">
                                 Feed Pet
                             </Button>
                         </CardFooter>
@@ -273,11 +262,11 @@ const Wrapper = () => {
 
                     {/* Rock Paper Scissors - NEW ACTIVITY */}
                     <Card
-                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        className="group relative h-full overflow-hidden rounded-xl border-0 bg-card shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                         <div
                             className="absolute inset-0 -translate-x-full animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full duration-1000"></div>
                         <div
-                            className="absolute inset-0 bg-gradient-to-br from-teal-100/80 to-teal-50/50 opacity-50"></div>
+                            className="absolute inset-0 bg-gradient-to-br from-teal-100/80 to-teal-50/50 dark:from-teal-300/80 dark:to-teal-200/50 opacity-50"></div>
                         <div className="absolute right-0 top-0 h-20 w-20 overflow-hidden">
                             <div
                                 className="absolute right-0 top-0 h-8 w-8 origin-bottom-left rotate-45 transform bg-teal-500"></div>
@@ -298,20 +287,20 @@ const Wrapper = () => {
                         </CardHeader>
                         <CardContent className="relative pt-2">
                             <div
-                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
+                                className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
                                 $0.045
                             </div>
                             <p className="text-sm text-coffee-700">
                                 Play rock paper scissors against the blockchain and win crypto rewards.
                             </p>
-                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 p-3 text-sm">
+                            <div className="mt-4 flex items-center justify-between rounded-lg bg-coffee-50 dark:bg-coffee-50/60 p-3 text-sm">
                                 <span className="font-medium text-coffee-800">Reward:</span>
                                 <span className="text-coffee-700">Double your bet</span>
                             </div>
                         </CardContent>
                         <CardFooter className="relative">
                             <Button
-                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 text-white shadow-md transition-all hover:from-coffee-800 hover:to-coffee-900 hover:shadow-lg">
+                                className="w-full bg-gradient-to-r from-coffee-700 to-coffee-800 dark:from-coffee-50/80 dark:to-coffee-50/60 text-white shadow-md transition-colors hover:from-coffee-800 hover:to-coffee-900 dark:hover:from-coffee-50/90 dark:hover:to-coffee-50/80 hover:shadow-lg">
                                 Play Now
                             </Button>
                         </CardFooter>

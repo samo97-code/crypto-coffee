@@ -37,10 +37,10 @@ const WalletInfo: FC<IProps> = ({projects}) => {
 
             {/* Card container with glass effect */}
             <div
-                className="relative bg-white/80 rounded-xl border border-coffee-200"
+                className="relative bg-card/80 rounded-xl border border-coffee-200 dark:border-coffee-600/50"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-coffee-100">
+                <div className="flex items-center justify-between p-4 border-b border-coffee-100 dark:border-coffee-300">
                     <div className="flex items-center space-x-2">
                         <motion.div
                             animate={{rotate: [0, 10, 0]}}
@@ -69,8 +69,8 @@ const WalletInfo: FC<IProps> = ({projects}) => {
                             ></motion.div>
                         </motion.div>
                         {
-                            address ? <span className="ml-2 text-sm font-medium text-green-600">Connected</span>
-                                : <span className="ml-2 text-sm font-medium text-red-500">Disconnected</span>
+                            address ? <span className="ml-2 text-sm font-medium text-green-600 dark:text-green-500">Connected</span>
+                                : <span className="ml-2 text-sm font-medium text-red-600 dark:text-red-500">Disconnected</span>
                         }
                     </div>
                 </div>
@@ -81,12 +81,12 @@ const WalletInfo: FC<IProps> = ({projects}) => {
                         <div className="mb-4">
                             <div className="text-sm text-coffee-500 mb-1">Current Network</div>
                             <div className="flex items-center space-x-2">
-                                <div className="h-6 w-6 bg-gray-100 rounded-full flex items-center justify-center">
+                                <div className="h-7 w-7 bg-gray-100 rounded-full flex items-center justify-center">
                                     <Image src={currentChain?.icon_url || "/placeholder.svg"}
                                            alt={currentChain?.name || 'chain-img'}
-                                           width={20}
-                                           height={20}
-                                           className="rounded-full max-h-5"/>
+                                           width={24}
+                                           height={24}
+                                           className="rounded-full max-h-6"/>
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="font-medium text-coffee-800">{currentChain?.name}</span>
@@ -99,7 +99,7 @@ const WalletInfo: FC<IProps> = ({projects}) => {
                         {/* Wallet address */}
                         <div className="mb-4">
                             <div className="text-sm text-coffee-500 mb-1">Wallet Address</div>
-                            <div className="flex items-center justify-between bg-coffee-50 p-2 rounded-lg">
+                            <div className="flex items-center justify-between bg-coffee-50 dark:bg-coffee-50/60 p-2 rounded-lg">
                                 <span className="text-sm font-mono text-coffee-800">{shortAddress}</span>
                                 <motion.button
                                     whileHover={{scale: 1.05}}
@@ -121,7 +121,7 @@ const WalletInfo: FC<IProps> = ({projects}) => {
                             onClick={() => window.open(currentChain?.blockchain_networks[0].explorer_url)}
                             whileHover={{scale: 1.02}}
                             whileTap={{scale: 0.98}}
-                            className="mt-4 w-full flex items-center justify-center space-x-2 py-2 bg-gradient-to-r from-coffee-600 to-coffee-700 text-white rounded-lg text-sm font-medium"
+                            className="mt-4 w-full flex items-center justify-center space-x-2 py-2 bg-gradient-to-r from-coffee-600 to-coffee-700 dark:from-coffee-50/50 dark:to-coffee-50/30 text-white rounded-lg text-sm font-medium"
                         >
                             <span>View on Explorer</span>
                             <ExternalLink className="h-3.5 w-3.5"/>

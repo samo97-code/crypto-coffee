@@ -26,7 +26,7 @@ export default function HowItWorksPage() {
                         contributions—similar to buying a coffee. It’s a simple, meaningful way to contribute regularly
                         and help build a stronger, more connected crypto ecosystem.
                     </p>
-                    <Button className="bg-white text-coffee-700 hover:bg-coffee-100 transition-all"
+                    <Button className="bg-card text-coffee-700 hover:bg-coffee-100 transition-all"
                             onClick={() => router.prefetch('/')}>Get Started Now</Button>
                 </div>
             </div>
@@ -36,7 +36,7 @@ export default function HowItWorksPage() {
                 <h2 className="text-2xl font-semibold text-coffee-900 mb-8 text-center">The Crypto Coffee Process</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="bg-white rounded-lg p-6 shadow-sm border border-coffee-200 relative">
+                    <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200 relative">
                         <div
                             className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-coffee-500 to-coffee-700 flex items-center justify-center text-white font-bold text-xl">
                             1
@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-sm border border-coffee-200 relative">
+                    <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200 relative">
                         <div
                             className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-coffee-500 to-coffee-700 flex items-center justify-center text-white font-bold text-xl">
                             2
@@ -73,7 +73,7 @@ export default function HowItWorksPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-sm border border-coffee-200 relative">
+                    <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200 relative">
                         <div
                             className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-coffee-500 to-coffee-700 flex items-center justify-center text-white font-bold text-xl">
                             3
@@ -94,7 +94,7 @@ export default function HowItWorksPage() {
                 </div>
 
                 <div className="flex justify-center mt-12">
-                    <div className="bg-white rounded-xl p-6 shadow-sm border border-coffee-200 max-w-lg">
+                    <div className="bg-card rounded-xl p-6 shadow-sm border border-coffee-200 max-w-lg">
                         <div className="flex items-start gap-4">
                             <div className="p-3 bg-coffee-200 rounded-full">
                                 <Users className="h-6 w-6 text-coffee-700"/>
@@ -118,7 +118,7 @@ export default function HowItWorksPage() {
                 <h2 className="text-2xl font-semibold text-coffee-900 mb-8 text-center">Benefits of Crypto Coffee</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-coffee-200">
+                    <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-coffee-200">
                         <div className="p-6">
                             <h3 className="text-xl font-semibold text-coffee-900 mb-4">For Supporters</h3>
                             <ul className="space-y-3">
@@ -171,7 +171,7 @@ export default function HowItWorksPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-coffee-200">
+                    <div className="bg-card rounded-lg overflow-hidden shadow-sm border border-coffee-200">
                         <div className="p-6">
                             <h3 className="text-xl font-semibold text-coffee-900 mb-4">For Projects</h3>
                             <ul className="space-y-3">
@@ -228,7 +228,7 @@ export default function HowItWorksPage() {
                 <h2 className="text-2xl font-semibold text-coffee-900 mb-8 text-center">Frequently Asked Questions</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-white rounded-lg p-6 shadow-sm border border-coffee-200">
+                    <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200">
                         <h3 className="text-lg font-semibold text-coffee-900 mb-2">How much does a coffee cost?</h3>
                         <p className="text-coffee-700">
                             Each coffee costs a small fixed amount (currently $0.045 equivalent) in the native currency
@@ -238,7 +238,7 @@ export default function HowItWorksPage() {
                         </p>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-sm border border-coffee-200">
+                    <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200">
                         <h3 className="text-lg font-semibold text-coffee-900 mb-2">Who can use Crypto Coffee?</h3>
                         <p className="text-coffee-700">
                             Anyone with a compatible cryptocurrency wallet can use Crypto Coffee to support projects.
@@ -248,7 +248,7 @@ export default function HowItWorksPage() {
                         </p>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-sm border border-coffee-200">
+                    <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200">
                         <h3 className="text-lg font-semibold text-coffee-900 mb-2">Can I buy coffee on any
                             blockchain?</h3>
                         <p className="text-coffee-700">
@@ -258,7 +258,7 @@ export default function HowItWorksPage() {
                         </p>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-sm border border-coffee-200">
+                    <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200">
                         <h3 className="text-lg font-semibold text-coffee-900 mb-2">Is my wallet information secure?</h3>
                         <p className="text-coffee-700">
                             Crypto Coffee never stores your private keys or seed phrases. We only interact with your
@@ -287,9 +287,9 @@ export default function HowItWorksPage() {
                         contributions. It&#39;s as simple as buying a coffee!
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button className="bg-white text-coffee-700 hover:bg-coffee-100">Connect Wallet</Button>
+                        <Button className="bg-card text-coffee-700 hover:bg-coffee-100">Connect Wallet</Button>
                         <Link href="/documentation">
-                            <Button variant="outline" className="border-white text-white hover:bg-white/20">
+                            <Button variant="outline" className="border-white text-white hover:bg-card/20">
                                 Learn More
                             </Button>
                         </Link>

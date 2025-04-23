@@ -19,7 +19,7 @@ export default function SupportPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Contact Form */}
                 <div className="lg:col-span-2">
-                    <div className="bg-white rounded-xl p-8 shadow-sm border border-amber-100">
+                    <div className="bg-card rounded-xl p-8 shadow-sm border border-amber-100">
                         <h2 className="text-2xl font-semibold text-coffee-900 mb-6">Get in Touch</h2>
 
                         <form className="space-y-6">
@@ -91,7 +91,7 @@ export default function SupportPage() {
 
                 {/* Support Info */}
                 <div className="lg:col-span-1">
-                    <div className="bg-white rounded-xl p-8 shadow-sm border border-amber-100 mb-8">
+                    <div className="bg-card rounded-xl p-8 shadow-sm border border-amber-100 mb-8">
                         <h2 className="text-xl font-semibold text-coffee-900 mb-6">Contact Information</h2>
 
                         <div className="space-y-6">
@@ -134,7 +134,7 @@ export default function SupportPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-8 shadow-sm border border-amber-100">
+                    <div className="bg-card rounded-xl p-8 shadow-sm border border-amber-100">
                         <h2 className="text-xl font-semibold text-coffee-900 mb-6">Quick Help</h2>
 
                         <div className="space-y-4">

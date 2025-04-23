@@ -17,7 +17,7 @@ const OnboardSection = () => {
                 It&#39;s a simple way to show appreciation and help them grow!
             </p>
 
-            <Card className="bg-white border-coffee-200">
+            <Card className="bg-card border-coffee-200">
                 <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="text-center">
