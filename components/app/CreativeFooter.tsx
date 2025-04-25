@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import {Coffee, Twitter, Github, ArrowUpCircle, MessageCircle, ChevronUp, Heart} from "lucide-react"
+import {Twitter, ChevronUp, Heart} from "lucide-react"
 import {Button} from "@/components/ui/button";
 
 export function CreativeFooter() {
