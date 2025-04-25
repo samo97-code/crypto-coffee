@@ -8,7 +8,6 @@ import {usePathname} from "next/navigation";
 const HeaderSearch = () => {
     const dispatch = useDispatch();
     const path = usePathname()
-    console.log(path,'path')
 
     const [searchFocused, setSearchFocused] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")

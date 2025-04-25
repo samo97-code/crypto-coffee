@@ -1,6 +1,7 @@
 import {supabase} from "@/lib/supabase"
 import {recordStreakActivity} from "./streak-service"
 import {ITransaction} from "@/types";
+import {checkAndUpdateAchievements} from "@/lib/acheivements-service";
 
 
 /**
@@ -8,7 +9,7 @@ import {ITransaction} from "@/types";
  * @returns The created transaction
  * @param userId
  */
-export async function updateTxTotalAmount(userId:string) {
+export async function updateTxTotalAmount(userId: string) {
     const {data: totalRes} = await supabase
         .from('transactions')
         .select('usd_value')
@@ -93,4 +94,61 @@ export async function getUserTransactions(userId: string, limit = 10): Promise<I
     }
 
     return data || []
+}
+
+/**
+ * Handles post-transaction logic such as achievements and streaks
+ * @param userId
+ * @param transaction
+ */
+export async function handlePostTransactionUpdate(userId: string, transaction: ITransaction) {
+    if (!userId || !transaction) return;
+
+    const { usd_value, project_id, network_name } = transaction;
+
+    // Total spent in USD
+    await checkAndUpdateAchievements(userId, "total_support", usd_value);
+
+    // Number of times coffee was bought
+    await checkAndUpdateAchievements(userId, "projects_supported", 1);
+
+    // Buying on new chain (assume unique check inside the function)
+    await checkAndUpdateAchievements(userId, "networks_supported", 1);
+    await checkAndUpdateAchievements(userId, "unique_chains", 1);
+
+    // Single transaction value check (e.g., $50+)
+    await checkAndUpdateAchievements(userId, "single_support", usd_value);
+
+    // Track repeat support (e.g., same chain streaks)
+    await checkAndUpdateAchievements(userId, "repeat_support", 1);
+
+    // Streak activity update
+    await recordStreakActivity(userId);
+}
+
+/**
+ * Tracks trivia interaction
+ */
+export async function handleTriviaAnswer(userId: string, isCorrect: boolean) {
+    if (!userId) return;
+
+    if (isCorrect) {
+        await checkAndUpdateAchievements(userId, "trivia_correct", 1);
+        await checkAndUpdateAchievements(userId, "trivia_streak", 1);
+    } else {
+        // Optional: reset trivia streak
+    }
+}
+
+/**
+ * Tracks daily login or activity interaction
+ */
+export async function handleDailyActivity(userId: string) {
+    if (!userId) return;
+
+    await checkAndUpdateAchievements(userId, "daily_streak", 1);
+    await checkAndUpdateAchievements(userId, "daily_activities", 1);
+
+    // Optional: for logging in to reveal the joke
+    await checkAndUpdateAchievements(userId, "jokes_revealed", 1);
 }

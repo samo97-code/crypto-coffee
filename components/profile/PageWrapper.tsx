@@ -102,6 +102,7 @@ const PageWrapper = () => {
 
     const fetchStats = async (user: IUser, userId: string) => {
         try {
+            const totalAchievements = 24
             // Get level Achievements
             const userStats = await getUserStats(userId)
             // Get level progress
@@ -110,7 +111,7 @@ const PageWrapper = () => {
             return {
                 boughtCoffee: user.transaction_count,
                 achievementsCount: userStats.achievementsCount,
-                totalAchievements: 10,
+                totalAchievements: totalAchievements,
                 levelProgress: levelProgress || 0,
             }
         } catch (error) {

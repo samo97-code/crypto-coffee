@@ -1,6 +1,31 @@
 import {clsx, type ClassValue} from "clsx"
 import {twMerge} from "tailwind-merge"
 import {avatars} from "@/constants";
+import {
+    Award,
+    Coffee,
+    Droplets,
+    Zap,
+    Globe,
+    Calendar,
+    Share,
+    Brain,
+    Trophy,
+    Banknote,
+    BookOpenCheck,
+    Bot,
+    Bolt,
+    Flame,
+    Gem,
+    Sparkles,
+    TicketCheck,
+    BookCheck,
+    Laugh,
+    Grid3x3,
+    Grid2x2,
+    Gamepad,
+} from "lucide-react";
+import React from "react";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -49,3 +74,30 @@ export function snakeToCamel(obj: any): any {
         ])
     );
 }
+
+
+export const achievementIconMap: Record<string, React.ElementType> = {
+    Award,
+    Coffee,
+    Droplets,
+    Zap,
+    Globe,
+    Calendar,
+    Share,
+    Brain,
+    Trophy,
+    Banknote,
+    BookOpenCheck,
+    Bot,
+    Bolt,
+    Flame,
+    Gem,
+    Sparkles,
+    TicketCheck,
+    BookCheck,
+    Laugh,
+    Grid3x3,
+    Grid2x2,
+    Gamepad,
+};
+

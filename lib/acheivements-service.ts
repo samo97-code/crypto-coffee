@@ -1,32 +1,14 @@
 import {supabase} from "@/lib/supabase"
 
-import {IBadge, IUser, IUserAchievement} from "@/types";
+import {
+    IAchievement,
+    IBadge,
+    ILevelDetail,
+    IUser,
+    IUserAchievement,
+    IUserLevelProgress
+} from "@/types";
 
-
-/**
- * Gets all achievements for a user
- * @param userId The user's ID
- * @returns The user's achievements with progress
- */
-export async function getUserAchievements(userId: string): Promise<IUserAchievement[]> {
-    if (!userId) return []
-
-    const {data, error} = await supabase
-        .from("user_achievements")
-        .select(`
-      *,
-      achievement:achievements(*)
-    `)
-        .eq("user_id", userId)
-        .order("id", {ascending: true})
-
-    if (error) {
-        console.error("Error fetching user achievements:", error)
-        return []
-    }
-
-    return data || []
-}
 
 /**
  * Gets featured achievements for a user (for showcase)
@@ -166,52 +148,703 @@ export async function getTotalAchievements(): Promise<{ totalAchievements: numbe
     return {totalAchievements: totalAchievements || 10}
 }
 
+
 /**
- * Gets the user's level progress
- * @returns The user's level progress as a percentage
- * @param user
+ * Updates achievement progress for a user
+ * @param userId The user's ID
+ * @param achievementId The achievement ID
+ * @param progress The new progress value
+ * @returns Success status
  */
-export async function getUserLevelProgress(user: IUser): Promise<number> {
-    if (!user.id) return 0
+export async function updateAchievementProgress(
+    userId: string,
+    achievementId: number,
+    progress: number
+): Promise<boolean> {
+    if (!userId || !achievementId) return false
 
     try {
-        const currentLevelId = user?.level_id || 1
-        const currentXP = user?.experience_points || 0
-
-        // Get current level XP requirement
-        const {data: currentLevelData, error: currentLevelError} = await supabase
-            .from("levels")
-            .select("experience_required")
-            .eq("id", currentLevelId)
+        // Get the current user achievement
+        const {data: userAchievement, error: fetchError} = await supabase
+            .from("user_achievements")
+            .select("*")
+            .eq("user_id", userId)
+            .eq("achievement_id", achievementId)
             .single()
 
-        if (currentLevelError) {
-            console.error("Error fetching current level data:", currentLevelError)
-            return 0 // Default to 0% if we can't get data
+        if (fetchError && fetchError.code !== "PGRST116") {
+            console.error("Error fetching user achievement:", fetchError)
+            return false
         }
 
-        // Get next level XP requirement
-        const {data: nextLevelData, error: nextLevelError} = await supabase
+        // If the user achievement doesn't exist, create it
+        if (!userAchievement) {
+            // Get the achievement details
+            const {data: achievement, error: achievementError} = await supabase
+                .from("achievements")
+                .select("requirement_value")
+                .eq("id", achievementId)
+                .single()
+
+            if (achievementError) {
+                console.error("Error fetching achievement:", achievementError)
+                return false
+            }
+
+            // Check if the achievement is completed
+            const isUnlocked = progress >= achievement.requirement_value
+            const unlockedAt = isUnlocked ? new Date().toISOString() : null
+
+            // Create the user achievement
+            const {error: insertError} = await supabase.from("user_achievements").insert({
+                user_id: userId,
+                achievement_id: achievementId,
+                progress,
+                is_unlocked: isUnlocked,
+                unlocked_at: unlockedAt
+            })
+
+            if (insertError) {
+                console.error("Error creating user achievement:", insertError)
+                return false
+            }
+
+            // If the achievement was unlocked, update user XP
+            if (isUnlocked) {
+                await updateUserXP(userId, achievementId)
+            }
+
+            return true
+        }
+
+        // Get the achievement details
+        const {data: achievement, error: achievementError} = await supabase
+            .from("achievements")
+            .select("requirement_value")
+            .eq("id", achievementId)
+            .single()
+
+        if (achievementError) {
+            console.error("Error fetching achievement:", achievementError)
+            return false
+        }
+
+        // Check if the achievement is now completed
+        const wasUnlocked = userAchievement.is_unlocked
+        const isUnlocked = progress >= achievement.requirement_value
+        const unlockedAt = isUnlocked && !wasUnlocked ? new Date().toISOString() : userAchievement.unlocked_at
+
+        // Update the user achievement
+        const {error: updateError} = await supabase
+            .from("user_achievements")
+            .update({
+                progress,
+                is_unlocked: isUnlocked,
+                unlocked_at: unlockedAt
+            })
+            .eq("id", userAchievement.id)
+
+        if (updateError) {
+            console.error("Error updating user achievement:", updateError)
+            return false
+        }
+
+        // If the achievement was just unlocked, update user XP
+        if (isUnlocked && !wasUnlocked) {
+            await updateUserXP(userId, achievementId)
+        }
+
+        return true
+    } catch (error) {
+        console.error("Error updating achievement progress:", error)
+        return false
+    }
+}
+
+/**
+ * Updates user XP when an achievement is unlocked
+ * @param userId The user's ID
+ * @param achievementId The achievement ID
+ * @returns Success status
+ */
+async function updateUserXP(userId: string, achievementId: number): Promise<boolean> {
+    try {
+        // Get the achievement XP reward
+        const {data: achievement, error: achievementError} = await supabase
+            .from("achievements")
+            .select("xp_reward")
+            .eq("id", achievementId)
+            .single()
+
+        if (achievementError) {
+            console.error("Error fetching achievement XP:", achievementError)
+            return false
+        }
+
+        const xpReward = achievement.xp_reward || 0
+
+        // Get the current user XP
+        const {data: user, error: userError} = await supabase
+            .from("users")
+            .select("experience_points, level_id")
+            .eq("id", userId)
+            .single()
+
+        if (userError) {
+            console.error("Error fetching user XP:", userError)
+            return false
+        }
+
+        const currentXP = user.experience_points || 0
+        const currentLevelId = user.level_id || 1
+        const newXP = currentXP + xpReward
+
+        // Check if the user should level up
+        const {data: nextLevel, error: nextLevelError} = await supabase
             .from("levels")
-            .select("experience_required")
+            .select("id, experience_required")
             .eq("id", currentLevelId + 1)
             .single()
 
         if (nextLevelError && nextLevelError.code !== "PGRST116") {
-            // PGRST116 means no rows returned, which is fine if user is at max level
-            console.error("Error fetching next level data:", nextLevelError)
-            return 100 // If at max level, show 100%
+            console.error("Error fetching next level:", nextLevelError)
         }
 
-        const currentLevelXP = currentLevelData?.experience_required || 0
-        const nextLevelXP = nextLevelData?.experience_required || currentLevelXP * 2
+        // Determine if user should level up
+        let newLevelId = currentLevelId
+        if (nextLevel && newXP >= nextLevel.experience_required) {
+            newLevelId = nextLevel.id
+        }
+
+        // Update the user XP and level
+        const {error: updateError} = await supabase
+            .from("users")
+            .update({
+                experience_points: newXP,
+                level_id: newLevelId
+            })
+            .eq("id", userId)
+
+        if (updateError) {
+            console.error("Error updating user XP:", updateError)
+            return false
+        }
+
+        return true
+    } catch (error) {
+        console.error("Error updating user XP:", error)
+        return false
+    }
+}
+
+/**
+ * Checks and updates achievements based on a specific action
+ * @param userId The user's ID
+ * @param actionType The type of action (support, streak, etc.)
+ * @param actionValue The value of the action (amount, days, etc.)
+ * @returns Success status
+ */
+export async function checkAndUpdateAchievements(
+    userId: string,
+    actionType: string,
+    actionValue: number = 1
+): Promise<boolean> {
+    if (!userId || !actionType) return false
+
+    try {
+        // Get all achievements related to this action type
+        const {data: achievements, error: achievementsError} = await supabase
+            .from("achievements")
+            .select("id, requirement_type, requirement_value")
+            .eq("requirement_type", actionType)
+
+        if (achievementsError) {
+            console.error("Error fetching achievements:", achievementsError)
+            return false
+        }
+
+        if (!achievements || achievements.length === 0) {
+            return true // No achievements to update
+        }
+
+        // Get current user achievements for these achievement IDs
+        const achievementIds = achievements.map(a => a.id)
+        const {data: userAchievements, error: userAchievementsError} = await supabase
+            .from("user_achievements")
+            .select("id, achievement_id, progress, is_unlocked")
+            .eq("user_id", userId)
+            .in("achievement_id", achievementIds)
+
+        if (userAchievementsError) {
+            console.error("Error fetching user achievements:", userAchievementsError)
+            return false
+        }
+
+        // Create a map of achievement_id to user_achievement
+        const userAchievementMap = new Map()
+        if (userAchievements) {
+            userAchievements.forEach(ua => {
+                userAchievementMap.set(ua.achievement_id, ua)
+            })
+        }
+
+        // Update each achievement
+        for (const achievement of achievements) {
+            const userAchievement = userAchievementMap.get(achievement.id)
+
+            // Skip if already unlocked
+            if (userAchievement && userAchievement.is_unlocked) {
+                continue
+            }
+
+            // Determine the new progress value based on action type
+            let newProgress = actionValue
+            if (userAchievement) {
+                // For cumulative achievements, add to existing progress
+                if ([
+                    "projects_supported",
+                    "networks_supported",
+                    "unique_chains",
+                    "total_support",
+                    "single_support",
+                    "repeat_support",
+                    "trivia_correct",
+                    "trivia_streak",
+                    "daily_streak",
+                    "daily_activities",
+                    "lottery_wins",
+                    "bingo_wins",
+                    "bingo_full_card",
+                    "rps_played",
+                    "rps_rock_wins",
+                    "join_date"
+                ].includes(actionType)) {
+                    newProgress = (userAchievement?.progress || 0) + actionValue;
+                } else if (["streak_days", "streak"].includes(actionType)) {
+                    newProgress = Math.max(userAchievement?.progress || 0, actionValue);
+                }
+            }
+
+            // Update the achievement progress
+            await updateAchievementProgress(userId, achievement.id, newProgress)
+        }
+
+        return true
+    } catch (error) {
+        console.error("Error checking and updating achievements:", error)
+        return false
+    }
+}
+
+/**
+ * Gets the next achievements a user should focus on
+ * @param userId The user's ID
+ * @param limit The number of achievements to return
+ * @returns The next achievements to focus on
+ */
+export async function getNextAchievements(
+    userId: string,
+    limit: number = 3
+): Promise<IUserAchievement[]> {
+    if (!userId) return []
+
+    try {
+        // Get user achievements that are not unlocked
+        const {data, error} = await supabase
+            .from("user_achievements")
+            .select(`
+        *,
+        achievement:achievements(*)
+      `)
+            .eq("user_id", userId)
+            .eq("is_unlocked", false)
+            .order("progress", {ascending: false})
+            .limit(limit)
+
+        if (error) {
+            console.error("Error fetching next achievements:", error)
+            return []
+        }
+
+        return data || []
+    } catch (error) {
+        console.error("Error getting next achievements:", error)
+        return []
+    }
+}
+
+// /**
+// * Gets comprehensive statistics for a user
+// * @param userId The user's ID
+// * @returns User statistics including level and achievements
+// */
+// export async function getUserAchievementsStats(userId: string): Promise<IUserAchievementsStats | null> {
+//     if (!userId) return null;
+//
+//     try {
+//         // Get user basic info including level
+//         const { data: user, error: userError } = await supabase
+//             .from("users")
+//             .select(`
+//         id,
+//         username,
+//         experience_points,
+//         level_id,
+//         level:levels(id, name, experience_required)
+//       `)
+//             .eq("id", userId)
+//             .single();
+//
+//         if (userError) {
+//             console.error("Error fetching user stats:", userError);
+//             return null;
+//         }
+//
+//         // Get next level info for progress calculation
+//         const { data: nextLevel} = await supabase
+//             .from("levels")
+//             .select("id, experience_required")
+//             .eq("id", user.level_id + 1)
+//             .single();
+//
+//         // Get achievement statistics
+//         const { data: achievementStats, error: achievementStatsError } = await supabase
+//             .from("user_achievements")
+//             .select("is_unlocked")
+//             .eq("user_id", userId);
+//
+//         if (achievementStatsError) {
+//             console.error("Error fetching achievement stats:", achievementStatsError);
+//             return null;
+//         }
+//
+//         // Get total number of achievements
+//         const { count: totalAchievements, error: totalError } = await supabase
+//             .from("achievements")
+//             .select("id", { count: "exact", head: true })
+//             .eq("is_show", true);
+//
+//         if (totalError) {
+//             console.error("Error fetching total achievements:", totalError);
+//             return null;
+//         }
+//
+//         // Get recently unlocked achievements
+//         const { data: recentlyUnlocked, error: recentError } = await supabase
+//             .from("user_achievements")
+//             .select(`
+//         *,
+//         achievement:achievements(*)
+//       `)
+//             .eq("user_id", userId)
+//             .eq("is_unlocked", true)
+//             .order("unlocked_at", { ascending: false })
+//             .limit(3);
+//
+//         if (recentError) {
+//             console.error("Error fetching recently unlocked achievements:", recentError);
+//             return null;
+//         }
+//
+//         // Calculate level progress
+//         const currentXP = user.experience_points;
+//         const currentLevelXP = user.level?.experience_required;
+//         const nextLevelXP = nextLevel ? nextLevel.experience_required : currentLevelXP * 1.5;
+//         const xpForCurrentLevel = currentXP - currentLevelXP;
+//         const xpRequiredForNextLevel = nextLevelXP - currentLevelXP;
+//         const levelProgress = Math.min(100, Math.round((xpForCurrentLevel / xpRequiredForNextLevel) * 100));
+//
+//         // Calculate achievement statistics
+//         const unlockedAchievements = achievementStats.filter(a => a.is_unlocked).length;
+//         const inProgressAchievements = achievementStats.length - unlockedAchievements;
+//         const percentComplete = totalAchievements ? Math.round((unlockedAchievements / totalAchievements) * 100) : 0;
+//
+//         return {
+//             userId,
+//             username: user.username,
+//             level: {
+//                 id: user.level_id,
+//                 name: user.level.name,
+//                 current_xp: currentXP,
+//                 required_xp: xpRequiredForNextLevel,
+//                 nextLevel_xp: nextLevelXP,
+//                 progress: levelProgress
+//             },
+//             achievements: {
+//                 total: totalAchievements || 30,
+//                 unlocked: unlockedAchievements,
+//                 progress: inProgressAchievements,
+//                 percent_complete: percentComplete,
+//                 recently_unlocked: recentlyUnlocked as IUserAchievementsStats[]
+//             }
+//         };
+//     } catch (error) {
+//         console.error("Error getting user stats:", error);
+//         return null;
+//     }
+// }
+
+/**
+ * Gets all achievement data
+ * @returns List of all achievements
+ */
+export async function getAllAchievements(): Promise<IAchievement[]> {
+    try {
+        const {data, error} = await supabase
+            .from("achievements")
+            .select("*")
+            .order("id");
+
+        if (error) {
+            console.error("Error fetching achievements:", error);
+            return [];
+        }
+
+        return data || [];
+    } catch (error) {
+        console.error("Error getting all achievements:", error);
+        return [];
+    }
+}
+
+/**
+ * Gets user achievements with progress
+ * @param userId The user's ID
+ * @returns List of user achievements with details
+ */
+export async function getUserAchievements(userId: string): Promise<IUserAchievement[]> {
+    if (!userId) return [];
+
+    try {
+        // Get all achievements
+        const {data: achievements, error: achievementsError} = await supabase
+            .from("achievements")
+            .select("*")
+            .eq('is_show', true)
+            .order("id");
+
+        if (achievementsError) {
+            console.error("Error fetching achievements:", achievementsError);
+            return [];
+        }
+
+        // Get user's achievement progress
+        const {data: userAchievements, error: userAchievementsError} = await supabase
+            .from("user_achievements")
+            .select("*")
+            .eq("user_id", userId);
+
+        if (userAchievementsError) {
+            console.error("Error fetching user achievements:", userAchievementsError);
+            return [];
+        }
+
+        // Create a map of user achievements by achievement_id
+        const userAchievementMap = new Map();
+        userAchievements?.forEach(ua => {
+            userAchievementMap.set(ua.achievement_id, ua);
+        });
+
+        // Combine achievement data with user progress
+        const result: IUserAchievement[] = achievements.map(achievement => {
+            const userAchievement = userAchievementMap.get(achievement.id) || {
+                id: 0,
+                user_id: userId,
+                achievement_id: achievement.id,
+                progress: 0,
+                is_unlocked: false,
+                unlocked_at: null
+            };
+
+            return {
+                ...userAchievement,
+                achievement
+            };
+        });
+
+        return result;
+    } catch (error) {
+        console.error("Error getting user achievements:", error);
+        return [];
+    }
+}
+
+/**
+ * Gets all level details
+ * @returns List of all levels with details
+ */
+export async function getAllLevels(): Promise<ILevelDetail[]> {
+    try {
+        const {data, error} = await supabase
+            .from("levels")
+            .select("*")
+            .order("level_number");
+
+        if (error) {
+            console.error("Error fetching levels:", error);
+            return [];
+        }
+
+        // Add icons to the level data
+        const levelDetails: ILevelDetail[] = data.map(level => ({
+            ...level,
+            icon: getLevelIcon(level.level_number)
+        }));
+
+        return levelDetails;
+    } catch (error) {
+        console.error("Error getting all levels:", error);
+        return [];
+    }
+}
+
+/**
+ * Gets user's level progress information
+ * @param userId The user's ID
+ * @returns User level progress details
+ */
+export async function getUserLevelProgress(userId: string): Promise<IUserLevelProgress | null> {
+    if (!userId) return null;
+
+    try {
+        // Get user basic info
+        const {data: user, error: userError} = await supabase
+            .from("users")
+            .select("id, experience_points, level_id")
+            .eq("id", userId)
+            .single();
+
+        if (userError) {
+            console.error("Error fetching user:", userError);
+            return null;
+        }
+
+        // Get all levels
+        const allLevels = await getAllLevels();
+        if (allLevels.length === 0) return null;
+
+        // Find current and next level
+        const currentLevel = allLevels.find(level => level.id === user.level_id);
+        const nextLevelIndex = allLevels.findIndex(level => level.id === user.level_id) + 1;
+        const nextLevel = nextLevelIndex < allLevels.length ? allLevels[nextLevelIndex] : null;
+
+        if (!currentLevel) return null;
 
         // Calculate progress percentage
-        const xpForNextLevel = nextLevelXP - currentLevelXP
-        const xpProgress = currentXP - currentLevelXP
-        return Math.min(100, Math.round((xpProgress / xpForNextLevel) * 100))
+        const currentXP = user.experience_points;
+        const currentLevelXP = currentLevel.experience_required;
+        const nextLevelXP = nextLevel ? nextLevel.experience_required : currentLevelXP * 1.5;
+        const xpForCurrentLevel = currentXP - currentLevelXP;
+        const xpRequiredForNextLevel = nextLevelXP - currentLevelXP;
+        const progressPercent = Math.min(100, Math.round((xpForCurrentLevel / xpRequiredForNextLevel) * 100));
+
+        // Determine completed levels
+        const completedLevels = allLevels
+            .filter(level => level.level_number < currentLevel.level_number)
+            .map(level => level.level_number);
+
+        return {
+            currentLevel: currentLevel.level_number,
+            currentLevelName: currentLevel.name,
+            nextLevel: nextLevel ? nextLevel.level_number : currentLevel.level_number,
+            nextLevelName: nextLevel ? nextLevel.name : currentLevel.name,
+            progressPercent,
+            currentXP,
+            requiredXP: nextLevelXP,
+            allLevels,
+            completedLevels
+        };
     } catch (error) {
-        console.error("Error calculating level progress:", error)
-        return 0 // Default to 0% if there's an error
+        console.error("Error getting user level progress:", error);
+        return null;
+    }
+}
+
+/**
+ * Helper function to get level icon based on level number
+ * @param levelNumber The level number
+ * @returns Icon name for the level
+ */
+function getLevelIcon(levelNumber: number): string {
+    // Map level numbers to appropriate icons
+    // You can customize these based on your preference
+    const iconMap: Record<number, string> = {
+        1: "Coffee",
+        2: "CupSoda",
+        3: "Brain",
+        4: "Calendar",
+        5: "Globe",
+        6: "Activity",
+        7: "Coffee",
+        8: "Fuel",
+        9: "Brain",
+        10: "Coffee",
+        11: "Zap",
+        12: "Link",
+        13: "Grid",
+        14: "Brain",
+        15: "Fuel",
+        16: "HandRock",
+        17: "Calendar",
+        18: "Coffee",
+        19: "Brain",
+        20: "Coffee",
+        21: "Brain",
+        22: "HandRock",
+        23: "Grid",
+        24: "Trophy",
+        25: "Coffee",
+        26: "HandRock",
+        27: "Calendar",
+        28: "Brain",
+        29: "Award",
+        30: "Crown"
+    };
+
+    return iconMap[levelNumber] || "Coffee";
+}
+
+
+/**
+ * Grants 25 XP to the user after any valid activity (buy-coffee, trivia, bingo, etc.)
+ * @param user
+ * @param amount Optional custom XP amount (defaults to 25)
+ */
+export async function addXpForTransaction(user: IUser, amount: number = 25): Promise<boolean> {
+    try {
+        const newXP = (user.experience_points || 0) + amount;
+        let newLevelId = user.level_id;
+
+        // Check next level
+        const {data: nextLevel} = await supabase
+            .from("levels")
+            .select("id, experience_required")
+            .gt("id", user.level_id)
+            .order("id", {ascending: true})
+            .limit(1)
+            .single();
+
+        if (nextLevel && newXP >= nextLevel.experience_required) {
+            newLevelId = nextLevel.id;
+        }
+
+        // Update user XP and level
+        const {error: updateError} = await supabase
+            .from("users")
+            .update({
+                experience_points: newXP,
+                level_id: newLevelId,
+            })
+            .eq("id", user.id);
+
+        if (updateError) {
+            console.error("Error updating XP after transaction:", updateError);
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Unexpected error adding XP for transaction:", error);
+        return false;
     }
 }

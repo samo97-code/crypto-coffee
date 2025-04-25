@@ -15,6 +15,8 @@ import {motion} from "framer-motion";
 import {cn} from "@/utils/utils";
 import type {AnimationControls} from 'framer-motion';
 import {toast} from "sonner"
+import {handlePostTransactionUpdate} from "@/lib/transaction-service";
+import {addXpForTransaction} from "@/lib/acheivements-service";
 
 interface IProps {
     isHovering: boolean,
@@ -163,8 +165,11 @@ const BuyButton: FC<IProps> = ({
     const txFinishedSuccessfully = async () => {
        try {
            setShowSuccessModal(true)
-           await createSupportTransaction(user.id, project.id, project.network_name, hash, amount.toString())
-           await updateTxTotalAmount(user.id)
+           const transaction =  await createSupportTransaction(user.id, project.id, project.network_name, hash, amount.toString())
+
+           if (transaction) {
+               await Promise.all([addXpForTransaction(user), handlePostTransactionUpdate(user.id, transaction), await updateTxTotalAmount(user.id)])
+           }
        }catch (error) {
            console.error('Supabase Error:', error);
        }finally {

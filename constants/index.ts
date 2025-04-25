@@ -512,3 +512,27 @@ export const filterDays = [
     {label: "Last 30 days", value: '30'},
     {label: "Last 90 days", value: '90'},
 ]
+
+export const REQUIREMENT_TYPES = {
+    JOIN_DATE: "join_date",                        // Joined in first month
+    PROJECTS_SUPPORTED: "projects_supported",      // Coffee 50 times (unique projects)
+    TOTAL_SUPPORT: "total_support",                // $200+ contributed
+    STREAK_DAYS: "streak_days",                    // Maintain daily streak
+    NETWORKS_SUPPORTED: "networks_supported",      // Buy coffee on 10 chains
+    DAILY_ACTIVITIES: "daily_activities",          // All daily tasks for 7 days
+    UNIQUE_CHAINS: "unique_chains",                // Coffee on 5 different chains
+    SOCIAL_CONNECTIONS: "social_connections",      // Connect social account(s)
+    TRIVIA_CORRECT: "trivia_correct",              // Correct trivia answers
+    LOTTERY_WINS: "lottery_wins",                  // Win lottery
+    SINGLE_SUPPORT: "single_support",              // Buy $50+ in one tx
+    TRIVIA_STREAK: "trivia_streak",                // 5 correct in a row
+    DAILY_STREAK: "daily_streak",                  // 14 daily actions in a row
+    HIGH_GAS_TX: "high_gas_tx",                    // Send tx when gas > 200 gwei
+    REPEAT_SUPPORT: "repeat_support",              // Buy on same chain 30 days
+    FOUNDING_ACTIVITY: "founding_activity",        // Was active in first 3 months
+    JOKES_REVEALED: "jokes_revealed",              // View jokes
+    BINGO_WINS: "bingo_wins",                      // Win 3 times
+    BINGO_FULL_CARD: "bingo_full_card",            // Complete bingo card
+    RPS_PLAYED: "rps_played",                      // Played 10 RPS games
+    RPS_ROCK_WINS: "rps_rock_wins",                // 3 wins with rock
+}

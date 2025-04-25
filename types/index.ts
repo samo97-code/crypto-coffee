@@ -93,6 +93,7 @@ export interface BlockchainNetwork {
 }
 
 export interface ITransaction {
+    usd_value: number;
     id: number;
     user_id: string;
     project_id: number;
@@ -106,6 +107,7 @@ export interface ITransaction {
     projects?: IProject
 }
 
+// Achievement interface
 export interface IAchievement {
     id: number;
     name: string;
@@ -115,10 +117,12 @@ export interface IAchievement {
     icon_color: string;
     requirement_type: string;
     requirement_value: number;
+    xp_reward?: number;
     is_featured: boolean;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
+
 
 export interface IDailyActivity {
     id: number
@@ -174,6 +178,31 @@ export interface IProfileStates {
     levelProgress: number,
 }
 
+export interface ILevelDetail {
+    id: number;
+    level_number: number;
+    name: string;
+    requirements: string;
+    experience_required: number;
+    icon?: string;
+}
+
+/**
+ * Interface for user level progress
+ */
+export interface IUserLevelProgress {
+    currentLevel: number;
+    currentLevelName: string;
+    nextLevel: number;
+    nextLevelName: string;
+    progressPercent: number;
+    currentXP: number;
+    requiredXP: number;
+    allLevels: ILevelDetail[];
+    completedLevels: number[];
+}
+
+
 export interface IUserAchievement {
     id: number
     user_id: string
@@ -186,6 +215,26 @@ export interface IUserAchievement {
     slice(number: number, number2: number): any;
 
     map(element: (achievement: IUserAchievement, index: number) => React.JSX.Element): any;
+}
+
+export interface IUserAchievementsStats {
+    userId: string;
+    username?: string;
+    level: {
+        id: number;
+        name: string;
+        current_xp: number;
+        required_xp: number;
+        nextLevel_xp: number;
+        progress: number;
+    };
+    achievements: {
+        total: number;
+        unlocked: number;
+        progress: number;
+        percent_complete: number;
+        recently_unlocked: IUserAchievement[];
+    };
 }
 
 export interface IBadge {

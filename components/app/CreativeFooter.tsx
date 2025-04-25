@@ -26,10 +26,10 @@ export function CreativeFooter() {
 
 
     return (
-        <footer className="relative mt-20">
+        <footer className="relative">
             {/* Coffee cup shape divider */}
             <div className="relative h-24">
-                <svg viewBox="0 0 1440 96" className="absolute bottom-0 w-full h-auto fill-coffee-200 dark:fill--coffee-50/80">
+                <svg viewBox="0 0 1440 96" className="absolute bottom-0 w-full h-auto fill-coffee-600 dark:fill--coffee-50/80">
                     <path d="M0,96L120,90.7C240,85,480,75,720,74.7C960,75,1200,85,1320,90.7L1440,96L1440,96L1320,96C1200,96,960,96,720,96C480,96,240,96,120,96L0,96Z"></path>
                 </svg>
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-40 h-16 bg-[#E99C20] rounded-t-full"></div>

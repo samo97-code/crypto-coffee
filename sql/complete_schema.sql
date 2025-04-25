@@ -488,18 +488,39 @@ VALUES
   (18, 'Eth', 1135, 'https://blockscout.lisk.com/', 'mainnet');
 
 -- Insert levels
-INSERT INTO levels (level_number, name, requirements, experience_required)
-VALUES
-  (1, 'Coffee Novice', 'Join Crypto Coffee', 0),
-  (2, 'Coffee Apprentice', 'Support 5 projects', 100),
-  (3, 'Coffee Enthusiast', 'Support 10 projects and maintain a 7-day streak', 250),
-  (4, 'Coffee Aficionado', 'Support 20 projects and complete 15 daily activities', 500),
-  (5, 'Coffee Connoisseur', 'Support 30 projects and maintain a 14-day streak', 1000),
-  (6, 'Coffee Master', 'Support 40 projects and unlock 10 achievements', 2000),
-  (7, 'Coffee Virtuoso', 'Support 50 projects and maintain a 21-day streak', 3500),
-  (8, 'Coffee Legend', 'Support 75 projects and unlock 20 achievements', 5000),
-  (9, 'Coffee Oracle', 'Support 100 projects and maintain a 30-day streak', 7500),
-  (10, 'Coffee Deity', 'Support 150 projects and unlock all achievements', 10000);
+-- Final version
+INSERT INTO "public"."levels" ("id", "level_number", "name", "requirements", "experience_required", "created_at", "updated_at") VALUES
+(1, 1, 'Coffee Novice', 'Join Crypto Coffee', 0, now(), now()),
+(2, 2, 'Coffee Sipper', 'Buy coffee from 3 projects', 50, now(), now()),
+(3, 3, 'Trivia Rookie', 'Answer 5 trivia questions correctly', 125, now(), now()),
+(4, 4, 'Daily Dripper', 'Complete 5 daily activities', 225, now(), now()),
+(5, 5, 'Coffee Explorer', 'Buy coffee from 5 networks', 350, now(), now()),
+(6, 6, 'Activity Regular', 'Log 7 days in a row', 500, now(), now()),
+(7, 7, 'Coffee Collector', 'Buy coffee from 10 projects', 700, now(), now()),
+(8, 8, 'Gas Grinder', 'Send tx when gas is above 30 gwei', 950, now(), now()),
+(9, 9, 'Trivia Addict', 'Answer 25 trivia questions', 1250, now(), now()),
+(10, 10, 'Coffee Devotee', 'Buy coffee from 15 projects and maintain 7-day streak', 1600, now(), now()),
+(11, 11, 'Support Streaker', 'Maintain a 14-day streak', 2000, now(), now()),
+(12, 12, 'Chain Jumper', 'Buy coffee on 10 chains', 2450, now(), now()),
+(13, 13, 'Bingo Player', 'Play 5 games of Bingo', 2950, now(), now()),
+(14, 14, 'Trivia Veteran', 'Answer 50 trivia questions', 3550, now(), now()),
+(15, 15, 'Gas Warrior', 'Complete 3 gas lottery entries', 4200, now(), now()),
+(16, 16, 'Chain Challenger', 'Win 5 Rock Paper Scissors games', 4950, now(), now()),
+(17, 17, 'Daily Devotion', 'Complete any daily activity for 21 consecutive days', 5800, now(), now()),
+(18, 18, 'Coffee Enthusiast', 'Buy coffee from 25 projects', 6700, now(), now()),
+(19, 19, 'Knowledge is Power', 'Answer 100 trivia questions', 7700, now(), now()),
+(20, 20, 'Coffee Aficionado', 'Buy coffee from 30 projects + maintain 21-day streak', 8800, now(), now()),
+(21, 21, 'Trivia Fiend', 'Answer 5 trivia in a row correctly', 10000, now(), now()),
+(22, 22, 'RPS Veteran', 'Win 10 Rock Paper Scissors matches', 11500, now(), now()),
+(23, 23, 'Full House', 'Complete a full Bingo card', 13000, now(), now()),
+(24, 24, 'Lucky Brewer', 'Win the gas lottery 3 times', 14500, now(), now()),
+(25, 25, 'Coffee Connoisseur', 'Buy coffee from 40 projects', 16000, now(), now()),
+(26, 26, 'The Rock', 'Win 3 Rock Paper Scissors games in a row', 17500, now(), now()),
+(27, 27, 'Daily Champion', 'Complete 75 daily activities', 19000, now(), now()),
+(28, 28, 'Trivia Oracle', 'Answer 150 trivia questions', 21500, now(), now()),
+(29, 29, 'Coffee Legend', 'Buy coffee from 60 projects and unlock 20 achievements', 23500, now(), now()),
+(30, 30, 'Coffee Deity', 'Buy coffee from 80 projects and unlock 24 achievements', 26000, now(), now());
+
 
 -- Insert level rewards
 INSERT INTO level_rewards (level_id, reward_description)
@@ -526,18 +547,40 @@ VALUES
   (10, 'Exclusive merchandise');
 
 -- Insert achievements
-INSERT INTO achievements (name, description, icon_name, icon_bg, icon_color, requirement_type, requirement_value, is_featured)
-VALUES
-  ('Early Adopter', 'Joined Crypto Coffee in the first month of launch', 'Award', 'bg-purple-100', 'text-purple-600', 'join_date', 30, true),
-  ('Coffee Connoisseur', 'Supported 50 different projects', 'Coffee', 'bg-coffee-100', 'text-coffee-700', 'projects_supported', 50, true),
-  ('Generous Brewer', 'Contributed over $1,000 in total support', 'Droplets', 'bg-green-100', 'text-green-600', 'total_support', 1000, true),
-  ('Streak Master', 'Maintained a 30-day support streak', 'Zap', 'bg-orange-100', 'text-orange-600', 'streak_days', 30, false),
-  ('Chain Explorer', 'Supported projects on 10 different networks', 'Globe', 'bg-blue-100', 'text-blue-600', 'networks_supported', 10, true),
-  ('Daily Devotee', 'Completed all daily activities for 7 consecutive days', 'Calendar', 'bg-indigo-100', 'text-indigo-600', 'daily_activities', 7, false),
-  ('Bean Baron', 'Staked over 10,000 beans in coffee brews', 'Bean', 'bg-amber-100', 'text-amber-600', 'beans_staked', 10000, true),
-  ('Social Butterfly', 'Connected your social media accounts', 'Share', 'bg-pink-100', 'text-pink-600', 'social_connections', 3, false),
-  ('Crypto Trivia Master', 'Answered 50 crypto trivia questions correctly', 'Brain', 'bg-cyan-100', 'text-cyan-600', 'trivia_correct', 50, true),
-  ('Gas Lottery Winner', 'Won the gas fee lottery', 'Trophy', 'bg-yellow-100', 'text-yellow-600', 'lottery_wins', 1, true);
+-- Final version
+INSERT INTO "public"."achievements" (
+  "id", "name", "description", "icon_name", "icon_bg", "icon_color",
+  "requirement_type", "requirement_value", "xp_reward", "is_featured", "is_show","created_at", "updated_at"
+) VALUES
+-- Original Achievements
+('1', 'Early Adopter', 'Joined Crypto Coffee in the first month of launch', 'Award', 'bg-purple-100', 'text-purple-600', 'join_date', 1, 25, true, true, NOW(), NOW()),
+('2', 'Coffee Connoisseur', 'Buy Coffee 50 time', 'Coffee', 'bg-coffee-100', 'text-coffee-700', 'projects_supported', 50, 300, true,true, NOW(), NOW()),
+('3', 'Generous Brewer', 'Contributed over $200 in total', 'Droplets', 'bg-green-100', 'text-green-600', 'total_support', 200, 300, true,true, NOW(), NOW()),
+('4', 'Streak Master', 'Maintained a 20-day streak', 'Zap', 'bg-orange-100', 'text-orange-600', 'streak_days', 20, 250, false,true, NOW(), NOW()),
+('5', 'Multichain Master', 'Buy Coffee on 10 different chains', 'Globe', 'bg-blue-100', 'text-blue-600', 'networks_supported', 10, 250, true, true, NOW(), NOW()),
+('6', 'Daily Devotee', 'Completed all daily activities for 7 consecutive days', 'Calendar', 'bg-indigo-100', 'text-indigo-600', 'daily_activities', 7, 150, false,true, NOW(), NOW()),
+('7','Chain Explorer','Bought coffee on 5 different chains','Globe','bg-teal-100','text-teal-600','unique_chains', 5, 150, true, true, NOW(), NOW()),
+('8', 'Social Butterfly', 'Connected your social media accounts', 'Share', 'bg-pink-100', 'text-pink-600', 'social_connections', 1, 100, false, false, NOW(), NOW()),
+('9', 'Crypto Trivia Master', 'Answered 50 crypto trivia questions correctly', 'Brain', 'bg-cyan-100', 'text-cyan-600', 'trivia_correct', 50, 300, true, false, NOW(), NOW()),
+('10', 'Gas Lottery Winner', 'Won the gas fee lottery', 'Trophy', 'bg-yellow-100', 'text-yellow-600', 'lottery_wins', 1, 150, true, false, NOW(), NOW()),
+
+-- New Achievements
+('11', 'Coffee Whale', 'Buy Coffee in one chain with over $50.', 'Banknote', 'bg-lime-100', 'text-lime-600', 'single_support', 50, 250, true, true, NOW(), NOW()),
+('12', 'Coffee Scholar', 'Completed 10 crypto trivia questions.', 'BookOpenCheck', 'bg-indigo-100', 'text-indigo-600', 'trivia_correct', 10, 100, false, false, NOW(), NOW()),
+('13', 'Trivia Fiend', 'Answered 5 trivia questions in a row correctly.', 'Bot', 'bg-cyan-100', 'text-cyan-600', 'trivia_streak', 5, 120, false,false, NOW(), NOW()),
+('14', 'Daily Devotion', 'Completed any activity for 14 days straight.', 'Bolt', 'bg-orange-100', 'text-orange-600', 'daily_streak', 14, 200, false,true, NOW(), NOW()),
+('15', 'Gas Warrior', 'Sent a tx when gas was over 200 gwei.', 'Flame', 'bg-red-100', 'text-red-600', 'high_gas_tx', 1, 150, false,false, NOW(), NOW()),
+('16', 'Diamond Hands', 'Buy Coffee on same chain for 30 days.', 'Gem', 'bg-purple-100', 'text-purple-600', 'repeat_support', 30, 300, true, true, NOW(), NOW()),
+('17', 'OG Brewer', 'Was active during the first 3 months of launch.', 'Sparkles', 'bg-yellow-100', 'text-yellow-600', 'founding_activity', 1, 200, true, true, NOW(), NOW()),
+
+-- Daily Activity Achievements
+('18', 'Lucky Brewer', 'Won the gas fee lottery 3 times.', 'TicketCheck', 'bg-purple-100', 'text-purple-600', 'lottery_wins', 3, 200, false,false, NOW(), NOW()),
+('19', 'Knowledge is Power', 'Reached 100 total correct trivia answers.', 'BookCheck', 'bg-blue-100', 'text-blue-600', 'trivia_correct', 100, 350, true,false, NOW(), NOW()),
+('20', 'Crypto Comedian', 'Logged in every day for a week just to reveal the joke.', 'Laugh', 'bg-yellow-100', 'text-yellow-600', 'jokes_revealed', 7, 100, false,false, NOW(), NOW()),
+('21', 'Bingo Baller', 'Won 3 games in a week.', 'Grid3x3', 'bg-green-100', 'text-green-600', 'bingo_wins', 3, 150, false,false, NOW(), NOW()),
+('22', 'Full House', 'Completed a full card at least once.', 'Grid2x2', 'bg-emerald-100', 'text-emerald-600', 'bingo_full_card', 1, 200, false,false, NOW(), NOW()),
+('23', 'Chain Gamer', 'Played 10 games of Rock Paper Scissors.', 'Gamepad', 'bg-teal-100', 'text-teal-600', 'rps_played', 10, 150, false,false, NOW(), NOW()),
+('24', 'The Rock', 'Won 3 matches in a row using only rock.', 'HandRock', 'bg-slate-100', 'text-slate-600', 'rps_rock_wins', 3, 150, false,false, NOW(), NOW());
 
 -- Insert daily activities
 INSERT INTO daily_activities (name, description, icon_name, icon_bg, icon_color, fee, reward, category, action_text, completed_text)
