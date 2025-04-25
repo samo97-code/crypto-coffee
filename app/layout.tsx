@@ -12,7 +12,6 @@ import {Toaster} from "@/components/ui/sonner"
 import {ThemeProvider} from "@/components/re-usable/ThemeProvider";
 import {IChildren} from "@/types";
 import Header from "@/components/app/Header";
-import Footer from "@/components/app/Footer";
 import {CreativeFooter} from "@/components/app/CreativeFooter";
 import RainbowKit from "@/components/re-usable/RainbowKit";
 

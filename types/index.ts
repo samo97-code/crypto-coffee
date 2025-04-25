@@ -175,7 +175,7 @@ export interface IProfileStates {
     boughtCoffee: number,
     achievementsCount: number,
     totalAchievements: number,
-    levelProgress: number,
+    levelProgress: IUserLevelProgress,
 }
 
 export interface ILevelDetail {

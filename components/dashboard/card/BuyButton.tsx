@@ -194,9 +194,9 @@ const BuyButton: FC<IProps> = ({
 
                     {/* Button content */}
                     <div className="relative px-6 py-3 rounded-xl flex items-center justify-center">
-                        <Coffee className="w-5 h-5 mr-2 text-coffee-100 dark:text-coffee-800"/>
+                        <Coffee className="min-w-5 min-h-5 mr-2 text-coffee-100 dark:text-coffee-800"/>
                         <span
-                            className="text-coffee-100 dark:text-coffee-800 font-bold truncate">{isSending || isConfirming ? 'Sending...' : `Buy Coffee on ${project.chain}`}</span>
+                            className="block text-coffee-100 dark:text-coffee-800 font-bold truncate pr-5">{isSending || isConfirming ? 'Sending...' : `Buy Coffee on ${project.chain}`}</span>
                         <motion.div
                             className="absolute right-4 opacity-0 group-hover/button:opacity-100 group-hover/button:translate-x-0 translate-x-2"
                             transition={{duration: 0.2}}

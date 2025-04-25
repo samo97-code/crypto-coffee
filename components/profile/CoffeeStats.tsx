@@ -2,17 +2,17 @@
 
 import React, {FC} from "react";
 import {Badge} from "@/components/ui/badge"
-import {IStreakInfo, IProfileStates} from "@/types";
+import {IStreakInfo, IProfileStates, IUserLevelProgress} from "@/types";
 import { Coffee, Trophy, Flame } from "lucide-react"
 import { motion } from "framer-motion"
 
 interface IProps {
     stats: IProfileStates
     streak: IStreakInfo | null
-    level: number
+    levelProgress: IUserLevelProgress
 }
 
-const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
+const CoffeeStats: FC<IProps> = ({streak, stats, levelProgress}) => {
     return (
         <div className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 relative overflow-hidden"
         >
@@ -89,17 +89,17 @@ const CoffeeStats: FC<IProps> = ({streak, stats, level}) => {
                 >
                     <div className="flex items-center justify-between mb-2">
                         <div className="text-coffee-800 font-medium">Level</div>
-                        <Badge className="bg-coffee-700 dark:bg-coffee-50/40 text-white border-none px-3 py-1">Level {level}</Badge>
+                        <Badge className="bg-coffee-700 dark:bg-coffee-50/40 text-white border-none px-3 py-1">Level {levelProgress.currentLevel}</Badge>
                     </div>
                     <div className="mt-2">
                         <div className="flex justify-between text-xs mb-1">
-                            <span className="text-coffee-600">Progress to Level {level + 1}</span>
-                            <span className="text-coffee-600 font-medium">{stats.levelProgress}%</span>
+                            <span className="text-coffee-600">Progress to Level {levelProgress.nextLevel}</span>
+                            <span className="text-coffee-600 font-medium">{levelProgress.currentXP}/{levelProgress.requiredXP} XP</span>
                         </div>
                         <div className="relative pt-1">
-                            <div className="overflow-hidden h-2.5 text-xs flex rounded-full bg-coffee-100 dark:bg-coffee-50/40">
+                            <div className="overflow-hidden h-2 text-xs flex rounded-full bg-coffee-100 dark:bg-coffee-50/40">
                                 <div
-                                    style={{width: `${stats.levelProgress}%`}}
+                                    style={{width: `${levelProgress.progressPercent}%`}}
                                     className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-coffee-700 rounded-full"
                                 />
                             </div>

@@ -55,15 +55,15 @@ const Wrapper: FC<IProps> = ({streak, stats, achievements, badges, activities}) 
 
                 {/* Profile Info */}
                 <div
-                    className="flex flex-col md:flex-row gap-6 items-start md:items-end -mt-16 md:-mt-12 px-4 md:px-8">
-                    <Avatar className="h-32 w-32 border-4 border-coffee-50 shadow-lg">
+                    className=" flex flex-col md:flex-row gap-6 items-start mt-0 px-4 md:px-8 relative">
+                    <Avatar className="absolute -top-[60px] h-32 w-32 border-4 border-coffee-50 shadow-lg">
                         <AvatarImage src={`${user?.avatar_url}?height=128&width=128`}/>
                         <AvatarFallback
                             className="bg-coffee-100 text-coffee-800 text-4xl">CC</AvatarFallback>
                     </Avatar>
 
-                    <div className="flex-1">
-                        <div className="flex flex-row md:items-end justify-between gap-4 mt-2">
+                    <div className="flex-1 mt-2 ml-[150px]">
+                        <div className="flex flex-row items-start justify-between gap-4">
                             <div>
                                 <div className="flex items-center gap-2 text-coffee-700">
                                     <Wallet className="h-4 w-4"/>
@@ -97,7 +97,7 @@ const Wrapper: FC<IProps> = ({streak, stats, achievements, badges, activities}) 
                 {/* Sidebar */}
                 <div className="lg:col-span-1 space-y-6">
                     {/* User Stats Card */}
-                    <CoffeeStats stats={stats} streak={streak} level={user?.level_id || 1}/>
+                    <CoffeeStats stats={stats} streak={streak} levelProgress={stats.levelProgress}/>
 
                     {/* Quick Links */}
                     <QuickLinks/>

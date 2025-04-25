@@ -104,7 +104,8 @@ export async function getUserTransactions(userId: string, limit = 10): Promise<I
 export async function handlePostTransactionUpdate(userId: string, transaction: ITransaction) {
     if (!userId || !transaction) return;
 
-    const { usd_value, project_id, network_name } = transaction;
+    // const { usd_value, project_id, network_name } = transaction;
+    const {usd_value} = transaction;
 
     // Total spent in USD
     await checkAndUpdateAchievements(userId, "total_support", usd_value);

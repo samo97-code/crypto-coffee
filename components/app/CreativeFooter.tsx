@@ -65,8 +65,6 @@ export function CreativeFooter() {
                                 <div className="w-3 h-16 bg-[#E18A00]/20 rounded-full animate-steam2 delay-150"></div>
                                 <div className="w-3 h-10 bg-[#E18A00]/20 rounded-full animate-steam3 delay-300"></div>
                             </div>
-                            {/* Coffee handle */}
-                            <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 w-12 h-24 border-4 border-white rounded-r-full"></div>
                         </div>
 
                         {/* Links in a circular pattern */}

@@ -61,7 +61,6 @@ const Header = () => {
 
             if (createError) throw createError;
 
-            console.log(newUser, 'newUser')
             await checkJoinDateAchievement(newUser.id)
 
             return {success: true, user: newUser, isNewUser: true}

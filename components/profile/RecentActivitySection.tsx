@@ -100,10 +100,10 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                   ${expandedActivity === activity.id ? "scale-[1.02]" : ""}`}
                             >
                                 <div className="p-3">
-                                    <div className="flex items-start gap-2 cursor-pointer"
-                                         onClick={() => setExpandedActivity(expandedActivity === activity.id ? null : activity.id)}>
+                                    <div className={`${activity.type === 'support' ? 'cursor-pointer' : ''} flex items-start gap-2`}
+                                         onClick={() => activity.type === 'support' ? setExpandedActivity(expandedActivity === activity.id ? null : activity.id) : null}>
                                         <div
-                                            className={`w-10 h-10 rounded-full ${activity.icon_bg} bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-100/60 dark:to-coffee-50/20 flex items-center justify-center shrink-0`}
+                                            className={`${activity.type === 'support' ? 'bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-200/30 dark:to-coffee-100/50' : `${activity.icon_bg} opacity-80`} w-10 h-10 rounded-full flex items-center justify-center shrink-0`}
                                         >
                                             <IconComponent className={`h-5 w-5 ${activity.icon_color}`}/>
                                         </div>
@@ -190,7 +190,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
                         }
                     </div>
                 ) : (
-                    <div className="bg-coffee-50 dark:bg-coffee-50/60 p-3 rounded-lg shadow-sm text-center">
+                    <div className="bg-coffee-50 dark:bg-coffee-50/40 p-3 rounded-lg shadow-sm text-center">
                         <h4 className="text-coffee-900 font-medium text-2xl">Achievements</h4>
                         <p className="text-coffee-700 text-sm mt-1">Keep buying coffee to unlock special
                             achievements!</p>
@@ -223,7 +223,7 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
 
                                                 {isUnlocked ? (
                                                     <div
-                                                        className="flex items-center gap-1 text-green-600 text-sm mt-2">
+                                                        className="flex items-center gap-1 text-green-600 dark:text-green-500 text-sm mt-2">
                                                         <Sparkles className="h-3 w-3"/>
                                                         <span>
                                                   Unlocked on {new Date(achievement.unlocked_at || "").toLocaleDateString()}

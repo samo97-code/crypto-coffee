@@ -159,7 +159,7 @@ const WelcomeSection = () => {
                     </div>
                     <div className="flex items-end justify-between">
                         <div className="text-3xl font-bold text-coffee-900">{projects.length}</div>
-                        <div className="flex items-center text-coffee-600 text-sm font-medium">
+                        <div className="flex items-center text-coffee-600 dark:text-coffee-900 text-sm font-medium">
                             <Coffee className="h-4 w-4 mr-1"/>
                             <span>Soon more</span>
                         </div>

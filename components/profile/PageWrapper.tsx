@@ -33,7 +33,17 @@ const PageWrapper = () => {
             boughtCoffee: 0,
             achievementsCount: 0,
             totalAchievements: 0,
-            levelProgress: 0,
+            levelProgress: {
+                currentLevel: 1,
+                currentLevelName: "",
+                nextLevel: 2,
+                nextLevelName: "",
+                progressPercent: 0,
+                currentXP: 0,
+                requiredXP: 0,
+                allLevels: [],
+                completedLevels: []
+            },
         },
         achievements: [],
         badges: [],
@@ -58,6 +68,10 @@ const PageWrapper = () => {
 
             const streak = await fetchUserStreak(user)
             const [userData, dataStats] = await Promise.all([fetchUserData(userId, streak?.currentStreak), fetchStats(user, userId)])
+
+            if (dataStats){
+                dataStats.totalAchievements = userData?.totalAchievements as number
+            }
 
             setProfileData({
                 streak: camelToSnake(streak) as IStreakInfo,
@@ -86,14 +100,17 @@ const PageWrapper = () => {
     const fetchUserData = async (userId: string, currentStreak: number | undefined) => {
         try {
             // Fetch achievements
-            const userAchievements = await getUserAchievements(userId)
+            const achievements = await getUserAchievements(userId)
+            const userAchievements = achievements.filter((item) => item.is_unlocked)
+
             // Fetch badges
             const userBadges = await getUserBadges(userId, currentStreak || 0, userAchievements)
+
             // Fetch recent activities
             const recentActivities = await getUserRecentActivities(userId, 5)
 
             return {
-                userAchievements, userBadges, recentActivities
+                userAchievements, userBadges, recentActivities, totalAchievements: achievements.length
             }
         } catch (error) {
             console.error("Error fetching profile data:", error)
@@ -102,16 +119,15 @@ const PageWrapper = () => {
 
     const fetchStats = async (user: IUser, userId: string) => {
         try {
-            const totalAchievements = 24
             // Get level Achievements
             const userStats = await getUserStats(userId)
             // Get level progress
-            const levelProgress = await getUserLevelProgress(user)
+            const levelProgress = await getUserLevelProgress(user.id)
 
             return {
                 boughtCoffee: user.transaction_count,
                 achievementsCount: userStats.achievementsCount,
-                totalAchievements: totalAchievements,
+                totalAchievements: 0,
                 levelProgress: levelProgress || 0,
             }
         } catch (error) {
