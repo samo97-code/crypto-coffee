@@ -11,6 +11,8 @@ interface CoffeeStreakProps {
 }
 
 const CoffeeStreak: FC<CoffeeStreakProps> = ({streak}) => {
+    console.log(streak,'streak')
+
     const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null)
     // Calculate time remaining and rewards
     useEffect(() => {
@@ -105,7 +107,7 @@ const CoffeeStreak: FC<CoffeeStreakProps> = ({streak}) => {
                     <div className="text-coffee-800 font-medium mb-3">Streak Calendar</div>
                     <div className="flex flex-wrap gap-2 justify-center">
                         {last14Days.map((date, index) => {
-                            const hasActivity = streak.streak_dates.includes(date)
+                            const hasActivity = streak.streak_dates?.includes(date)
                             return (
                                 <motion.div
                                     key={date}

@@ -172,6 +172,8 @@ export async function updateAchievementProgress(
             .eq("achievement_id", achievementId)
             .single()
 
+        // console.log(userAchievement, 'userAchievement')
+
         if (fetchError && fetchError.code !== "PGRST116") {
             console.error("Error fetching user achievement:", fetchError)
             return false
@@ -179,6 +181,7 @@ export async function updateAchievementProgress(
 
         // If the user achievement doesn't exist, create it
         if (!userAchievement) {
+            console.log('is creating')
             // Get the achievement details
             const {data: achievement, error: achievementError} = await supabase
                 .from("achievements")
@@ -234,6 +237,22 @@ export async function updateAchievementProgress(
         const isUnlocked = progress >= achievement.requirement_value
         const unlockedAt = isUnlocked && !wasUnlocked ? new Date().toISOString() : userAchievement.unlocked_at
 
+        if (!userAchievement?.id) {
+            console.error("Missing userAchievement.id, can't update");
+            return false;
+        }
+
+        console.log(typeof userAchievement.id, userAchievement.id, "type check");
+
+        console.log("Updating achievement:", {
+            id: userAchievement.id,
+            updateFields: {
+                progress,
+                is_unlocked: isUnlocked,
+                unlocked_at: unlockedAt
+            }
+        });
+
         // Update the user achievement
         const {error: updateError} = await supabase
             .from("user_achievements")
@@ -244,7 +263,10 @@ export async function updateAchievementProgress(
             })
             .eq("id", userAchievement.id)
 
+        console.log(updateError,'updateError')
+
         if (updateError) {
+            console.log(updateError,'updateError')
             console.error("Error updating user achievement:", updateError)
             return false
         }
@@ -340,101 +362,117 @@ async function updateUserXP(userId: string, achievementId: number): Promise<bool
 /**
  * Checks and updates achievements based on a specific action
  * @param userId The user's ID
- * @param actionType The type of action (support, streak, etc.)
- * @param actionValue The value of the action (amount, days, etc.)
+ * @param actions
  * @returns Success status
  */
 export async function checkAndUpdateAchievements(
     userId: string,
-    actionType: string,
-    actionValue: number = 1
+    actions: { type: string; value: number }[]
 ): Promise<boolean> {
-    if (!userId || !actionType) return false
+    if (!userId || actions.length === 0) return false;
 
     try {
-        // Get all achievements related to this action type
-        const {data: achievements, error: achievementsError} = await supabase
-            .from("achievements")
-            .select("id, requirement_type, requirement_value")
-            .eq("requirement_type", actionType)
+        const actionTypes = actions.map(a => a.type);
 
-        if (achievementsError) {
-            console.error("Error fetching achievements:", achievementsError)
-            return false
+        const { data: achievements, error: achievementsError } = await supabase
+            .from('achievements')
+            .select('id, requirement_type, requirement_value')
+            .in('requirement_type', actionTypes);
+
+        if (achievementsError || !achievements) {
+            console.error('Error fetching achievements:', achievementsError);
+            return false;
         }
 
-        if (!achievements || achievements.length === 0) {
-            return true // No achievements to update
-        }
+        const achievementIds = achievements.map(a => a.id);
 
-        // Get current user achievements for these achievement IDs
-        const achievementIds = achievements.map(a => a.id)
-        const {data: userAchievements, error: userAchievementsError} = await supabase
-            .from("user_achievements")
-            .select("id, achievement_id, progress, is_unlocked")
-            .eq("user_id", userId)
-            .in("achievement_id", achievementIds)
+        const { data: userAchievements, error: userAchievementsError } = await supabase
+            .from('user_achievements')
+            .select('id, achievement_id, progress, is_unlocked, unlocked_at')
+            .eq('user_id', userId)
+            .in('achievement_id', achievementIds);
 
         if (userAchievementsError) {
-            console.error("Error fetching user achievements:", userAchievementsError)
-            return false
+            console.error('Error fetching user achievements:', userAchievementsError);
+            return false;
         }
 
-        // Create a map of achievement_id to user_achievement
-        const userAchievementMap = new Map()
+        const userAchievementMap = new Map();
         if (userAchievements) {
-            userAchievements.forEach(ua => {
-                userAchievementMap.set(ua.achievement_id, ua)
-            })
+            userAchievements.forEach(ua => userAchievementMap.set(ua.achievement_id, ua));
         }
 
-        // Update each achievement
+        const updates = [];
+
         for (const achievement of achievements) {
-            const userAchievement = userAchievementMap.get(achievement.id)
+            const matchingAction = actions.find(a => a.type === achievement.requirement_type);
+            if (!matchingAction) continue;
 
-            // Skip if already unlocked
-            if (userAchievement && userAchievement.is_unlocked) {
-                continue
-            }
+            const userAchievement = userAchievementMap.get(achievement.id);
+            if (userAchievement && userAchievement.is_unlocked) continue;
 
-            // Determine the new progress value based on action type
-            let newProgress = actionValue
+            let newProgress = matchingAction.value;
+
             if (userAchievement) {
-                // For cumulative achievements, add to existing progress
                 if ([
-                    "projects_supported",
-                    "networks_supported",
-                    "unique_chains",
-                    "total_support",
-                    "single_support",
-                    "repeat_support",
-                    "trivia_correct",
-                    "trivia_streak",
-                    "daily_streak",
-                    "daily_activities",
-                    "lottery_wins",
-                    "bingo_wins",
-                    "bingo_full_card",
-                    "rps_played",
-                    "rps_rock_wins",
-                    "join_date"
-                ].includes(actionType)) {
-                    newProgress = (userAchievement?.progress || 0) + actionValue;
-                } else if (["streak_days", "streak"].includes(actionType)) {
-                    newProgress = Math.max(userAchievement?.progress || 0, actionValue);
+                    'projects_supported', 'networks_supported', 'unique_chains', 'total_support',
+                    'single_support', 'repeat_support', 'trivia_correct', 'trivia_streak',
+                    'daily_streak', 'daily_activities', 'lottery_wins', 'bingo_wins',
+                    'bingo_full_card', 'rps_played', 'rps_rock_wins', 'join_date'
+                ].includes(matchingAction.type)) {
+                    newProgress = (userAchievement.progress || 0) + matchingAction.value;
+                } else if (['streak_days', 'streak'].includes(matchingAction.type)) {
+                    newProgress = Math.max(userAchievement.progress || 0, matchingAction.value);
                 }
             }
 
-            // Update the achievement progress
-            await updateAchievementProgress(userId, achievement.id, newProgress)
+            const isUnlocked = newProgress >= achievement.requirement_value;
+            const unlockedAt = isUnlocked && !(userAchievement?.is_unlocked) ? new Date().toISOString() : userAchievement?.unlocked_at || null;
+
+            updates.push({
+                user_id: userId,
+                achievement_id: achievement.id,
+                progress: newProgress,
+                is_unlocked: isUnlocked,
+                unlocked_at: unlockedAt,
+            });
         }
 
-        return true
+        if (updates.length > 0) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            await batchUpdateAchievements(updates);
+        }
+
+        return true;
     } catch (error) {
-        console.error("Error checking and updating achievements:", error)
-        return false
+        console.error('Error checking and updating achievements:', error);
+        return false;
     }
 }
+
+
+async function batchUpdateAchievements(updates: never[]): Promise<boolean> {
+    try {
+        const { error } = await supabase
+            .from('user_achievements')
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            .upsert(updates, { onConflict: ['user_id', 'achievement_id'] });
+
+        if (error) {
+            console.error('Batch achievement update error:', error);
+            return false;
+        }
+
+        console.log('Achievements batch updated!');
+        return true;
+    } catch (error) {
+        console.error('Error during batch achievement update:', error);
+        return false;
+    }
+}
+
 
 /**
  * Gets the next achievements a user should focus on
@@ -810,7 +848,7 @@ function getLevelIcon(levelNumber: number): string {
  * @param user
  * @param amount Optional custom XP amount (defaults to 25)
  */
-export async function addXpForTransaction(user: IUser, amount: number = 25): Promise<boolean> {
+export async function addXpForTransaction(user: IUser, amount: number = 10): Promise<boolean> {
     try {
         const newXP = (user.experience_points || 0) + amount;
         let newLevelId = user.level_id;

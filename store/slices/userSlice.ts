@@ -24,7 +24,10 @@ const initialState:IState = {
         experience_points: 0,
         created_at: '',
         updated_at: '',
-        transaction_count: 0
+        transaction_count: 0,
+        referral_code: '',
+        discount_percentage : 0,
+        activity_discount : 0
     },
 };
 

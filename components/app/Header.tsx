@@ -11,14 +11,19 @@ import Link from "next/link";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {setAuthUser} from "@/store/slices/userSlice";
 import {useDispatch} from "react-redux";
-import {randomAvatar} from "@/utils/utils";
+import {randomAvatar, randomRefCode} from "@/utils/utils";
 import {setCookie, hasCookie} from 'cookies-next/client';
 import {useAppSelector} from "@/store/hook";
 import Image from "next/image";
 import {checkAndUpdateAchievements} from "@/lib/acheivements-service";
+import {useRouter, useSearchParams} from 'next/navigation'
 
 const Header = () => {
     const dispatch = useDispatch();
+    const searchParams = useSearchParams()
+    const referrerCode = searchParams.get("ref")
+    const router = useRouter()
+
     const {user} = useAppSelector(state => state.user);
     const {address, isConnected} = useAccount();
     const LAUNCH_DATE = new Date("2025-04-23");
@@ -38,15 +43,16 @@ const Header = () => {
     }, [address, isConnected]);
 
     const createOrGetUser = async (wallet_address: string) => {
-        const {data} = await supabase
-            .from('user_with_transaction_count')
+        const {data: currentUser} = await supabase
+            .from('users')
             .select('*')
             .eq('wallet_address', wallet_address)
             .maybeSingle();
 
-        if (data) return data;
+        if (currentUser) return currentUser;
 
         try {
+
             const {data: newUser, error: createError} = await supabase
                 .from("users")
                 .insert([
@@ -54,6 +60,8 @@ const Header = () => {
                         wallet_address,
                         level_id: 1,
                         avatar_url: randomAvatar(),
+                        referral_code: randomRefCode(),
+                        referred_by: currentUser.id,
                     },
                 ])
                 .select()
@@ -61,7 +69,17 @@ const Header = () => {
 
             if (createError) throw createError;
 
+            if (referrerCode) {
+                await supabase
+                    .from("referrals")
+                    .insert({
+                        inviter_id: currentUser?.id, // who invited
+                        invited_user_id: newUser.id,   // new user
+                    });
+            }
+
             await checkJoinDateAchievement(newUser.id)
+            router.push('/')
 
             return {success: true, user: newUser, isNewUser: true}
         } catch (e) {
@@ -76,7 +94,8 @@ const Header = () => {
         firstMonthEnd.setMonth(firstMonthEnd.getMonth() + 1);
 
         if (joinDate < firstMonthEnd) {
-            await checkAndUpdateAchievements(userId, "join_date", 1);
+            await checkAndUpdateAchievements(userId, [{type: 'join_date', value: 1}]);
+
             // Also insert initial achievements for the user
             await supabase.from("user_achievements").insert([
                 {

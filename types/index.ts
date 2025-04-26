@@ -44,6 +44,10 @@ export interface IUser {
     created_at: string;
     updated_at: string;
     transaction_count: number;
+    discount_percentage : number;
+    activity_discount : number;
+    referral_code: string;
+    referred_by: string;
 }
 
 export interface ISupportedProject {

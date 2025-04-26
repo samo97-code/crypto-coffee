@@ -17,6 +17,8 @@ import type {AnimationControls} from 'framer-motion';
 import {toast} from "sonner"
 import {handlePostTransactionUpdate} from "@/lib/transaction-service";
 import {addXpForTransaction} from "@/lib/acheivements-service";
+import {saveReferrerEarnings} from "@/lib/referral-service";
+
 
 interface IProps {
     isHovering: boolean,
@@ -51,6 +53,7 @@ const BuyButton: FC<IProps> = ({
     const {switchChain} = useSwitchChain();
     const [hash, setHash] = useState('');
     const [amount, setAmount] = useState(0);
+    const [finalUsdtValue, setFinalUsdtValue] = useState(0.045);
     const [isSending, setIsSending] = useState(false);
     const {writeContractAsync} = useWriteContract();
 
@@ -62,19 +65,27 @@ const BuyButton: FC<IProps> = ({
 
     const checkAmount = () => {
         // Real
-        const myEthAmount = 0.045
+        const originalUsdValue = 0.045
+        let discountedUsdValue = originalUsdValue;
+
         // const myMonadAmount = '0.03'
 
         //For test
         // const myEthAmount = 0.001
         const myMonadAmount = '0.000001'
 
+        if (user.discount_percentage && project.blockchain_networks[0].type === 'mainnet') {
+            discountedUsdValue = originalUsdValue * (1 - user.discount_percentage / 100);
+            discountedUsdValue = Math.round(discountedUsdValue * 10000) / 10000;
+            setFinalUsdtValue(discountedUsdValue)
+        }
+
         let amount = '';
 
         // console.log((myEthAmount / ethPrice),'111111111')
         // console.log((myEthAmount / ethPrice).toFixed(6),'2222222222')
 
-        if (project.blockchain_networks[0].chain_key === 'Eth') amount = (myEthAmount / ethPrice).toFixed(6)
+        if (project.blockchain_networks[0].chain_key === 'Eth') amount = (discountedUsdValue / ethPrice).toFixed(6)
         if (project.blockchain_networks[0].chain_key === 'Mon') amount = myMonadAmount
 
         return amount
@@ -163,19 +174,28 @@ const BuyButton: FC<IProps> = ({
     }, [receipt, waitError]);
 
     const txFinishedSuccessfully = async () => {
-       try {
-           setShowSuccessModal(true)
-           const transaction =  await createSupportTransaction(user.id, project.id, project.network_name, hash, amount.toString())
+        try {
+            setShowSuccessModal(true)
+            const transaction = await createSupportTransaction(user.id, project.id, project.network_name, hash, amount.toString())
 
-           if (transaction) {
-               await Promise.all([addXpForTransaction(user), handlePostTransactionUpdate(user.id, transaction), await updateTxTotalAmount(user.id)])
-           }
-       }catch (error) {
-           console.error('Supabase Error:', error);
-       }finally {
-           setHash('');
-           setAmount(0)
-       }
+            if (transaction) {
+                if (user.referred_by && project.blockchain_networks[0].type === 'mainnet') {
+                    //get 5% of each tx from referred user
+                    const earningAmount = Number((finalUsdtValue * 0.05).toFixed(6));
+                    await saveReferrerEarnings(user, earningAmount)
+                }
+
+                //TODO re-comment when all things will be ready
+                // if (project.blockchain_networks[0].type === 'mainnet') {
+                    await Promise.all([addXpForTransaction(user), handlePostTransactionUpdate(user.id, transaction), await updateTxTotalAmount(user.id)])
+                // }
+            }
+        } catch (error) {
+            console.error('Supabase Error:', error);
+        } finally {
+            setHash('');
+            setAmount(0)
+        }
     }
 
     return (

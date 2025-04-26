@@ -104,52 +104,44 @@ export async function getUserTransactions(userId: string, limit = 10): Promise<I
 export async function handlePostTransactionUpdate(userId: string, transaction: ITransaction) {
     if (!userId || !transaction) return;
 
-    // const { usd_value, project_id, network_name } = transaction;
-    const {usd_value} = transaction;
+    if (!userId || !transaction) return;
 
-    // Total spent in USD
-    await checkAndUpdateAchievements(userId, "total_support", usd_value);
+    const { usd_value } = transaction;
 
-    // Number of times coffee was bought
-    await checkAndUpdateAchievements(userId, "projects_supported", 1);
-
-    // Buying on new chain (assume unique check inside the function)
-    await checkAndUpdateAchievements(userId, "networks_supported", 1);
-    await checkAndUpdateAchievements(userId, "unique_chains", 1);
-
-    // Single transaction value check (e.g., $50+)
-    await checkAndUpdateAchievements(userId, "single_support", usd_value);
-
-    // Track repeat support (e.g., same chain streaks)
-    await checkAndUpdateAchievements(userId, "repeat_support", 1);
-
-    // Streak activity update
-    await recordStreakActivity(userId);
+    // Trigger achievements
+    await checkAndUpdateAchievements(userId, [
+        { type: 'total_support', value: usd_value },
+        { type: 'projects_supported', value: 1 },
+        { type: 'networks_supported', value: 1 },
+        { type: 'unique_chains', value: 1 },
+        { type: 'single_support', value: usd_value },
+        { type: 'repeat_support', value: 1 },
+    ]);
 }
 
 /**
  * Tracks trivia interaction
  */
-export async function handleTriviaAnswer(userId: string, isCorrect: boolean) {
-    if (!userId) return;
-
-    if (isCorrect) {
-        await checkAndUpdateAchievements(userId, "trivia_correct", 1);
-        await checkAndUpdateAchievements(userId, "trivia_streak", 1);
-    } else {
-        // Optional: reset trivia streak
-    }
-}
+// export async function handleTriviaAnswer(userId: string, isCorrect: boolean) {
+//     if (!userId) return;
+//
+//     if (isCorrect) {
+//         await checkAndUpdateAchievements(userId, "trivia_correct", 1);
+//         await checkAndUpdateAchievements(userId, "trivia_streak", 1);
+//     } else {
+//         // Optional: reset trivia streak
+//     }
+// }
 
 /**
  * Tracks daily login or activity interaction
  */
-export async function handleDailyActivity(userId: string) {
-    if (!userId) return;
-
-    await checkAndUpdateAchievements(userId, "daily_streak", 1);
-    await checkAndUpdateAchievements(userId, "daily_activities", 1);
-
-    // Optional: for logging in to reveal the joke
-    await checkAndUpdateAchievements(userId, "jokes_revealed", 1);
-}
+// export async function handleDailyActivity(userId: string) {
+//     if (!userId) return;
+//
+//     await checkAndUpdateAchievements(userId, "daily_streak", 1);
+//     await checkAndUpdateAchievements(userId, "daily_activities", 1);
+//
+//     // Optional: for logging in to reveal the joke
+//     await checkAndUpdateAchievements(userId, "jokes_revealed", 1);
+// }

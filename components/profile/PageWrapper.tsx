@@ -3,7 +3,7 @@
 import Wrapper from "@/components/profile/Wrapper";
 import {supabase} from "@/lib/supabase";
 import {getUserStreak} from "@/lib/streak-service";
-import {camelToSnake} from "@/utils/utils";
+import {convertKeysToSnake} from "@/utils/utils";
 import {getUserAchievements, getUserBadges, getUserLevelProgress, getUserStats} from "@/lib/acheivements-service";
 import {getUserRecentActivities} from "@/lib/activity-service";
 import {IActivity, IBadge, IProfileStates, IStreakInfo, IUser, IUserAchievement} from "@/types";
@@ -74,7 +74,7 @@ const PageWrapper = () => {
             }
 
             setProfileData({
-                streak: camelToSnake(streak) as IStreakInfo,
+                streak: convertKeysToSnake(streak) as IStreakInfo,
                 stats: dataStats as IProfileStates,
                 achievements: userData?.userAchievements as IUserAchievement[],
                 badges: userData?.userBadges as IBadge[],

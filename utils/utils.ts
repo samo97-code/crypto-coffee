@@ -41,23 +41,44 @@ export const randomAvatar = () => {
     return findAvatar?.path
 }
 
+export const randomRefCode = (length = 8): string => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+export const shortAddress = (address: string) => {
+    return `${address?.substring(0, 6)}...${address?.substring(address.length - 4)}`
+}
+
+
 function isObject(value: any) {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-export function camelToSnake(obj: any): any {
+export function convertKeysToSnake<T>(obj: T): any {
     if (Array.isArray(obj)) {
-        return obj.map(camelToSnake);
+        return obj.map(convertKeysToSnake);
     }
+    if (obj !== null && typeof obj === "object") {
+        return Object.fromEntries(
+            Object.entries(obj as Record<string, any>).map(([key, value]) => [
+                camelToSnake(key),
+                convertKeysToSnake(value),
+            ])
+        );
+    }
+    // primitives (string, number, boolean, null, etc.)
+    return obj;
+}
 
-    if (!isObject(obj)) return obj;
-
-    return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => [
-            key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`),
-            camelToSnake(value),
-        ])
-    );
+export function camelToSnake(str: string): string {
+    return str
+        .replace(/([A-Z])/g, "_$1")  // prepend an underscore before each uppercase letter
+        .toLowerCase();
 }
 
 export function snakeToCamel(obj: any): any {
