@@ -46,11 +46,6 @@ const ReferralMilestones:FC<IProps> = ({referralsCount}) => {
 
     const { nextRequired, progressPercent, milestoneReached } = getReferralMilestoneProgress(referralsCount);
 
-    console.log(milestoneReached,'milestoneReached')
-    console.log(nextRequired,'nextRequired')
-
-
-
     return (
         <div
             className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50">

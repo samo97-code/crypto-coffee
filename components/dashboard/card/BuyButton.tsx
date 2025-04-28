@@ -65,7 +65,8 @@ const BuyButton: FC<IProps> = ({
 
     const checkAmount = () => {
         // Real
-        const originalUsdValue = 0.045
+        // const originalUsdValue = 0.045
+        const originalUsdValue = 0.001
         let discountedUsdValue = originalUsdValue;
 
         // const myMonadAmount = '0.03'

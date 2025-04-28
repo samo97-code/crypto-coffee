@@ -52,6 +52,11 @@ const Header = () => {
         if (currentUser) return currentUser;
 
         try {
+            const {data: currentInvitedUser} = await supabase
+                .from('users')
+                .select('*')
+                .eq('referral_code', referrerCode)
+                .maybeSingle();
 
             const {data: newUser, error: createError} = await supabase
                 .from("users")
@@ -61,7 +66,7 @@ const Header = () => {
                         level_id: 1,
                         avatar_url: randomAvatar(),
                         referral_code: randomRefCode(),
-                        referred_by: currentUser.id,
+                        referred_by: referrerCode ? currentInvitedUser.id : null,
                     },
                 ])
                 .select()
@@ -73,7 +78,7 @@ const Header = () => {
                 await supabase
                     .from("referrals")
                     .insert({
-                        inviter_id: currentUser?.id, // who invited
+                        inviter_id: currentInvitedUser?.id, // who invited
                         invited_user_id: newUser.id,   // new user
                     });
             }
@@ -81,7 +86,7 @@ const Header = () => {
             await checkJoinDateAchievement(newUser.id)
             router.push('/')
 
-            return {success: true, user: newUser, isNewUser: true}
+            return newUser
         } catch (e) {
             console.error("Error in saveOrGetUser:", e)
             return {success: false, error: "Failed to process user"}
@@ -89,23 +94,12 @@ const Header = () => {
     }
 
     const checkJoinDateAchievement = async (userId: string) => {
-        const joinDate = new Date(user.created_at);
+        const joinDate = new Date();
         const firstMonthEnd = new Date(LAUNCH_DATE);
         firstMonthEnd.setMonth(firstMonthEnd.getMonth() + 1);
 
         if (joinDate < firstMonthEnd) {
             await checkAndUpdateAchievements(userId, [{type: 'join_date', value: 1}]);
-
-            // Also insert initial achievements for the user
-            await supabase.from("user_achievements").insert([
-                {
-                    user_id: userId,
-                    achievement_id: 1, // Early Adopter achievement
-                    progress: 100,
-                    is_unlocked: true,
-                    unlocked_at: new Date(),
-                },
-            ])
         }
     }
 

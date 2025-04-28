@@ -62,6 +62,17 @@ export interface ISupportedProject {
     badge_color: string
 }
 
+export interface IWithdrawals {
+    id: string
+    user_id: string
+    amount: string
+    chain: string
+    tx_hash: string
+    status: string
+    requested_at: string
+    processed_at: string
+}
+
 export interface IProject {
     id: number;
     name: string;

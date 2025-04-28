@@ -96,6 +96,22 @@ export function snakeToCamel(obj: any): any {
     );
 }
 
+export const formatDateTime = (input: string): string => {
+    const date = new Date(input);
+
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    };
+
+    return date.toLocaleString('en-US', options).replace(',', '');
+}
+
 
 export const achievementIconMap: Record<string, React.ElementType> = {
     Award,

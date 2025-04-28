@@ -75,3 +75,75 @@ export async function saveReferrerEarnings(user: IUser, earningAmount: number) {
         amount_earned: earningAmount
     });
 }
+
+/**
+ * Gets recent activities for a user
+ * @returns The user's recent activities
+ * @param inviterId
+ */
+export async function getReferralEarnings(inviterId: string): Promise<number> {
+    // fetch all earnings rows for this inviter
+    const { data, error } = await supabase
+        .from("referral_earnings")
+        .select("amount_earned")
+        .eq("referrer_id", inviterId);
+
+    if (error) {
+        console.error("Error loading referral earnings:", error);
+        return 0;
+    }
+
+    // sum them on the client
+    return data
+        .map((row) => parseFloat(row.amount_earned as any) || 0)
+        .reduce((acc, v) => acc + v, 0);
+}
+
+
+/**
+ * Gets recent activities for a user
+ * @returns The user's recent activities
+ * @param userId
+ * @param page
+ * @param pageSize
+ */
+export async function getUserWithdrawals(userId: string,  page: number = 1, pageSize: number = 5) {
+    try {
+        const offset = (page - 1) * pageSize
+
+        const { data, error } = await supabase
+            .from('withdrawals')
+            .select('*')
+            .eq('user_id', userId)
+            .order('processed_at', { ascending: false })
+            .range(offset, offset + pageSize - 1)
+
+        if (error) {
+            console.error('Error fetching withdrawals:', error);
+            throw error;
+        }
+
+        // Get total count for pagination
+        const countQuery = supabase
+            .from('withdrawals')
+            .select('*', {count: 'exact', head: true})
+            .eq('user_id', userId)
+
+        const {count, error: countError} = await countQuery
+
+        if (countError) throw countError
+
+        return {
+            withdrawals: data,
+            pagination: {
+                total: count || 0,
+                page,
+                pageSize,
+                totalPages: Math.ceil((count || 0) / pageSize)
+            }
+        };
+    } catch (error) {
+        console.error('Failed to fetch withdrawals:', error);
+        throw error;
+    }
+}

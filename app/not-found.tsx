@@ -97,12 +97,12 @@ export default function NotFound() {
     return (
         <div
             ref={containerRef}
-            className="min-h-screen bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-900 flex flex-col items-center justify-center p-4 overflow-hidden relative"
+            className="min-h-screen bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-900 dark:from-coffee-50/80 dark:via-coffee-50/60 dark:to-coffee-50/40 flex flex-col items-center justify-center p-4 overflow-hidden relative"
             onMouseMove={handleMouseMove}
         >
             {/* 3D Card */}
             <div
-                className="relative max-w-3xl w-full bg-coffee-800/50 backdrop-blur-lg rounded-xl overflow-hidden border border-coffee-700/50 shadow-2xl"
+                className="relative max-w-3xl w-full bg-coffee-800/50 dark:bg-coffee-50 backdrop-blur-lg rounded-xl overflow-hidden border border-coffee-700/50 shadow-2xl"
             >
                 {/* Glowing edges */}
                 <div
@@ -141,7 +141,7 @@ export default function NotFound() {
                     {!gameActive ? (
                         <div className="text-center">
                             <motion.h2
-                                className="text-3xl md:text-4xl font-bold text-coffee-100 mb-4"
+                                className="text-3xl md:text-4xl font-bold text-coffee-100 dark:text-coffee-800 mb-4"
                                 initial={{opacity: 0, y: 20}}
                                 animate={{opacity: 1, y: 0}}
                                 transition={{duration: 0.5}}
@@ -286,7 +286,7 @@ export default function NotFound() {
                     <AnimatePresence>
                         {showEasterEgg && (
                             <motion.div
-                                className="absolute inset-0 bg-coffee-900/90 backdrop-blur-md flex items-center justify-center z-50"
+                                className="absolute inset-0 bg-coffee-900/90 dark:bg-coffee-50/60 backdrop-blur-md flex items-center justify-center z-50"
                                 initial={{opacity: 0}}
                                 animate={{opacity: 1}}
                                 exit={{opacity: 0}}
@@ -339,7 +339,7 @@ export default function NotFound() {
                     </AnimatePresence>
 
                     {/* Footer */}
-                    <div className="mt-8 text-center text-coffee-400/60 text-xs">
+                    <div className="mt-8 text-center text-coffee-400/60 dark:text-coffee-700 text-xs">
                         <p>Try the Konami code or click the 404 title multiple times for surprises</p>
                         <p>It&#39;s a place to buy coffee not tea :)</p>
                     </div>

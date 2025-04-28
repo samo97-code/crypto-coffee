@@ -1,4 +1,5 @@
-import {Coffee, Zap, Beaker, Bell, Award, Droplets, Users,} from "lucide-react"
+import {Coffee, Zap, Beaker, Award, Droplets, Users,} from "lucide-react"
+import { optimism, arbitrum } from 'viem/chains';
 
 export const projects = [
     {
@@ -536,3 +537,18 @@ export const REQUIREMENT_TYPES = {
     RPS_PLAYED: "rps_played",                      // Played 10 RPS games
     RPS_ROCK_WINS: "rps_rock_wins",                // 3 wins with rock
 }
+
+
+// Chain configurations
+export const CHAIN_CONFIG = {
+    'Optimism': {
+        chain: optimism,
+        chainId: 10,
+        usdtAddress: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
+    },
+    'Arbitrum One': {
+        chain: arbitrum,
+        chainId: 42161,
+        usdtAddress: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
+    }
+};

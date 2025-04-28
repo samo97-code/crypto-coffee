@@ -3,7 +3,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import CreativeCoverImage from "@/components/profile/CreativeCoverImage";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {Copy, Edit, Sparkles, Wallet} from "lucide-react";
+import {Copy, Edit, Gift, Sparkles, Wallet} from "lucide-react";
 import {shortenAddress} from "@/utils/utils";
 import {Button} from "@/components/ui/button";
 import ProfileBadges from "@/components/profile/ProfileBadges";
@@ -79,10 +79,10 @@ const Wrapper: FC<IProps> = ({streak, stats, achievements, badges, activities}) 
                             </div>
 
                             <div className="flex gap-2">
-                                <Button onClick={() => router.push('/profile/settings')}
+                                <Button onClick={() => router.push('/profile/referrals')}
                                         className="bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-100/80 dark:to-coffee-100/50 hover:from-coffee-600 hover:to-coffee-800 text-white">
-                                    <Edit className="h-4 w-4 mr-2"/>
-                                    Edit Profile
+                                    <Gift className="h-4 w-4"/>
+                                    Your Referrals
                                 </Button>
                             </div>
                         </div>

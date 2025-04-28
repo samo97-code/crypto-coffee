@@ -1,6 +1,6 @@
 "use client"
 
-import {useEffect, useState} from "react"
+import {FC, useEffect, useState} from "react"
 import {motion} from "framer-motion"
 import {Copy, Check, Trophy} from "lucide-react"
 import {Button} from "@/components/ui/button"
@@ -11,6 +11,9 @@ import {useAppSelector} from "@/store/hook";
 import CoffeeLoader from "@/components/dashboard/CoffeeLoader";
 import {getTopReferrers, getCurrentUserReferrers} from "@/lib/referral-service";
 import {shortAddress} from "@/utils/utils";
+import WithdrawButton from "@/components/profile/referrals/WithdrawButton";
+import {IProject} from "@/types";
+import WithdrawalsTable from "@/components/profile/referrals/WithdrawalsTable";
 
 interface ITopReferrers {
     id: string,
@@ -18,7 +21,11 @@ interface ITopReferrers {
     total_referrals: number
 }
 
-const ReferralsWrapper = () => {
+interface IProps {
+    projects: IProject[];
+}
+
+const ReferralsWrapper:FC<IProps> = ({projects}) => {
     const authUser = useAppSelector(state => state.user.user);
     const referralLink = `http://localhost:3000?ref=${authUser.referral_code}`
     const [loading, setLoading] = useState(true)
@@ -34,16 +41,13 @@ const ReferralsWrapper = () => {
 
     const fetchData = async () => {
         try {
-
             const data = await getTopReferrers()
             setTopReferrers(data)
-            // console.log(topReferrers, 'topReferrers')
 
             const currentUserReferrers = await getCurrentUserReferrers(authUser.wallet_address)
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             setCurrentUserReferrers(currentUserReferrers)
-
         } catch (error) {
             console.error('Error in getWalletData action:', error)
             return {success: false, error: 'Failed to fetch wallet data'}
@@ -57,6 +61,7 @@ const ReferralsWrapper = () => {
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
     }
+
 
     if (loading) return <CoffeeLoader/>
 
@@ -94,18 +99,7 @@ const ReferralsWrapper = () => {
                             </div>
 
                             {/* Earnings Section */}
-                            <div
-                                className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 mb-8">
-                                <div className="">
-                                    <h3 className="text-coffee-700 font-medium mb-1">Your Earnings</h3>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-3xl font-bold text-coffee-900">$0.00</span>
-                                    </div>
-                                    <p className="text-sm text-coffee-600 mb-4">Minimum withdrawal: $5.00</p>
-                                    <Button
-                                        className="w-full bg-coffee-600 dark:bg-coffee-50/40 hover:bg-coffee-700 dark:hover:bg-coffee-50/60 transition-colors text-white">Withdraw</Button>
-                                </div>
-                            </div>
+                            <WithdrawButton projects={projects}/>
 
                             {/* Two Column Section */}
                             <div className="grid md:grid-cols-2 gap-6">
@@ -148,6 +142,8 @@ const ReferralsWrapper = () => {
                             </div>
                         </div>
                     </div>
+
+                    <WithdrawalsTable projects={projects}/>
 
                     {/* Referral Tips */}
                     <ReferralTips/>

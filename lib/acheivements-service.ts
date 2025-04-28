@@ -8,6 +8,7 @@ import {
     IUserAchievement,
     IUserLevelProgress
 } from "@/types";
+import {REQUIREMENT_TYPES} from "@/constants";
 
 
 /**
@@ -414,12 +415,7 @@ export async function checkAndUpdateAchievements(
             let newProgress = matchingAction.value;
 
             if (userAchievement) {
-                if ([
-                    'projects_supported', 'networks_supported', 'unique_chains', 'total_support',
-                    'single_support', 'repeat_support', 'trivia_correct', 'trivia_streak',
-                    'daily_streak', 'daily_activities', 'lottery_wins', 'bingo_wins',
-                    'bingo_full_card', 'rps_played', 'rps_rock_wins', 'join_date'
-                ].includes(matchingAction.type)) {
+                if (Object.values(REQUIREMENT_TYPES).includes(matchingAction.type)) {
                     newProgress = (userAchievement.progress || 0) + matchingAction.value;
                 } else if (['streak_days', 'streak'].includes(matchingAction.type)) {
                     newProgress = Math.max(userAchievement.progress || 0, matchingAction.value);
