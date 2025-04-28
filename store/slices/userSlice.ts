@@ -26,8 +26,9 @@ const initialState:IState = {
         updated_at: '',
         transaction_count: 0,
         referral_code: '',
-        discount_percentage : 0,
-        activity_discount : 0
+        discount_percentage: 0,
+        activity_discount: 0,
+        referred_by: ''
     },
 };
 

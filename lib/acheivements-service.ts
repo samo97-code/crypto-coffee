@@ -264,10 +264,10 @@ export async function updateAchievementProgress(
             })
             .eq("id", userAchievement.id)
 
-        console.log(updateError,'updateError')
+        console.log(updateError, 'updateError')
 
         if (updateError) {
-            console.log(updateError,'updateError')
+            console.log(updateError, 'updateError')
             console.error("Error updating user achievement:", updateError)
             return false
         }
@@ -375,7 +375,7 @@ export async function checkAndUpdateAchievements(
     try {
         const actionTypes = actions.map(a => a.type);
 
-        const { data: achievements, error: achievementsError } = await supabase
+        const {data: achievements, error: achievementsError} = await supabase
             .from('achievements')
             .select('id, requirement_type, requirement_value')
             .in('requirement_type', actionTypes);
@@ -387,7 +387,7 @@ export async function checkAndUpdateAchievements(
 
         const achievementIds = achievements.map(a => a.id);
 
-        const { data: userAchievements, error: userAchievementsError } = await supabase
+        const {data: userAchievements, error: userAchievementsError} = await supabase
             .from('user_achievements')
             .select('id, achievement_id, progress, is_unlocked, unlocked_at')
             .eq('user_id', userId)
@@ -432,6 +432,10 @@ export async function checkAndUpdateAchievements(
                 is_unlocked: isUnlocked,
                 unlocked_at: unlockedAt,
             });
+
+            if (isUnlocked) {
+                await updateUserXP(userId, achievement.id)
+            }
         }
 
         if (updates.length > 0) {
@@ -450,11 +454,11 @@ export async function checkAndUpdateAchievements(
 
 async function batchUpdateAchievements(updates: never[]): Promise<boolean> {
     try {
-        const { error } = await supabase
+        const {error} = await supabase
             .from('user_achievements')
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            .upsert(updates, { onConflict: ['user_id', 'achievement_id'] });
+            .upsert(updates, {onConflict: ['user_id', 'achievement_id']});
 
         if (error) {
             console.error('Batch achievement update error:', error);
@@ -506,117 +510,6 @@ export async function getNextAchievements(
         return []
     }
 }
-
-// /**
-// * Gets comprehensive statistics for a user
-// * @param userId The user's ID
-// * @returns User statistics including level and achievements
-// */
-// export async function getUserAchievementsStats(userId: string): Promise<IUserAchievementsStats | null> {
-//     if (!userId) return null;
-//
-//     try {
-//         // Get user basic info including level
-//         const { data: user, error: userError } = await supabase
-//             .from("users")
-//             .select(`
-//         id,
-//         username,
-//         experience_points,
-//         level_id,
-//         level:levels(id, name, experience_required)
-//       `)
-//             .eq("id", userId)
-//             .single();
-//
-//         if (userError) {
-//             console.error("Error fetching user stats:", userError);
-//             return null;
-//         }
-//
-//         // Get next level info for progress calculation
-//         const { data: nextLevel} = await supabase
-//             .from("levels")
-//             .select("id, experience_required")
-//             .eq("id", user.level_id + 1)
-//             .single();
-//
-//         // Get achievement statistics
-//         const { data: achievementStats, error: achievementStatsError } = await supabase
-//             .from("user_achievements")
-//             .select("is_unlocked")
-//             .eq("user_id", userId);
-//
-//         if (achievementStatsError) {
-//             console.error("Error fetching achievement stats:", achievementStatsError);
-//             return null;
-//         }
-//
-//         // Get total number of achievements
-//         const { count: totalAchievements, error: totalError } = await supabase
-//             .from("achievements")
-//             .select("id", { count: "exact", head: true })
-//             .eq("is_show", true);
-//
-//         if (totalError) {
-//             console.error("Error fetching total achievements:", totalError);
-//             return null;
-//         }
-//
-//         // Get recently unlocked achievements
-//         const { data: recentlyUnlocked, error: recentError } = await supabase
-//             .from("user_achievements")
-//             .select(`
-//         *,
-//         achievement:achievements(*)
-//       `)
-//             .eq("user_id", userId)
-//             .eq("is_unlocked", true)
-//             .order("unlocked_at", { ascending: false })
-//             .limit(3);
-//
-//         if (recentError) {
-//             console.error("Error fetching recently unlocked achievements:", recentError);
-//             return null;
-//         }
-//
-//         // Calculate level progress
-//         const currentXP = user.experience_points;
-//         const currentLevelXP = user.level?.experience_required;
-//         const nextLevelXP = nextLevel ? nextLevel.experience_required : currentLevelXP * 1.5;
-//         const xpForCurrentLevel = currentXP - currentLevelXP;
-//         const xpRequiredForNextLevel = nextLevelXP - currentLevelXP;
-//         const levelProgress = Math.min(100, Math.round((xpForCurrentLevel / xpRequiredForNextLevel) * 100));
-//
-//         // Calculate achievement statistics
-//         const unlockedAchievements = achievementStats.filter(a => a.is_unlocked).length;
-//         const inProgressAchievements = achievementStats.length - unlockedAchievements;
-//         const percentComplete = totalAchievements ? Math.round((unlockedAchievements / totalAchievements) * 100) : 0;
-//
-//         return {
-//             userId,
-//             username: user.username,
-//             level: {
-//                 id: user.level_id,
-//                 name: user.level.name,
-//                 current_xp: currentXP,
-//                 required_xp: xpRequiredForNextLevel,
-//                 nextLevel_xp: nextLevelXP,
-//                 progress: levelProgress
-//             },
-//             achievements: {
-//                 total: totalAchievements || 30,
-//                 unlocked: unlockedAchievements,
-//                 progress: inProgressAchievements,
-//                 percent_complete: percentComplete,
-//                 recently_unlocked: recentlyUnlocked as IUserAchievementsStats[]
-//             }
-//         };
-//     } catch (error) {
-//         console.error("Error getting user stats:", error);
-//         return null;
-//     }
-// }
 
 /**
  * Gets all achievement data

@@ -15,7 +15,6 @@ const PageWrapper = () => {
     const [loading, setLoading] = useState(true);
     const [allNetworks, setAllNetworks] = useState<INetwork[]>([]);
     const [states, setStates] = useState<ITransactionStats>({
-        total_supported: 0,
         transaction_count: 0,
         networks_used: 0,
         most_active_network: ''

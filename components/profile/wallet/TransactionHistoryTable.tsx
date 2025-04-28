@@ -11,6 +11,7 @@ import ReactSelect from 'react-select'
 import {filterDays} from "@/constants";
 import SmallLoader from "@/components/re-usable/SmallLoader";
 import Pagination from "@/components/re-usable/Pagination";
+import useSelectCss from "@/hooks/useSelectCss";
 
 
 interface INetwork {
@@ -25,6 +26,7 @@ interface IProps {
 }
 
 const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transactions}) => {
+    const {customStyles} = useSelectCss()
     const hasLoaded = useRef(false);
     const {user} = useAppSelector(state => state.user);
 
@@ -101,44 +103,7 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
         return date.toLocaleString('en-US', options).replace(',', '');
     }
 
-    const customStyles = {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        control: (base) => ({
-            ...base,
-            backgroundColor: 'white',
-            minWidth: 150,
-            fontSize: 12,
-            borderColor: '#c7a17a', // coffee border
-            boxShadow: 'none',
-            '&:hover': {
-                borderColor: '#c7a17a',
-            },
-        }),
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        option: (base, state) => ({
-            ...base,
-            backgroundColor: state.isSelected
-                ? '#a47148' // coffee brown
-                : state.isFocused
-                    ? '#FDF1E7' // green hover
-                    : 'white',
-            color: state.isSelected ? 'white' : '#4b2e2e',
-            fontSize: 13,
-            cursor: 'pointer',
-            '&:hover': {
-                backgroundColor: state.isSelected ? '#a47148' : '#FDF1E7', // green hover soft
-            },
-        }),
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        menu: (base) => ({
-            ...base,
-            borderRadius: 6,
-            padding: 2,
-        }),
-    };
+
 
     return (
         <motion.div

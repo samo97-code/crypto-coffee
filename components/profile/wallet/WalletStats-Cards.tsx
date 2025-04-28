@@ -12,14 +12,6 @@ interface IProps{
 const WalletStatsCards:FC<IProps> = ({allStats}) => {
     const stats = [
         {
-            title: "Total Spent",
-            value: `${allStats?.total_supported}$`,
-            subtitle: "Across all networks",
-            icon: ArrowUpRight,
-            color: "from-green-500 to-emerald-700",
-            delay: 0.1,
-        },
-        {
             title: "Transactions",
             value: allStats?.transaction_count,
             subtitle: "Last 30 days",

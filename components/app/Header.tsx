@@ -15,7 +15,7 @@ import {randomAvatar, randomRefCode} from "@/utils/utils";
 import {setCookie, hasCookie} from 'cookies-next/client';
 import {useAppSelector} from "@/store/hook";
 import Image from "next/image";
-import {checkAndUpdateAchievements} from "@/lib/acheivements-service";
+import {addXpForTransaction, checkAndUpdateAchievements} from "@/lib/acheivements-service";
 import {useRouter, useSearchParams} from 'next/navigation'
 
 const Header = () => {
@@ -52,6 +52,7 @@ const Header = () => {
         if (currentUser) return currentUser;
 
         try {
+            // Get the inviter user if a referral code was provided
             const {data: currentInvitedUser} = await supabase
                 .from('users')
                 .select('*')
@@ -74,13 +75,26 @@ const Header = () => {
 
             if (createError) throw createError;
 
-            if (referrerCode) {
+            if (referrerCode && currentInvitedUser) {
                 await supabase
                     .from("referrals")
                     .insert({
                         inviter_id: currentInvitedUser?.id, // who invited
                         invited_user_id: newUser.id,   // new user
                     });
+
+
+                const {count, error: countError} = await supabase
+                    .from("referrals")
+                    .select('*', {count: 'exact', head: true})
+                    .eq('inviter_id', currentInvitedUser.id);
+
+                if (countError) {
+                    console.error("Error counting referrals:", countError);
+                } else {
+                    // Award XP based on milestone thresholds
+                    await handleReferralMilestone(currentInvitedUser.id, count || 0);
+                }
             }
 
             await checkJoinDateAchievement(newUser.id)
@@ -90,6 +104,53 @@ const Header = () => {
         } catch (e) {
             console.error("Error in saveOrGetUser:", e)
             return {success: false, error: "Failed to process user"}
+        }
+    }
+
+    // Function to handle referral milestone rewards
+    const handleReferralMilestone = async(inviterId:string, referralCount: number) => {
+        // Define the milestones
+        const milestones = [
+            {threshold: 3, xp: 250, discount: 0},
+            {threshold: 5, xp: 500, discount: 0},
+            {threshold: 10, xp: 750, discount: 0},
+            {threshold: 20, xp: 1000, discount: 3},
+            {threshold: 30, xp: 1500, discount: 5}
+        ];
+
+        // Find the highest milestone achieved
+        let xpToAward = 0;
+        let discountPercentage = 0;
+
+        for (const milestone of milestones) {
+            if (referralCount === milestone.threshold) {
+                xpToAward = milestone.xp;
+                discountPercentage = milestone.discount;
+                break;
+            }
+        }
+
+        if (xpToAward > 0) {
+            // Award XP to the inviter
+            const {data: user, error: userError} = await supabase
+                .from('users')
+                .select('experience_points')
+                .eq('id', inviterId)
+                .single();
+
+            if (!userError) {
+                const currentXp = user.experience_points || 0;
+                const newXp = currentXp + xpToAward;
+
+                // Update user's XP
+                await supabase
+                    .from('users')
+                    .update({
+                        experience_points: newXp,
+                        discount_percentage: discountPercentage > 0 ? discountPercentage : 0,
+                    })
+                    .eq('id', inviterId);
+            }
         }
     }
 

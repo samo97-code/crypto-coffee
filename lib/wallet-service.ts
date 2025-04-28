@@ -7,16 +7,6 @@ export class WalletService {
      * Get transaction statistics for a user
      */
     async getTransactionStats(userId: string): Promise<ITransactionStats> {
-        // Get total supported amount from user
-        const {data: userData, error: userError} = await supabase
-            .from('users')
-            .select('total_supported_amount')
-            .eq('id', userId)
-            .single()
-
-        console.log(userData, 'userData')
-
-        if (userError) throw userError
 
         // Get transaction count
         const {count: txCount, error: txCountError} = await supabase
@@ -41,7 +31,6 @@ export class WalletService {
         if (networkError) throw networkError;
 
         return {
-            total_supported: userData.total_supported_amount || 0,
             transaction_count: txCount || 0,
             networks_used: data.length,
             most_active_network: mostActiveNetwork.length > 0 ? mostActiveNetwork[0].network_name : 'None'

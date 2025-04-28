@@ -357,7 +357,6 @@ export interface IHistoryTransaction {
 }
 
 export interface ITransactionStats {
-    total_supported: number;
     transaction_count: number;
     networks_used: number;
     most_active_network: string;
