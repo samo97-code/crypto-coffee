@@ -2,7 +2,7 @@
 
 import React, {FC} from "react";
 import {motion} from "framer-motion"
-import {ArrowUpRight, Globe, History} from "lucide-react"
+import {Globe, History} from "lucide-react"
 import {ITransactionStats} from "@/types";
 
 interface IProps{

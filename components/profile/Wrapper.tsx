@@ -3,7 +3,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import CreativeCoverImage from "@/components/profile/CreativeCoverImage";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {Copy, Edit, Gift, Sparkles, Wallet} from "lucide-react";
+import {Copy, Gift, Sparkles, Wallet} from "lucide-react";
 import {shortenAddress} from "@/utils/utils";
 import {Button} from "@/components/ui/button";
 import ProfileBadges from "@/components/profile/ProfileBadges";

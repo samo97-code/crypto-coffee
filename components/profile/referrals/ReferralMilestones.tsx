@@ -44,7 +44,7 @@ const ReferralMilestones:FC<IProps> = ({referralsCount}) => {
         };
     }
 
-    const { nextRequired, progressPercent, milestoneReached } = getReferralMilestoneProgress(referralsCount);
+    const { nextRequired, progressPercent } = getReferralMilestoneProgress(referralsCount);
 
     return (
         <div

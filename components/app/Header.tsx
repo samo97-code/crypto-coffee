@@ -15,7 +15,7 @@ import {randomAvatar, randomRefCode} from "@/utils/utils";
 import {setCookie, hasCookie} from 'cookies-next/client';
 import {useAppSelector} from "@/store/hook";
 import Image from "next/image";
-import {addXpForTransaction, checkAndUpdateAchievements} from "@/lib/acheivements-service";
+import {checkAndUpdateAchievements} from "@/lib/acheivements-service";
 import {useRouter, useSearchParams} from 'next/navigation'
 
 const Header = () => {

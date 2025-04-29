@@ -95,7 +95,7 @@ export async function getReferralEarnings(inviterId: string): Promise<number> {
 
     // sum them on the client
     return data
-        .map((row) => parseFloat(row.amount_earned as any) || 0)
+        .map((row) => parseFloat(String(row.amount_earned as number)) || 0)
         .reduce((acc, v) => acc + v, 0);
 }
 
