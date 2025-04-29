@@ -191,10 +191,6 @@ export function CreativeNetworkTabs({
                     })}
                 </div>
             </div>
-
-            {/* Decorative elements */}
-            <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-coffee-100/50 blur-sm" />
-            <div className="absolute -bottom-3 -left-1 w-4 h-4 rounded-full bg-coffee-100/30 blur-sm" />
         </div>
     )
 }

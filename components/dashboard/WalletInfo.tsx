@@ -12,8 +12,10 @@ interface IProps {
 }
 
 const WalletInfo: FC<IProps> = ({projects}) => {
-    const {chainId, isConnected, address} = useAccount();
+    const {chainId, isConnected, address, status} = useAccount();
     const [copied, setCopied] = useState(false)
+
+    console.log(status, 'status')
 
 
     const currentChain = useMemo(() => {
@@ -40,7 +42,8 @@ const WalletInfo: FC<IProps> = ({projects}) => {
                 className="relative bg-card/80 rounded-xl border border-coffee-200 dark:border-coffee-600/50"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-coffee-100 dark:border-coffee-300">
+                <div
+                    className="flex items-center justify-between p-4 border-b border-coffee-100 dark:border-coffee-300">
                     <div className="flex items-center space-x-2">
                         <motion.div
                             animate={{rotate: [0, 10, 0]}}
@@ -61,16 +64,22 @@ const WalletInfo: FC<IProps> = ({projects}) => {
                             className="relative"
                         >
                             <div
-                                className={`${address ? 'bg-green-500' : 'bg-red-500'} h-2.5 w-2.5 rounded-full`}></div>
+                                className={`${['reconnecting', 'connecting'].includes(status) ? 'bg-yellow-500' : status === 'connected' ? 'bg-green-500' : status === 'disconnected' ? 'bg-red-500' : ''} h-2.5 w-2.5 rounded-full`}></div>
                             <motion.div
                                 animate={{scale: [1, 1.5, 1], opacity: [0.8, 0, 0.8]}}
                                 transition={{repeat: Number.POSITIVE_INFINITY, duration: 2}}
-                                className={`${address ? 'bg-green-500' : 'bg-red-500'} absolute inset-0 h-2.5 w-2.5 rounded-full`}
+                                className={`${['reconnecting', 'connecting'].includes(status) ? 'bg-yellow-500' : status === 'connected' ? 'bg-green-500' : status === 'disconnected' ? 'bg-red-500' : ''} absolute inset-0 h-2.5 w-2.5 rounded-full`}
                             ></motion.div>
                         </motion.div>
                         {
-                            address ? <span className="ml-2 text-sm font-medium text-green-600 dark:text-green-500">Connected</span>
-                                : <span className="ml-2 text-sm font-medium text-red-600 dark:text-red-500">Disconnected</span>
+                            ['reconnecting', 'connecting'].includes(status) ? <span
+                                    className="ml-2 text-sm font-medium text-green-600 dark:text-yellow-500">Loading</span>
+                                :
+                                status === 'connected' ? <span
+                                        className="ml-2 text-sm font-medium text-green-600 dark:text-green-500">Connected</span>
+                                    : status === 'disconnected' ? <span
+                                            className="ml-2 text-sm font-medium text-red-600 dark:text-red-500">Disconnected</span>
+                                        : ''
                         }
                     </div>
                 </div>
@@ -99,7 +108,8 @@ const WalletInfo: FC<IProps> = ({projects}) => {
                         {/* Wallet address */}
                         <div className="mb-4">
                             <div className="text-sm text-coffee-500 mb-1">Wallet Address</div>
-                            <div className="flex items-center justify-between bg-coffee-50 dark:bg-coffee-50/60 p-2 rounded-lg">
+                            <div
+                                className="flex items-center justify-between bg-coffee-50 dark:bg-coffee-50/60 p-2 rounded-lg">
                                 <span className="text-sm font-mono text-coffee-800">{shortAddress}</span>
                                 <motion.button
                                     whileHover={{scale: 1.05}}

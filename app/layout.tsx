@@ -14,6 +14,7 @@ import {IChildren} from "@/types";
 import Header from "@/components/app/Header";
 import {CreativeFooter} from "@/components/app/CreativeFooter";
 import RainbowKit from "@/components/re-usable/RainbowKit";
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 const queryClient = new QueryClient();
 
@@ -26,17 +27,19 @@ const RootLayout: FC<IChildren> = ({children}) => {
                 <ThemeProvider>
                     <RainbowKit>
                         <Provider store={store}>
-                            <div className={`min-h-screen`}>
-                                {/* Header */}
-                                <Header/>
-                                {children}
-                                {/*<Footer/>*/}
-                                <CreativeFooter/>
+                            <ProtectedRoute>
+                                <div className={`min-h-screen`}>
+                                    {/* Header */}
+                                    <Header/>
+                                    {children}
+                                    {/*<Footer/>*/}
+                                    <CreativeFooter/>
 
-                                <Toaster
-                                    position="top-right"
-                                />
-                            </div>
+                                    <Toaster
+                                        position="top-right"
+                                    />
+                                </div>
+                            </ProtectedRoute>
                         </Provider>
                     </RainbowKit>
                 </ThemeProvider>
