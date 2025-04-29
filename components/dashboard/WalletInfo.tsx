@@ -15,9 +15,6 @@ const WalletInfo: FC<IProps> = ({projects}) => {
     const {chainId, isConnected, address, status} = useAccount();
     const [copied, setCopied] = useState(false)
 
-    console.log(status, 'status')
-
-
     const currentChain = useMemo(() => {
         return projects.find((item) => item.blockchain_networks[0].chain_id === chainId)
     }, [chainId])

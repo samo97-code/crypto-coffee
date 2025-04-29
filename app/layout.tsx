@@ -1,50 +1,37 @@
-'use client';
-
 import React, {FC} from 'react';
 import "./globals.css"
 import '@rainbow-me/rainbowkit/styles.css';
-import {Provider} from 'react-redux';
-import {store} from '@/store';
-import {WagmiProvider} from 'wagmi';
-import {QueryClientProvider, QueryClient} from '@tanstack/react-query';
-import {config} from "@/lib/wagmi";
-import {Toaster} from "@/components/ui/sonner"
-import {ThemeProvider} from "@/components/re-usable/ThemeProvider";
+import ClientLayout from "@/components/app/ClientLayout";
 import {IChildren} from "@/types";
-import Header from "@/components/app/Header";
-import {CreativeFooter} from "@/components/app/CreativeFooter";
-import RainbowKit from "@/components/re-usable/RainbowKit";
-import ProtectedRoute from '@/components/auth/ProtectedRoute';
+// import {metadata} from "@/components/app/metadata";
 
-const queryClient = new QueryClient();
+// export { metadata } // Export the metadata here
 
 const RootLayout: FC<IChildren> = ({children}) => {
     return (
         <html lang="en" suppressHydrationWarning>
-        <body>
-        <WagmiProvider config={config}>
-            <QueryClientProvider client={queryClient}>
-                <ThemeProvider>
-                    <RainbowKit>
-                        <Provider store={store}>
-                            <ProtectedRoute>
-                                <div className={`min-h-screen`}>
-                                    {/* Header */}
-                                    <Header/>
-                                    {children}
-                                    {/*<Footer/>*/}
-                                    <CreativeFooter/>
+        {/*<head>*/}
+        {/*    <link rel="icon" href="/favicon.ico" sizes="any"/>*/}
+        {/*    <link*/}
+        {/*        rel="apple-touch-icon"*/}
+        {/*        href="/apple-touch-icon.png"*/}
+        {/*        type="image/png"*/}
+        {/*        sizes="180x180"*/}
+        {/*    />*/}
+        {/*    /!* Custom fonts or other static resources *!/*/}
+        {/*    <link*/}
+        {/*        rel="preload"*/}
+        {/*        href="/fonts/custom-font.woff2"*/}
+        {/*        as="font"*/}
+        {/*        type="font/woff2"*/}
+        {/*        crossOrigin="anonymous"*/}
+        {/*    />*/}
+        {/*</head>*/}
 
-                                    <Toaster
-                                        position="top-right"
-                                    />
-                                </div>
-                            </ProtectedRoute>
-                        </Provider>
-                    </RainbowKit>
-                </ThemeProvider>
-            </QueryClientProvider>
-        </WagmiProvider>
+        <body>
+        <ClientLayout>
+            {children}
+        </ClientLayout>
         </body>
         </html>
     );

@@ -2,11 +2,11 @@ export const revalidate = 300; // ✅ cache page for 5 minutes
 import React from "react";
 import {supabase} from "@/lib/supabase";
 import Dashboard from "@/components/dashboard/Dashboard";
+import type { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
     title: 'Crypto Coffee',
-    description: 'Track your daily blockchain support, activity streaks, and rewards.',
-};
+}
 
 const DashboardPage = async () => {
     const {projects} = await fetchProjects() as never

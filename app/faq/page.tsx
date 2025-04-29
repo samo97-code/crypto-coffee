@@ -31,7 +31,7 @@ export default function FAQPage() {
             <Tabs defaultValue="general" className="mb-12">
                 <TabsList className="bg-card border border-amber-200 p-1 mb-8">
                     <TabsTrigger value="general">General</TabsTrigger>
-                    <TabsTrigger value="wallet">Wallet & Payments</TabsTrigger>
+                    <TabsTrigger value="wallet">Wallet</TabsTrigger>
                     <TabsTrigger value="projects">Projects</TabsTrigger>
                     <TabsTrigger value="activities">Daily Activities</TabsTrigger>
                     <TabsTrigger value="technical">Technical</TabsTrigger>

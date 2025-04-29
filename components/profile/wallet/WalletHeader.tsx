@@ -21,7 +21,7 @@ const WalletHeader=()=> {
                         <Wallet className="h-6 w-6"/>
                     </div>
                 </div>
-                <h1 className="text-2xl font-bold text-coffee-900">Wallet & Payments</h1>
+                <h1 className="text-2xl font-bold text-coffee-900">Wallet & Transactions</h1>
             </motion.div>
         </div>
     )

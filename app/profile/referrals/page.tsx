@@ -2,6 +2,10 @@ import React from 'react';
 import ReferralsWrapper from "@/components/profile/referrals/ReferralsWrapper";
 import {supabase} from "@/lib/supabase";
 
+export const metadata = {
+    title: 'Referrals',
+};
+
 const ReferralsPage = async() => {
     const {projects} = await fetchProjects() as never
 
@@ -11,7 +15,6 @@ const ReferralsPage = async() => {
 };
 
 export default ReferralsPage;
-
 
 async function fetchProjects() {
     try {
