@@ -1,7 +1,7 @@
 'use client'
 import React from "react"
 import {motion} from "framer-motion"
-import {Ticket, Brain, SmilePlus, ArrowRight, Zap} from "lucide-react"
+import {Ticket, Brain, SmilePlus, ArrowRight, Zap, Hand} from "lucide-react"
 import {cn} from "@/utils/utils"
 import {useRouter} from "next/navigation";
 
@@ -19,32 +19,41 @@ const SidebarActivitiesCard = () => {
     const router = useRouter()
     const activities: Activity[] = [
         {
-            id: "gas-lottery",
-            title: "Gas Fee Lottery",
-            description: "Win daily prizes",
-            icon: <Ticket className="h-5 w-5"/>,
-            color: "bg-purple-500",
+            id: "rock-paper-scissors",
+            title: "Rock Paper Scissors",
+            description: "Play rock paper scissors against the blockchain and win crypto rewards.",
+            icon: <Hand className="h-5 w-5"/>,
+            color: "bg-teal-500",
             progress: 75,
             completed: false,
         },
-        {
-            id: "crypto-trivia",
-            title: "Crypto Trivia",
-            description: "Test your knowledge",
-            icon: <Brain className="h-5 w-5"/>,
-            color: "bg-blue-500",
-            progress: 100,
-            completed: true,
-        },
-        {
-            id: "daily-joke",
-            title: "Daily Joke",
-            description: "Start with a laugh",
-            icon: <SmilePlus className="h-5 w-5"/>,
-            color: "bg-yellow-500",
-            progress: 0,
-            completed: false,
-        },
+        // {
+        //     id: "gas-lottery",
+        //     title: "Gas Fee Lottery",
+        //     description: "Win daily prizes",
+        //     icon: <Ticket className="h-5 w-5"/>,
+        //     color: "bg-purple-500",
+        //     progress: 75,
+        //     completed: false,
+        // },
+        // {
+        //     id: "crypto-trivia",
+        //     title: "Crypto Trivia",
+        //     description: "Test your knowledge",
+        //     icon: <Brain className="h-5 w-5"/>,
+        //     color: "bg-blue-500",
+        //     progress: 100,
+        //     completed: true,
+        // },
+        // {
+        //     id: "daily-joke",
+        //     title: "Daily Joke",
+        //     description: "Start with a laugh",
+        //     icon: <SmilePlus className="h-5 w-5"/>,
+        //     color: "bg-yellow-500",
+        //     progress: 0,
+        //     completed: false,
+        // },
     ]
 
     return (

@@ -367,3 +367,9 @@ html{
 }
 @keyframes l3 {to{transform: rotate(1turn)}}
 
+
+.dark .toast{
+  background: #6d4c3b !important;
+  border-color: #a27c68 !important;
+}
+

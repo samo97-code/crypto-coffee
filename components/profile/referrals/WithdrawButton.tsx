@@ -41,11 +41,10 @@ const WithdrawButton: FC<IProps> = ({projects}) => {
             return false;
         }
 
-
         // Get array of chain IDs
         const chainIds = Object.values(CHAIN_CONFIG).map(config => config.chainId);
         if (!chainIds.includes(chainId as number)) {
-            toast.error(`Please select one of the chain`)
+            toast.error(`Please select one of the suggested chains`)
             return false;
         }
 
@@ -145,7 +144,9 @@ const WithdrawButton: FC<IProps> = ({projects}) => {
             </div>
             <p className="text-sm text-coffee-600 mb-4">Minimum withdrawal: $3.00</p>
 
-            <ChooseChain projects={projects} />
+            {
+                totalEarned >= minWithdrawal && <ChooseChain projects={projects} />
+            }
 
             <Button
                 onClick={() => withdrawHandler()}

@@ -17,7 +17,7 @@ import {IChildren} from "@/types";
 
 const queryClient = new QueryClient();
 
-const ClientLayout:FC<IChildren> = ({children}) => {
+const ClientLayout: FC<IChildren> = ({children}) => {
     return (
         <WagmiProvider config={config}>
             <QueryClientProvider client={queryClient}>
@@ -33,9 +33,7 @@ const ClientLayout:FC<IChildren> = ({children}) => {
                                         {/*<Footer/>*/}
                                         <CreativeFooter/>
 
-                                        <Toaster
-                                            position="top-right"
-                                        />
+                                        <Toaster position="top-right"/>
                                     </div>
                                 </Suspense>
 

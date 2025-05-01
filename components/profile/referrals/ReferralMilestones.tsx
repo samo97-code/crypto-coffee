@@ -56,9 +56,6 @@ const ReferralMilestones:FC<IProps> = ({referralsCount}) => {
                         Milestones</h4>
                 </div>
             </h3>
-            {/*console.log(nextRequired);    // 10*/}
-            {/*console.log(progressPercent); // 40% toward 10 referrals*/}
-            {/*console.log(milestoneReached); // false*/}
             <div>
                 <div className="flex items-center justify-between mb-2">
                     <span className="text-coffee-700 font-medium">{referralsCount} / {nextRequired} friends referred</span>
