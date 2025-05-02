@@ -2,13 +2,15 @@ import {FC, useState, useEffect} from "react"
 import {motion} from "framer-motion"
 import {Coffee, Zap, HandIcon as HandRock, Sparkles} from 'lucide-react'
 import {cn} from "@/utils/utils"
+import CircleLoader from "@/components/re-usable/CircleLoader";
 
 interface IProps {
     startNewGame: () => void
+    isLoading: boolean
 }
 
 
-const CreativeGameButton: FC<IProps> = ({startNewGame}) => {
+const CreativeGameButton: FC<IProps> = ({startNewGame, isLoading}) => {
     const [isHovering, setIsHovering] = useState(false)
     const [sparklePositions, setSparklePositions] = useState<Array<{
         x: number;
@@ -68,7 +70,9 @@ const CreativeGameButton: FC<IProps> = ({startNewGame}) => {
 
                 {/* Main button */}
                 <motion.button
+                    disabled={isLoading}
                     className={cn(
+                        `${isLoading ? 'opacity-60 cursor-not-allowed' : ''}`,
                         "relative z-10 group flex items-center justify-center gap-2 px-4 py-2",
                         "bg-gradient-to-br from-coffee-400 via-coffee-500 to-coffee-600 dark:from-coffee-50 dark:via-coffee-100 dark:to-coffee-100",
                         "rounded-full text-white font-bold text-lg shadow-xl",
@@ -80,9 +84,9 @@ const CreativeGameButton: FC<IProps> = ({startNewGame}) => {
                         boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                     }}
                     whileTap={{scale: 0.98}}
-                    onHoverStart={() => setIsHovering(true)}
-                    onHoverEnd={() => setIsHovering(false)}
-                    onClick={() => startNewGame()}
+                    onHoverStart={() => !isLoading ? setIsHovering(true) : null}
+                    onHoverEnd={() => !isLoading ? setIsHovering(false) : null}
+                    onClick={() => !isLoading ? startNewGame() : null}
                 >
                     {/* Background beans animation */}
                     <div className="absolute inset-0 opacity-20">
@@ -98,22 +102,27 @@ const CreativeGameButton: FC<IProps> = ({startNewGame}) => {
                     <div className="relative flex items-center gap-3">
                         {/* Icon container with animations */}
                         <div className="relative">
-                            <motion.div
-                                className="absolute inset-0 flex items-center justify-center"
-                                initial={{opacity: 1, rotateY: 0}}
-                                animate={isHovering ? {opacity: 0, rotateY: 90} : {opacity: 1, rotateY: 0}}
-                                transition={{duration: 0.3}}
-                            >
-                                <Coffee className="h-6 w-6"/>
-                            </motion.div>
-                            <motion.div
-                                className="flex items-center justify-center"
-                                initial={{opacity: 0, rotateY: -90}}
-                                animate={isHovering ? {opacity: 1, rotateY: 0} : {opacity: 0, rotateY: -90}}
-                                transition={{duration: 0.3}}
-                            >
-                                <HandRock className="h-6 w-6"/>
-                            </motion.div>
+                            {
+                                isLoading ? <CircleLoader/> : <>
+                                    <motion.div
+                                        className="absolute inset-0 flex items-center justify-center"
+                                        initial={{opacity: 1, rotateY: 0}}
+                                        animate={isHovering ? {opacity: 0, rotateY: 90} : {opacity: 1, rotateY: 0}}
+                                        transition={{duration: 0.3}}
+                                    >
+                                        <Coffee className="h-6 w-6"/>
+                                    </motion.div>
+                                    <motion.div
+                                        className="flex items-center justify-center"
+                                        initial={{opacity: 0, rotateY: -90}}
+                                        animate={isHovering ? {opacity: 1, rotateY: 0} : {opacity: 0, rotateY: -90}}
+                                        transition={{duration: 0.3}}
+                                    >
+                                        <HandRock className="h-6 w-6"/>
+                                    </motion.div>
+                                </>
+                            }
+
                         </div>
 
                         {/* Text with slide-up effect */}
@@ -124,10 +133,11 @@ const CreativeGameButton: FC<IProps> = ({startNewGame}) => {
                                 transition={{duration: 0.3, ease: "easeInOut"}}
                                 className="flex flex-col items-start"
                             >
-                                <span>Start Game</span>
+                                <span>{isLoading ? 'Sending...' : 'Start Game'}</span>
                                 <span className="flex items-center gap-1 text-amber-200">
-                  Let&#39;s Play <Zap className="h-4 w-4"/>
-                </span>
+                                        {isLoading ?  'Sending...' : "Let's Play"}
+                                    <Zap className="h-4 w-4"/>
+                                </span>
                             </motion.div>
                         </div>
                     </div>

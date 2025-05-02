@@ -4,6 +4,13 @@ export interface IChildren {
     children: React.ReactNode
 }
 
+export enum GameResult {
+    Pending = 0,
+    PlayerWin = 1,
+    ComputerWin = 2,
+    Tie = 3,
+}
+
 export interface ICurrentBuyedCoffee {
     hash: string,
 }

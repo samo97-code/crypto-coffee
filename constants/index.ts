@@ -552,3 +552,13 @@ export const CHAIN_CONFIG = {
         usdtAddress: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
     }
 };
+
+
+// Bet amount options
+export const betAmounts = [
+    {value: 0.001, label: "$0.045"},
+    {value: 0.1, label: "$0.1"},
+    {value: 0.5, label: "$0.5"},
+    {value: 1, label: "$1"},
+    {value: 2, label: "$2"},
+]

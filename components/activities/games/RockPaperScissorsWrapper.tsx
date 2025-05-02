@@ -1,6 +1,6 @@
 'use client'
 
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {motion} from "framer-motion";
 import {AlertCircle, Coffee, Hand, Trophy, Zap, FileText, Scissors} from "lucide-react";
 import {Badge} from "@/components/ui/badge";
@@ -10,20 +10,14 @@ import {Progress} from "@/components/ui/progress";
 import GameHeader from "@/components/activities/games/rock-paper-scissors/GameHeader";
 import ChooseChain from "@/components/re-usable/ChooseChain";
 import GameRules from "@/components/activities/games/rock-paper-scissors/GameRules";
-import {IProject} from "@/types";
+import {IProject, GameResult} from "@/types";
 import CreativeGameButton from "@/components/activities/games/rock-paper-scissors/CreateGameButton";
 import {toast} from "sonner";
-import {CHAIN_CONFIG} from "@/constants";
 import {useAccount} from "wagmi";
+import useRockPaperScissorsContract from "@/hooks/useRockPaperScissorsContract";
+import {CHAIN_CONFIG, betAmounts} from "@/constants";
+import CircleLoader from "@/components/re-usable/CircleLoader";
 
-// Bet amount options
-const betAmounts = [
-    {value: 0.045, label: "$0.045"},
-    {value: 0.1, label: "$0.1"},
-    {value: 0.5, label: "$0.5"},
-    {value: 1, label: "$1"},
-    {value: 2, label: "$2"},
-]
 
 // Game choices
 const choices = [
@@ -37,31 +31,51 @@ interface IProps {
 }
 
 
+type GameType = 'waiting' | "choosing" | "revealing" | "roundEnd" | "gameEnd";
+type GameResults = "win" | "lose" | "draw" | null;
+
 const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
     const {address: userAddress, chainId, chain} = useAccount();
 
     // Game state
+    const [gameStatus, setGameStatus] = useState<GameType>("waiting")
     const [selectedBet, setSelectedBet] = useState(betAmounts[0])
     const [userChoice, setUserChoice] = useState<string | null>(null)
     const [opponentChoice, setOpponentChoice] = useState<string | null>(null)
-    const [roundResult, setRoundResult] = useState<"win" | "lose" | "draw" | null>(null)
+    const [roundResult, setRoundResult] = useState<GameResults>(null)
     const [currentRound, setCurrentRound] = useState(1)
     const [scores, setScores] = useState({user: 0, opponent: 0})
-    const [gameStatus, setGameStatus] = useState<'waiting' | "choosing" | "revealing" | "roundEnd" | "gameEnd">("waiting")
-    const [gameResult, setGameResult] = useState<"win" | "lose" | "draw" | null>(null)
+    const [gameResult, setGameResult] = useState<GameResults>(null)
     const [xpEarned, setXpEarned] = useState(0)
-    const [streakBonus, setStreakBonus] = useState(0)
 
-    const startGame = () => {
-        if (!Object.keys(selectedBet).length) {
-            return toast.error(`Please select bet amount`)
+    const {
+        isClaimed,
+        isPendingTransaction,
+        isLoading,
+        claimableAmount,
+        handleStartGame,
+        handleClaimReward,
+        submitGameOutcome,
+        resetContractState,
+    } = useRockPaperScissorsContract(setGameStatus)
+
+
+    useEffect(() => {
+        if (isClaimed) resetGame()
+    }, [isClaimed])
+
+    const startGame = async () => {
+        // Get array of chain IDs
+        const chainIds = Object.values(CHAIN_CONFIG).map(config => config.chainId);
+        if (!chainIds.includes(chainId as number)) {
+            toast.error(`Please select one of the suggested chains`)
+            return false;
         }
 
-        if (chain?.testnet) {
-            return toast.error(`Ready to play? Please make sure you've selected chains on Mainnet to continue.`)
-        }
+        if (!selectedBet) return toast.error('Please select a bet amount')
+        if (!userAddress) return toast.error('Connect your wallet first')
 
-        setGameStatus('choosing')
+        await handleStartGame(selectedBet.value)
     }
 
     // Handle user choice
@@ -81,7 +95,7 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
 
     // Determine round winner
     const determineRoundWinner = (userChoice: string, opponentChoice: string) => {
-        let result: "win" | "lose" | "draw" = "draw"
+        let result: GameResults
 
         if (userChoice === opponentChoice) {
             result = "draw"
@@ -105,13 +119,21 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
             // Game over
             const finalResult = scores.user > scores.opponent ? "win" : scores.user < scores.opponent ? "lose" : "draw"
             setGameResult(finalResult)
-            setGameStatus("gameEnd")
 
             if (finalResult === "win") {
-                // Calculate rewards
-                setXpEarned(25)
-                setStreakBonus(5)
+                setXpEarned(15)
             }
+
+            let contractResult: GameResult;
+            if (finalResult === "win") {
+                contractResult = GameResult.PlayerWin;
+            } else if (finalResult === "lose") {
+                contractResult = GameResult.ComputerWin;
+            } else {
+                contractResult = GameResult.Tie;
+            }
+
+            submitGameOutcome(contractResult);
         } else {
             // Next round
             setCurrentRound((prev) => prev + 1)
@@ -132,7 +154,7 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
         setGameStatus("waiting")
         setGameResult(null)
         setXpEarned(0)
-        setStreakBonus(0)
+        resetContractState()
     }
 
     // Get choice icon
@@ -179,6 +201,8 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                 <h3 className="text-coffee-800 font-medium mb-3">Game Setup</h3>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <ChooseChain projects={projects} isGame={true}/>
+
                                     {/* Bet amount selection */}
                                     <div>
                                         <label className="block text-sm font-medium text-coffee-700 mb-2">Bet
@@ -222,9 +246,8 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                     </div>
                                 }
 
-
                                 {/* Game area */}
-                                <div className="grid grid-cols-3 gap-4">
+                                <div className="flex flex-col sm:grid grid-cols-3 gap-4">
                                     {/* User side */}
                                     <div className="col-span-1">
                                         <div className="text-center mb-2">
@@ -290,7 +313,7 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                                 >
                                                     {getChoiceIcon(opponentChoice)}
                                                     <p className="mt-2 font-medium">
-                                                        {opponentChoice?.charAt(0).toUpperCase() + opponentChoice?.slice(1)}
+                                                        {opponentChoice ? opponentChoice?.charAt(0).toUpperCase() + opponentChoice?.slice(1) : ''}
                                                     </p>
                                                 </motion.div>
                                             ) : (
@@ -308,7 +331,7 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                 {gameStatus === 'waiting' && (
                                     <div className="mt-6">
                                         <div className="flex justify-center">
-                                            <CreativeGameButton startNewGame={startGame}/>
+                                            <CreativeGameButton startNewGame={startGame} isLoading={isLoading}/>
                                         </div>
                                     </div>
                                 )
@@ -343,9 +366,13 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                 {/* Round end actions */}
                                 {gameStatus === "roundEnd" && (
                                     <div className="mt-6 text-center">
-                                        <Button className="bg-coffee-700 hover:bg-coffee-800" onClick={handleNextRound}>
+                                        <Button className="bg-coffee-700 hover:bg-coffee-800" onClick={handleNextRound}
+                                                disabled={isLoading}>
+                                            {isLoading && (currentRound >= 3 || Math.max(scores.user, scores.opponent) >= 2) ?
+                                                <CircleLoader/> : ''}
+
                                             {currentRound >= 3 || Math.max(scores.user, scores.opponent) >= 2
-                                                ? "See Final Result"
+                                                ? isLoading ? "Loading Results..." : "See Final Result"
                                                 : "Next Round"}
                                         </Button>
                                     </div>
@@ -379,7 +406,7 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                             Final Score: {scores.user} - {scores.opponent}
                                         </p>
 
-                                        {gameResult === "win" && (
+                                        {gameResult === "win" || gameResult === "draw" && (
                                             <div className="bg-coffee-100 rounded-lg p-4 mb-4">
                                                 <h4 className="font-medium text-coffee-800 mb-2">Rewards Earned:</h4>
                                                 <div className="flex justify-center gap-4">
@@ -388,11 +415,36 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                                         <span
                                                             className="text-coffee-800 font-medium">{xpEarned} XP</span>
                                                     </div>
-                                                    <div className="flex items-center">
-                                                        <Trophy className="h-5 w-5 text-coffee-600 mr-1"/>
-                                                        <span
-                                                            className="text-coffee-800 font-medium">+{streakBonus} Streak Bonus</span>
-                                                    </div>
+                                                </div>
+
+                                                <div className="mt-4">
+                                                    <Button
+                                                        onClick={handleClaimReward}
+                                                        disabled={!chain || isPendingTransaction}
+                                                        className="w-full bg-green-600 hover:bg-green-700 text-white"
+                                                    >
+                                                        {isLoading ? (
+                                                            <>
+                                                                <svg
+                                                                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24">
+                                                                    <circle className="opacity-25" cx="12" cy="12"
+                                                                            r="10" stroke="currentColor"
+                                                                            strokeWidth="4"></circle>
+                                                                    <path className="opacity-75" fill="currentColor"
+                                                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                </svg>
+                                                                Claiming...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
+                                                                {/*@ts-ignore*/}
+                                                                Claim {gameResult === "win" ? 2 * claimableAmount : claimableAmount} USDT
+                                                            </>
+                                                        )}
+                                                    </Button>
                                                 </div>
                                             </div>
                                         )}

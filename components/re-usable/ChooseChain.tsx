@@ -6,9 +6,11 @@ import {useSwitchChain} from "wagmi";
 
 interface IProps {
     projects: IProject[]
+    isGame?: boolean
+
 }
 
-const ChooseChain: FC<IProps> = ({projects}) => {
+const ChooseChain: FC<IProps> = ({projects, isGame = false}) => {
     const {chainId} = useAccount();
     const {switchChain} = useSwitchChain();
 
@@ -18,7 +20,7 @@ const ChooseChain: FC<IProps> = ({projects}) => {
 
     return (
         <div className="mb-2">
-            <h3 className="text-coffee-700 font-medium mb-0.5">Choose chain to claim rewards(USDT)</h3>
+            <h3 className="text-coffee-700 font-medium mb-0.5">{isGame ? 'Choose chain to start game' : 'Choose chain to claim rewards(USDT)'}</h3>
             <ul className="flex items-center gap-2">
                 {projects.map((project) => {
                     return <li key={project.id}
