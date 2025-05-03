@@ -23,7 +23,7 @@ const HeaderSearch = () => {
     }
 
     return(
-        <div className="flex items-center gap-4">
+        <div className="items-center gap-4 hidden md:flex">
             {/* Search Bar */}
             <div className="relative group">
                 <div

@@ -4,15 +4,15 @@ import {useEffect, useState} from "react"
 import {Coffee, TrendingDown, TrendingUp, Clock, Database} from "lucide-react"
 import {projects} from "@/constants";
 import CircleLoader from "@/components/re-usable/CircleLoader";
-import {supabase} from "@/lib/supabase";
+import {getWebsiteTxStats} from "@/lib/transaction-service";
 
 
 const WelcomeSection = () => {
     const [price, setPrice] = useState<number>(0);
     const [change24h, setChange24h] = useState<number>(0);
     const [stats, setStats] = useState({
-        totalSupporters: 0,
-        dailySupporters: 0,
+        totalTx: 0,
+        dailyTx: 0,
     })
 
     // Floating animation for decorative elements
@@ -25,18 +25,18 @@ const WelcomeSection = () => {
             htmlElement.style.animation = `float 3s ease-in-out ${delay}s infinite`
         })
 
-        getDailySupportersStats()
+        getTxStats()
         fetchBitcoinPrice()
         const interval = setInterval(fetchBitcoinPrice, 180000); // update every 3m
         return () => clearInterval(interval);
     }, [])
 
-    const getDailySupportersStats = async () => {
+    const getTxStats = async () => {
         try {
-            const data = await supabase.rpc('get_supporters_stats');
+            const {totalTx, dailyTx} = await getWebsiteTxStats();
             setStats({
-                totalSupporters: data.data.totalSupporters,
-                dailySupporters: data.data.dailySupporters,
+                totalTx: totalTx,
+                dailyTx: dailyTx,
             })
         } catch (error) {
             console.error('Error in getDailySupportersStats:', error);
@@ -114,7 +114,8 @@ const WelcomeSection = () => {
             {/* Stats grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{transform: "translateZ(10px)"}}>
                 {/* Bitcoin Price */}
-                <div className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
+                <div
+                    className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Bitcoin Price</div>
                         <div
@@ -148,7 +149,8 @@ const WelcomeSection = () => {
                 </div>
 
                 {/* Coffee Chains */}
-                <div className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
+                <div
+                    className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-medium text-coffee-800">Coffee Chains</div>
                         <div
@@ -167,9 +169,10 @@ const WelcomeSection = () => {
                 </div>
 
                 {/* Daily Users */}
-                <div className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
+                <div
+                    className="min-h-[118px] bg-card rounded-lg p-4 shadow-md border border-coffee-100 dark:border-coffee-300 transition-all duration-300">
                     <div className="flex justify-between items-center mb-2">
-                        <div className="font-medium text-coffee-800">Daily Users</div>
+                        <div className="font-medium text-coffee-800">Transactions</div>
                         <div
                             className="text-xs font-medium px-2 py-1 bg-coffee-100 dark:bg-coffee-300 rounded-full text-coffee-800 flex items-center">
                             <div className="h-2 w-2 rounded-full bg-green-500 mr-1 animate-pulse"></div>
@@ -177,11 +180,11 @@ const WelcomeSection = () => {
                         </div>
                     </div>
                     {
-                        stats.totalSupporters ? <div className="flex items-end justify-between">
-                            <div className="text-3xl font-bold text-coffee-900">{stats.totalSupporters}</div>
+                        stats.totalTx ? <div className="flex items-end justify-between">
+                            <div className="text-3xl font-bold text-coffee-900">{stats.totalTx}</div>
                             <div className="flex items-center text-green-600 dark:text-green-500 text-sm font-medium">
                                 <TrendingUp className="h-4 w-4 mr-1"/>
-                                <span>+{stats.dailySupporters} today</span>
+                                <span>+{stats.dailyTx} today</span>
                             </div>
                         </div> : <div className="flex justify-center"><CircleLoader/></div>
                     }

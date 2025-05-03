@@ -16,11 +16,9 @@ const CustomWalletTrigger: FC<IProps> = ({color}) => {
     };
 
     return (
-        <div>
-            <Button onClick={handleConnect} className={`min-h-10 w-full text-white ${color} `}>
-                Connect Wallet
-            </Button>
-        </div>
+        <Button onClick={handleConnect} className={`min-h-10 w-full text-white ${color} `}>
+            Connect Wallet
+        </Button>
     );
 }
 

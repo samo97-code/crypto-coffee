@@ -17,6 +17,7 @@ import {useAccount} from "wagmi";
 import useRockPaperScissorsContract from "@/hooks/useRockPaperScissorsContract";
 import {CHAIN_CONFIG, betAmounts} from "@/constants";
 import CircleLoader from "@/components/re-usable/CircleLoader";
+import CoffeeLoader from "@/components/dashboard/CoffeeLoader";
 
 
 // Game choices
@@ -35,7 +36,7 @@ type GameType = 'waiting' | "choosing" | "revealing" | "roundEnd" | "gameEnd";
 type GameResults = "win" | "lose" | "draw" | null;
 
 const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
-    const {address: userAddress, chainId, chain} = useAccount();
+    const {address: userAddress, chainId, chain, isConnected} = useAccount();
 
     // Game state
     const [gameStatus, setGameStatus] = useState<GameType>("waiting")
@@ -163,6 +164,8 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
         const choice = choices.find((c) => c.id === choiceId)
         return choice ? <choice.icon className="h-12 w-12"/> : null
     }
+
+    if (!isConnected) return <CoffeeLoader/>
 
     return (
         <div className="container mx-auto py-8 px-4 min-h-screen">

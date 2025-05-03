@@ -106,16 +106,16 @@ export async function handlePostTransactionUpdate(userId: string, transaction: I
 
     if (!userId || !transaction) return;
 
-    const { usd_value } = transaction;
+    const {usd_value} = transaction;
 
     // Trigger achievements
     await checkAndUpdateAchievements(userId, [
-        { type: 'total_support', value: usd_value },
-        { type: 'projects_supported', value: 1 },
-        { type: 'networks_supported', value: 1 },
-        { type: 'unique_chains', value: 1 },
-        { type: 'single_support', value: usd_value },
-        { type: 'repeat_support', value: 1 },
+        {type: 'total_support', value: usd_value},
+        {type: 'projects_supported', value: 1},
+        {type: 'networks_supported', value: 1},
+        {type: 'unique_chains', value: 1},
+        {type: 'single_support', value: usd_value},
+        {type: 'repeat_support', value: 1},
     ]);
 }
 
@@ -145,3 +145,30 @@ export async function handlePostTransactionUpdate(userId: string, transaction: I
 //     // Optional: for logging in to reveal the joke
 //     await checkAndUpdateAchievements(userId, "jokes_revealed", 1);
 // }
+
+export async function getWebsiteTxStats() {
+    // Get all transactions
+    const {data, error} = await supabase
+        .from('transactions')
+        .select('*')
+        .eq('status', 'completed')
+        .order('created_at', {ascending: false});
+
+    if (error) {
+        console.error("Error fetching transactions:", error)
+        throw error;
+    }
+
+    const now = new Date();
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+    const recentTxs = data.filter(tx => {
+        const txDate = new Date(tx.created_at);
+        return txDate >= oneDayAgo;
+    });
+
+    return {
+        totalTx: data.length || 0,
+        dailyTx: recentTxs.length || 0,
+    };
+}

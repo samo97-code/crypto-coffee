@@ -1,9 +1,12 @@
 'use client'
 import React from "react"
 import {motion} from "framer-motion"
-import {Ticket, Brain, SmilePlus, ArrowRight, Zap, Hand} from "lucide-react"
+import {ArrowRight, Zap, Hand} from "lucide-react"
+// Ticket, Brain, SmilePlus,
 import {cn} from "@/utils/utils"
 import {useRouter} from "next/navigation";
+import {useAccount} from "wagmi";
+import {toast} from "sonner";
 
 type Activity = {
     id: string
@@ -16,6 +19,7 @@ type Activity = {
 }
 
 const SidebarActivitiesCard = () => {
+    const {isConnected} = useAccount()
     const router = useRouter()
     const activities: Activity[] = [
         {
@@ -56,6 +60,12 @@ const SidebarActivitiesCard = () => {
         // },
     ]
 
+    const toLink = (url: string) => {
+        if (!isConnected) return toast.error('Please connect your wallet.')
+
+        router.push(`/daily-activities/${url}`)
+    }
+
     return (
         <div className="relative w-full max-w-sm overflow-hidden shadow-lg rounded-xl">
             {/* Background pattern */}
@@ -68,7 +78,8 @@ const SidebarActivitiesCard = () => {
                 className="relative backdrop-blur-sm bg-card/80 rounded-xl overflow-hidden border border-coffee-200 dark:border-coffee-600/50 shadow-lg"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-coffee-100 dark:border-coffee-300">
+                <div
+                    className="flex items-center justify-between p-4 border-b border-coffee-100 dark:border-coffee-300">
                     <div className="flex items-center space-x-2">
                         <motion.div
                             animate={{rotate: [0, 10, 0]}}
@@ -90,6 +101,7 @@ const SidebarActivitiesCard = () => {
                             className={cn(
                                 "cursor-pointer relative overflow-hidden rounded-lg border border-coffee-100 dark:border-coffee-300 transition-colors duration-300 bg-card hover:bg-coffee-50 dark:hover:bg-coffee-50/60",
                             )}
+                            onClick={() => toLink(activity.id)}
                         >
                             <div className="p-3">
                                 <div className="flex items-center justify-between">
@@ -105,6 +117,24 @@ const SidebarActivitiesCard = () => {
                             </div>
                         </div>
                     ))}
+
+                    <div
+                        className={cn(
+                            "relative overflow-hidden rounded-lg border border-coffee-100 dark:border-coffee-300 transition-colors duration-300 bg-card opacity-50 hover:bg-coffee-50 dark:hover:bg-coffee-50/60",
+                        )}
+                    >
+                        <div className="p-3">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                    <div>
+                                        <h4 className="font-medium text-coffee-800">More Coming Soon</h4>
+                                        <p className="text-xs text-coffee-500">We&#39;re creating something special for
+                                            you</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* View all button */}
