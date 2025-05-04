@@ -85,6 +85,23 @@ contract CryptoCoffeeRPS is Ownable {
         emit FeesWithdrawn(to, bal);
     }
 
+
+    /// @notice Returns the total ETH sitting in this contract (i.e. collected fees)
+    function getFeesBalance() external view returns (uint256) {
+        return address(this).balance;
+    }
+
+    /// @notice Withdraw a percentage of the current contract balance to `to`
+    /// @param to       recipient of the withdrawn ETH
+    /// @param percent  whole‐percent (0–100) of the balance to withdraw
+    function withdrawFeesPercent(address to, uint256 percent) external onlyOwner {
+        require(percent <= 100, "Percent must be ≤100");
+        uint256 bal = address(this).balance;
+        uint256 amount = (bal * percent) / 100;
+        payable(to).transfer(amount);
+        emit FeesWithdrawn(to, amount);
+    }
+
     // Fallback in case someone sends ETH directly
     receive() external payable {}
 }

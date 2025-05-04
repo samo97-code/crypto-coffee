@@ -5,6 +5,7 @@ import React, {FC, useEffect} from 'react';
 import {useAccount} from 'wagmi';
 import {useAdmin} from '@/hooks/useAdmin';
 import {usePathname, useRouter} from 'next/navigation';
+import CoffeeLoader from "@/components/dashboard/CoffeeLoader";
 
 // import CustomWalletTrigger from '@/components/dashboard/CustomWalletTrigger';
 
@@ -14,19 +15,21 @@ interface IProps {
 }
 
 const ProtectedRoute: FC<IProps> = ({children, requireAdmin = false}) => {
-    const {isConnected} = useAccount();
+    const {isConnected, address} = useAccount();
     const {isAdmin} = useAdmin();
     const router = useRouter();
     const path = usePathname()
+    const adminWallet = '0xCEE870Bd19008D5C3A230C2803c0A94E92803a34'
 
     const whiteList = ['/daily-activities']
 
 
     useEffect(() => {
+        console.log(address,'address')
+
         // For admin pages, check if user is admin
-        if (requireAdmin && !isAdmin) {
-            router.push('/');
-            return;
+        if (address !== adminWallet) {
+            return router.push('/');
         }
 
         // For protected pages, check if wallet is connected
@@ -34,6 +37,8 @@ const ProtectedRoute: FC<IProps> = ({children, requireAdmin = false}) => {
             router.push('/');
         }
     }, [isConnected, isAdmin, requireAdmin, router]);
+
+    if (!isConnected) return <CoffeeLoader />
 
     return <>{children}</>;
 }

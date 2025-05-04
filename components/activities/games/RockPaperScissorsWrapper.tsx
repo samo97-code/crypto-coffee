@@ -128,16 +128,16 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
 
     // Determine round winner
     const determineRoundWinner = (userChoice: string, opponentChoice: string) => {
-        // let result: GameResults
-        //
-        // if (userChoice === opponentChoice) {
-        //     result = "draw"
-        // } else {
-        //     const userChoiceObj = choices.find((c) => c.id === userChoice)
-        //     result = userChoiceObj?.beats === opponentChoice ? "win" : "lose"
-        // }
+        let result: GameResults
 
-        const result = 'win'
+        if (userChoice === opponentChoice) {
+            result = "draw"
+        } else {
+            const userChoiceObj = choices.find((c) => c.id === userChoice)
+            result = userChoiceObj?.beats === opponentChoice ? "win" : "lose"
+        }
+
+        // const result = 'win'
         setRoundResult(result)
         setScores((prev) => ({
             user: prev.user + (result === "win" ? 1 : 0),
