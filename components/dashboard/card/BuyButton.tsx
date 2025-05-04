@@ -186,10 +186,9 @@ const BuyButton: FC<IProps> = ({
                     await saveReferrerEarnings(user, earningAmount)
                 }
 
-                //TODO re-comment when all things will be ready
-                // if (project.blockchain_networks[0].type === 'mainnet') {
+                if (project.blockchain_networks[0].type === 'mainnet') {
                     await Promise.all([addXpForTransaction(user), handlePostTransactionUpdate(user.id, transaction), await updateTxTotalAmount(user.id)])
-                // }
+                }
             }
         } catch (error) {
             console.error('Supabase Error:', error);

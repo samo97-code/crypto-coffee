@@ -65,31 +65,6 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
             return []
         }
 
-        // Fetch recent achievement unlocks
-        const {data: achievements, error: achievementsError} = await supabase
-            .from("user_achievements")
-            .select(`
-        id,
-        unlocked_at,
-        achievement:achievements (
-          id,
-          name,
-          description,
-          icon_name,
-          icon_bg,
-          icon_color
-        )
-      `)
-            .eq("user_id", userId)
-            .eq("is_unlocked", true)
-            .order("unlocked_at", {ascending: false})
-            .limit(limit)
-
-        if (achievementsError) {
-            console.error("Error fetching achievements:", achievementsError)
-            return []
-        }
-
         // Fetch recent activity completions
         const {data: activities, error: activitiesError} = await supabase
             .from("activity_completions")
@@ -116,11 +91,11 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
         // Transform transactions into activities
         const transactionActivities: IActivity[] = (transactions as unknown as ITransaction[] || []).map((transaction) => ({
             id: transaction.id,
-            type: "support",
-            title: "Bought Coffee",
-            description: `You bought a crypto coffee with ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}.`,
-            icon: "Coffee",
-            icon_bg: "bg-gradient-to-r from-coffee-500 to-coffee-700",
+            type: transaction.type,
+            title: transaction.type === 'support' ? "Bought Coffee" : transaction.type === 'activity' ? 'Completed Daily Activity' : transaction.type === 'claim_reward' ? 'Claimed Activity Reward' : '',
+            description: transaction.type === 'support' ? `You bought a crypto coffee with ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}.` : transaction.type === 'activity' ? `Game played with ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}` : transaction.type === 'claim_reward' ? `Reward claimed ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}` : '',
+            icon: transaction.type === 'support' ? "Coffee" : transaction.type === 'activity' ? 'Gamepad' : transaction.type === 'claim_reward' ? 'Award' : '',
+            icon_bg: "bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-200/30 dark:to-coffee-100/50",
             icon_color: "text-white",
             amount: transaction.amount,
             chain_key: transaction.projects?.blockchain_networks[0].chain_key,
@@ -132,24 +107,6 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
             project_chain: transaction.projects?.chain,
             project_icon: transaction.projects?.icon_url,
         }))
-
-        // Transform achievement unlocks into activities
-        const achievementActivities: IActivity[] = (achievements as unknown as IUserAchievement[] || [])
-            .filter((a) => a.achievement && a.unlocked_at)
-            .map((achievement) => ({
-                id: achievement.id,
-                type: "achievement",
-                title: "Achievement Unlocked",
-                description: `You earned the '${achievement.achievement?.name}' achievement.`,
-                icon: achievement.achievement?.icon_name || "Award",
-                icon_bg: achievement.achievement?.icon_bg || "bg-gradient-to-r from-green-500 to-emerald-500",
-                icon_color: achievement.achievement?.icon_color || "text-white",
-                timestamp: achievement.unlocked_at || "",
-                project_id: undefined,
-                project_name: undefined,
-                project_chain: undefined,
-                project_icon: undefined,
-            }))
 
         // Transform activity completions into activities
         const activityCompletionActivities: IActivity[] = (activities as unknown as IActivityCompletion[] || [])
@@ -170,7 +127,7 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
             }))
 
         // Combine all activities and sort by timestamp
-        const allActivities = [...transactionActivities, ...achievementActivities, ...activityCompletionActivities].sort(
+        const allActivities = [...transactionActivities, ...activityCompletionActivities].sort(
             (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
         )
 

@@ -122,7 +122,7 @@ export interface ITransaction {
     network_name: string;
     transaction_hash?: string;
     amount: number;
-    type: 'support' | 'reward';
+    type: 'support' | 'activity' | 'claim_reward';
     status: 'pending' | 'completed' | 'failed';
     created_at: string;
     updated_at: string;

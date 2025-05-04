@@ -69,6 +69,78 @@ export async function createSupportTransaction(
 }
 
 /**
+ * Creates a support transaction and updates the user's streak
+ * @param userId The user's ID
+ * @param projectId The project being supported
+ * @param networkName The network name
+ * @param hash The tx hash
+ * @param amount The amount of the transaction
+ * @param usd_value
+ * @param type
+ * @param status
+ * @returns The created transaction
+ */
+export async function createActivityTransaction(
+    userId: string,
+    projectId: number | undefined,
+    networkName: string,
+    hash: string,
+    amount: string,
+    usd_value: number,
+    type: string,
+    status: string,
+): Promise<ITransaction | null> {
+    // Create the transaction
+    const {data, error} = await supabase
+        .from("transactions")
+        .insert({
+            user_id: userId,
+            project_id: projectId,
+            network_name: networkName,
+            transaction_hash: hash,
+            amount,
+            usd_value: usd_value, // USD value per coffee (or it must be static 0.045$ or token price * token amount.)
+            type: type,
+            status: status, // For demo purposes, we'll mark it as completed immediately
+        })
+        .select()
+        .single()
+
+    if (error) {
+        console.error("Error creating transaction:", error)
+        return null
+    }
+
+    // Record the streak activity
+    await recordStreakActivity(userId)
+
+    return data
+}
+
+/**
+ * Creates a support transaction and updates the user's streak
+ * @returns The created transaction
+ * @param transactionId
+ * @param updateData
+ */
+export async function updateActivityTransaction(
+    transactionId: number, // The ID of the transaction to update
+    updateData: {
+        network_name?: string,
+        transaction_hash?: string,
+        amount?: string,
+        usd_value?: number,
+        type?: string,
+        status?: string,
+    }
+) {
+    await supabase.rpc('update_transaction_status', {
+        tx_id: transactionId,
+        new_status: updateData.status
+    })
+}
+
+/**
  * Gets the user's transaction history
  * @param userId The user's ID
  * @param limit The maximum number of transactions to return

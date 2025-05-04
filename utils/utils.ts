@@ -24,6 +24,8 @@ import {
     Grid3x3,
     Grid2x2,
     Gamepad,
+    Hand,
+    HandMetal
 } from "lucide-react";
 import React from "react";
 
@@ -136,5 +138,7 @@ export const achievementIconMap: Record<string, React.ElementType> = {
     Grid3x3,
     Grid2x2,
     Gamepad,
+    Hand,
+    HandMetal
 };
 

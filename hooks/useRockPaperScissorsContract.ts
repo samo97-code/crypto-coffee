@@ -10,13 +10,27 @@ import {toast} from 'sonner'
 import {WriteContractData} from "@wagmi/core/query"
 import useEthPrice from "@/hooks/useEthPrice";
 import {RPS_CONTRACT_ABI} from "@/abi";
-import {GameResult} from "@/types";
+import {GameResult, IProject} from "@/types";
+import {createActivityTransaction, updateActivityTransaction} from "@/lib/transaction-service";
+import {useAppSelector} from "@/store/hook";
+import {checkAndUpdateAchievements} from "@/lib/acheivements-service";
+import {saveReferrerEarnings} from "@/lib/referral-service";
 
 type TransactionType = 'startGame' | 'submitResult' | 'claimReward' | 'none';
 type GameType = 'waiting' | "choosing" | "revealing" | "roundEnd" | "gameEnd";
 
+interface ItxTempData {
+    amount: string,
+    usd_value: number,
+    networkName: string
+    hash?: string
+}
 
-const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void) => {
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, projects: IProject[]) => {
+    const authUser = useAppSelector(state => state.user.user);
     const {ethPrice, fetchEthPrice} = useEthPrice()
     const {isConnected, chainId} = useAccount()
     const contractAddress = chainId === 10 ? process.env.NEXT_PUBLIC_RPS_CONTRACT_OP : process.env.NEXT_PUBLIC_RPS_CONTRACT_ARB as `0x${string}`
@@ -27,6 +41,14 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void) =
     const [hash, setHash] = useState<`0x${string}` | ''>('') // Use the same pattern as in BuyButton
     const [isPendingTransaction, setIsPendingTransaction] = useState(false)
     const [claimableAmount, setClaimableAmount] = useState<number>(0)
+
+    const [txTempData, setTxTempData] = useState<ItxTempData>({
+        amount: '0',
+        usd_value: 0,
+        networkName: '',
+        hash: ''
+    })
+    const [currentTxId, setCurrentTxId] = useState<number | null>(null)
 
     // Use the same wait pattern as in BuyButton
     const {data: receipt, isLoading: isConfirming} = useWaitForTransactionReceipt({
@@ -55,14 +77,29 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void) =
                             localStorage.setItem('currentRpsGameId', gameId.toString());
 
                             if (callbackFn) callbackFn('choosing')
-                            toast.success(`Game #${gameId} started successfully!`);
+                            // #${gameId}
+                            toast.success(`Game started successfully!`);
+
+                            createTransactionHandler()
+
+                            if (authUser.referred_by) {
+                                //get 5% of each tx from referred user
+                                const earningAmount = Number((claimableAmount * 0.05).toFixed(6));
+                                saveReferrerEarnings(authUser, earningAmount)
+                            }
                         }
                     }
                     break;
 
                 case 'submitResult':
                     if (callbackFn) callbackFn('gameEnd')
+                    updateTransactionHandler()
                     toast.success('Game result submitted successfully!');
+
+                    checkAndUpdateAchievements(authUser.id, [
+                        {type: 'rps_played', value: 1},
+                    ]);
+
                     break;
 
                 case 'claimReward':
@@ -75,6 +112,31 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void) =
             setCurrentTxType('none');
         }
     }, [receipt]);
+
+
+    const createTransactionHandler = async () => {
+        try {
+            const projectId = projects.find((item) => item.blockchain_networks[0].chain_id === chainId)?.id
+
+            const resp = await createActivityTransaction(authUser.id, projectId, txTempData.networkName, hash, txTempData.amount, txTempData.usd_value, 'activity', 'pending')
+            setCurrentTxId(resp?.id || 0)
+
+        } catch (error: unknown) {
+            console.log(error, 'error')
+            console.error(error, 'error')
+        }
+    }
+    const updateTransactionHandler = async () => {
+        try {
+            const updateData = {
+                status: 'completed'
+            }
+            await updateActivityTransaction(currentTxId || 0, updateData)
+        } catch (error: unknown) {
+            console.log(error, 'error')
+            console.error(error, 'error')
+        }
+    }
 
     /** startGame */
     async function handleStartGame(betAmount: number) {
@@ -110,6 +172,11 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void) =
 
             // Store the transaction hash
             if (result && typeof result === 'string' && result.length === 66) {
+                setTxTempData({
+                    amount: amount.toString(),
+                    usd_value: betAmount,
+                    networkName: projects.find((item) => item.blockchain_networks[0].chain_id === chainId)?.network_name || ''
+                })
                 setHash(result as `0x${string}`)
                 return true
             } else {
@@ -217,6 +284,14 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void) =
             })
 
             if (txHash && typeof txHash === 'string') {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                setTxTempData({
+                    usd_value: claimableAmount,
+                    hash: txHash,
+                    amount: txTempData.amount,
+                    networkName: projects.find((item) => item.blockchain_networks[0].chain_id === chainId)?.network_name || ''
+                })
                 setHash(txHash as `0x${string}`)
                 return true
             } else {
@@ -254,6 +329,7 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void) =
     }
 
     return {
+        txTempData,
         isClaimed,
         currentGameId,
         isPendingTransaction,

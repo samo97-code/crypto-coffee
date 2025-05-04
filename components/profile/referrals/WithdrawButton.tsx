@@ -140,7 +140,7 @@ const WithdrawButton: FC<IProps> = ({projects}) => {
         <div className="bg-card rounded-xl p-6 shadow-md border border-coffee-200 dark:border-coffee-600/50 mb-8">
             <h3 className="text-coffee-700 font-medium mb-1">Your Earnings</h3>
             <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-coffee-900">${totalEarned}</span>
+                <span className="text-3xl font-bold text-coffee-900">${Math.round(totalEarned * 10000) / 10000}</span>
             </div>
             <p className="text-sm text-coffee-600 mb-4">Minimum withdrawal: $3.00</p>
 

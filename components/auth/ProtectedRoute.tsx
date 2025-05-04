@@ -30,8 +30,6 @@ const ProtectedRoute: FC<IProps> = ({children, requireAdmin = false}) => {
         }
 
         // For protected pages, check if wallet is connected
-        console.log(path)
-
         if (!isConnected && !whiteList.includes(path)) {
             router.push('/');
         }

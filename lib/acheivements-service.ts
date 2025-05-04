@@ -735,7 +735,7 @@ function getLevelIcon(levelNumber: number): string {
 /**
  * Grants 25 XP to the user after any valid activity (buy-coffee, trivia, bingo, etc.)
  * @param user
- * @param amount Optional custom XP amount (defaults to 25)
+ * @param amount Optional custom XP amount (defaults to 10)
  */
 export async function addXpForTransaction(user: IUser, amount: number = 10): Promise<boolean> {
     try {

@@ -95,7 +95,7 @@ export class WalletService {
         const transactions = data.map((tx) => ({
             id: tx.id,
             created_at: tx.created_at,
-            type: tx.type === 'support' ? 'Bought Coffee' : tx.type,
+            type: tx.type === 'support' ? 'Bought Coffee' : tx.type === 'activity' ? 'Game Played' : tx.type === 'claim_reward' ? 'Reward Claimed' : '',
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             project_name: tx.projects?.name,

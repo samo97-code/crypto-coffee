@@ -1,5 +1,5 @@
 import {Coffee, Zap, Beaker, Award, Droplets, Users,} from "lucide-react"
-import { optimism, arbitrum } from 'viem/chains';
+import {optimism, arbitrum} from 'viem/chains';
 
 export const projects = [
     {
@@ -535,7 +535,8 @@ export const REQUIREMENT_TYPES = {
     BINGO_WINS: "bingo_wins",                      // Win 3 times
     BINGO_FULL_CARD: "bingo_full_card",            // Complete bingo card
     RPS_PLAYED: "rps_played",                      // Played 10 RPS games
-    RPS_ROCK_WINS: "rps_rock_wins",                // 3 wins with rock
+    RPS_3_WINS: "rps_3_wins",                      // 3 wins with rock
+    RPS_10_WINS: "rps_10_wins",                    // 3 wins with rock
 }
 
 

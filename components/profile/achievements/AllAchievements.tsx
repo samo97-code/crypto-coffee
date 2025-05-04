@@ -55,7 +55,8 @@ const AllAchievements: FC<IProps> = ({achievements}) => {
             [REQUIREMENT_TYPES.BINGO_WINS]: 'zigzag-pattern',
             [REQUIREMENT_TYPES.BINGO_FULL_CARD]: 'waves-pattern',
             [REQUIREMENT_TYPES.RPS_PLAYED]: 'dots-pattern',
-            [REQUIREMENT_TYPES.RPS_ROCK_WINS]: 'circles-pattern',
+            [REQUIREMENT_TYPES.RPS_3_WINS]: 'circles-pattern',
+            [REQUIREMENT_TYPES.RPS_10_WINS]: 'circles-pattern',
         }
 
         return patternMap[achievementType] || 'zigzag-pattern'

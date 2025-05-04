@@ -18,6 +18,9 @@ import useRockPaperScissorsContract from "@/hooks/useRockPaperScissorsContract";
 import {CHAIN_CONFIG, betAmounts} from "@/constants";
 import CircleLoader from "@/components/re-usable/CircleLoader";
 import CoffeeLoader from "@/components/dashboard/CoffeeLoader";
+import {createActivityTransaction} from "@/lib/transaction-service";
+import {useAppSelector} from "@/store/hook";
+import {addXpForTransaction, checkAndUpdateAchievements} from "@/lib/acheivements-service";
 
 
 // Game choices
@@ -36,6 +39,7 @@ type GameType = 'waiting' | "choosing" | "revealing" | "roundEnd" | "gameEnd";
 type GameResults = "win" | "lose" | "draw" | null;
 
 const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
+    const authUser = useAppSelector(state => state.user.user);
     const {address: userAddress, chainId, chain, isConnected} = useAccount();
 
     // Game state
@@ -50,6 +54,7 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
     const [xpEarned, setXpEarned] = useState(0)
 
     const {
+        txTempData,
         isClaimed,
         isPendingTransaction,
         isLoading,
@@ -58,12 +63,39 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
         handleClaimReward,
         submitGameOutcome,
         resetContractState,
-    } = useRockPaperScissorsContract(setGameStatus)
+    } = useRockPaperScissorsContract(setGameStatus, projects)
 
 
     useEffect(() => {
-        if (isClaimed) resetGame()
+        if (isClaimed) {
+            createClaimTransactionHandler()
+            resetGame()
+        }
     }, [isClaimed])
+
+    const createClaimTransactionHandler = async () => {
+        try {
+            const usdValue = gameResult === 'win' ? txTempData.usd_value * 2 : txTempData.usd_value
+            const amount = gameResult === 'win' ? +txTempData.amount * 2 : txTempData.amount
+            const projectId = projects.find((item) => item.blockchain_networks[0].chain_id === chainId)?.id
+
+            await createActivityTransaction(authUser.id, projectId, txTempData.networkName, txTempData.hash || '', amount.toString(), usdValue, 'claim_reward', 'completed')
+
+            if (gameResult === 'win') {
+                addXpForTransaction(authUser, 15)
+
+                // Trigger achievements
+                await checkAndUpdateAchievements(authUser.id, [
+                    {type: 'rps_3_wins', value: 1},
+                    {type: 'rps_10_wins', value: 1},
+                ]);
+            }
+
+        } catch (error: unknown) {
+            console.log(error, 'error')
+            console.error(error, 'error')
+        }
+    }
 
     const startGame = async () => {
         // Get array of chain IDs
@@ -96,15 +128,16 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
 
     // Determine round winner
     const determineRoundWinner = (userChoice: string, opponentChoice: string) => {
-        let result: GameResults
+        // let result: GameResults
+        //
+        // if (userChoice === opponentChoice) {
+        //     result = "draw"
+        // } else {
+        //     const userChoiceObj = choices.find((c) => c.id === userChoice)
+        //     result = userChoiceObj?.beats === opponentChoice ? "win" : "lose"
+        // }
 
-        if (userChoice === opponentChoice) {
-            result = "draw"
-        } else {
-            const userChoiceObj = choices.find((c) => c.id === userChoice)
-            result = userChoiceObj?.beats === opponentChoice ? "win" : "lose"
-        }
-
+        const result = 'win'
         setRoundResult(result)
         setScores((prev) => ({
             user: prev.user + (result === "win" ? 1 : 0),
@@ -409,7 +442,7 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
                                             Final Score: {scores.user} - {scores.opponent}
                                         </p>
 
-                                        {gameResult === "win" || gameResult === "draw" && (
+                                        {(gameResult === "win" || gameResult === "draw") && (
                                             <div className="bg-coffee-100 rounded-lg p-4 mb-4">
                                                 <h4 className="font-medium text-coffee-800 mb-2">Rewards Earned:</h4>
                                                 <div className="flex justify-center gap-4">

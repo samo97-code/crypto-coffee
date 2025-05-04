@@ -1,7 +1,7 @@
 "use client"
 
 import React, {FC, useState} from "react"
-import {Clock, Coffee, ExternalLink, Award, Droplets, Zap, Users, Sparkles, ArrowRight} from "lucide-react"
+import {Clock, Coffee, ExternalLink, Award, Droplets, Zap, Users, Sparkles, ArrowRight, Gamepad} from "lucide-react"
 import {motion} from "framer-motion"
 import {IActivity, IUserAchievement} from "@/types";
 import {formatRelativeTime} from "@/lib/activity-service";
@@ -18,10 +18,13 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
     const [activeTab, setActiveTab] = useState("activity")
     const [expandedActivity, setExpandedActivity] = useState<number | null>(null)
 
+    console.log('1111')
+
     // Map icon names to Lucide icons
     const getIconComponent = (iconName: string) => {
         const iconMap = {
             Award: Award,
+            Gamepad: Gamepad,
             Coffee: Coffee,
             Droplets: Droplets,
             Zap: Zap,

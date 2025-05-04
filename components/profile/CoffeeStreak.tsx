@@ -11,8 +11,6 @@ interface CoffeeStreakProps {
 }
 
 const CoffeeStreak: FC<CoffeeStreakProps> = ({streak}) => {
-    console.log(streak,'streak')
-
     const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null)
     // Calculate time remaining and rewards
     useEffect(() => {

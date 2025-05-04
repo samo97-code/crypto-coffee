@@ -580,7 +580,10 @@ INSERT INTO "public"."achievements" (
 ('21', 'Bingo Baller', 'Won 3 games in a week.', 'Grid3x3', 'bg-green-100', 'text-green-600', 'bingo_wins', 3, 150, false,false, NOW(), NOW()),
 ('22', 'Full House', 'Completed a full card at least once.', 'Grid2x2', 'bg-emerald-100', 'text-emerald-600', 'bingo_full_card', 1, 200, false,false, NOW(), NOW()),
 ('23', 'Chain Gamer', 'Played 10 games of Rock Paper Scissors.', 'Gamepad', 'bg-teal-100', 'text-teal-600', 'rps_played', 10, 150, false,false, NOW(), NOW()),
-('24', 'The Rock', 'Won 3 matches in a row using only rock.', 'HandRock', 'bg-slate-100', 'text-slate-600', 'rps_rock_wins', 3, 150, false,false, NOW(), NOW());
+('24', 'The Rock', 'Won 3 matches', 'HandRock', 'bg-slate-100', 'text-slate-600', 'rps_3_wins', 3, 150, false,false, NOW(), NOW());
+('25', 'RPS Legend', 'Won 10 Rock Paper Scissors matches', 'Hand', 'bg-slate-100', 'text-slate-600', 'rps_10_wins', 10, 250, false, false, NOW(), NOW());
+
+
 
 -- Insert daily activities
 INSERT INTO daily_activities (name, description, icon_name, icon_bg, icon_color, fee, reward, category, action_text, completed_text)
