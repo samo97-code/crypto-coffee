@@ -15,7 +15,7 @@ import CreativeGameButton from "@/components/activities/games/rock-paper-scissor
 import {toast} from "sonner";
 import {useAccount} from "wagmi";
 import useRockPaperScissorsContract from "@/hooks/useRockPaperScissorsContract";
-import {CHAIN_CONFIG, betAmounts} from "@/constants";
+import {CHAIN_CONFIG, betAmounts, gameTxXp} from "@/constants";
 import CircleLoader from "@/components/re-usable/CircleLoader";
 import CoffeeLoader from "@/components/dashboard/CoffeeLoader";
 import {createActivityTransaction} from "@/lib/transaction-service";
@@ -79,10 +79,10 @@ const RockPaperScissorsWrapper: FC<IProps> = ({projects}) => {
             const amount = gameResult === 'win' ? +txTempData.amount * 2 : txTempData.amount
             const projectId = projects.find((item) => item.blockchain_networks[0].chain_id === chainId)?.id
 
-            await createActivityTransaction(authUser.id, projectId, txTempData.networkName, txTempData.hash || '', amount.toString(), usdValue, 'claim_reward', 'completed')
+            await createActivityTransaction(authUser.id, projectId, txTempData.networkName, txTempData.hash || '', amount.toString(), usdValue, 'claim_reward', 'Claim Rewards', 'completed')
 
             if (gameResult === 'win') {
-                addXpForTransaction(authUser, 15)
+                addXpForTransaction(authUser, gameTxXp)
 
                 // Trigger achievements
                 await checkAndUpdateAchievements(authUser.id, [

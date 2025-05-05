@@ -50,8 +50,9 @@ export async function createSupportTransaction(
             network_name: networkName,
             transaction_hash: hash,
             amount,
-            usd_value: 0.045, // USD value per coffee (or it must be static 0.045$ or token price * token amount.)
+            usd_value: 0.05, // USD value per coffee (or it must be static 0.05$ or token price * token amount.)
             type: "support",
+            activity_type: "Bought Coffee",
             status: "completed", // For demo purposes, we'll mark it as completed immediately
         })
         .select()
@@ -77,6 +78,7 @@ export async function createSupportTransaction(
  * @param amount The amount of the transaction
  * @param usd_value
  * @param type
+ * @param activity_type
  * @param status
  * @returns The created transaction
  */
@@ -88,6 +90,7 @@ export async function createActivityTransaction(
     amount: string,
     usd_value: number,
     type: string,
+    activity_type: string,
     status: string,
 ): Promise<ITransaction | null> {
     // Create the transaction
@@ -99,8 +102,9 @@ export async function createActivityTransaction(
             network_name: networkName,
             transaction_hash: hash,
             amount,
-            usd_value: usd_value, // USD value per coffee (or it must be static 0.045$ or token price * token amount.)
+            usd_value: usd_value, // USD value per coffee (or it must be static 0.05$ or token price * token amount.)
             type: type,
+            activity_type: activity_type,
             status: status, // For demo purposes, we'll mark it as completed immediately
         })
         .select()
@@ -168,6 +172,31 @@ export async function getUserTransactions(userId: string, limit = 10): Promise<I
     return data || []
 }
 
+
+export const recordGameOutcome = async (userId: string, activityId: number, result: number, transactionId: number | null) => {
+    try {
+        // Map the game result to the database outcome type
+        const outcomeType = result === 1 ? "win" : result === 2 ? 'lose' : 'tie';
+
+        // Record in the activity_completions table
+        const {error} = await supabase
+            .from('activity_completions')
+            .insert({
+                user_id: userId,
+                activity_id: activityId, // Define this constant
+                status: 'completed',
+                outcome_type: outcomeType,
+                transaction_id: transactionId
+            });
+
+        if (error) throw error;
+
+        // Additional logic like updating streaks, awarding points, etc.
+    } catch (err) {
+        console.error('Failed to record game outcome:', err);
+    }
+};
+
 /**
  * Handles post-transaction logic such as achievements and streaks
  * @param userId
@@ -184,10 +213,12 @@ export async function handlePostTransactionUpdate(userId: string, transaction: I
     await checkAndUpdateAchievements(userId, [
         {type: 'total_support', value: usd_value},
         {type: 'projects_supported', value: 1},
+
+        //TODO they not working correct
+        {type: 'repeat_support', value: 1},
+        {type: 'single_support', value: usd_value},
         {type: 'networks_supported', value: 1},
         {type: 'unique_chains', value: 1},
-        {type: 'single_support', value: usd_value},
-        {type: 'repeat_support', value: 1},
     ]);
 }
 

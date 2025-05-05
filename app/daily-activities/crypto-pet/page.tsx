@@ -99,7 +99,7 @@ export default function CryptoPetPage() {
                                 ) : (
                                     <>
                                         <Utensils className="h-4 w-4 mr-2"/>
-                                        Feed Pet • $0.045
+                                        Feed Pet • $0.05
                                     </>
                                 )}
                             </Button>
@@ -232,7 +232,7 @@ export default function CryptoPetPage() {
                             <div>
                                 <h3 className="font-medium text-coffee-900">Feed your pet daily</h3>
                                 <p className="text-coffee-600">
-                                    Pay a small fee of $0.045 (like a sip of coffee) to feed your Crypto Pet each day.
+                                    Pay a small fee of $0.05 (like a sip of coffee) to feed your Crypto Pet each day.
                                 </p>
                             </div>
                         </div>

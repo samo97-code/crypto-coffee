@@ -8,7 +8,7 @@ import {
     IUserAchievement,
     IUserLevelProgress
 } from "@/types";
-import {REQUIREMENT_TYPES} from "@/constants";
+import {buyCoffeeTxXp, REQUIREMENT_TYPES} from "@/constants";
 
 
 /**
@@ -733,11 +733,11 @@ function getLevelIcon(levelNumber: number): string {
 
 
 /**
- * Grants 25 XP to the user after any valid activity (buy-coffee, trivia, bingo, etc.)
+ * Grants 10 XP to the user after any valid activity (buy-coffee, trivia, bingo, etc.)
  * @param user
  * @param amount Optional custom XP amount (defaults to 10)
  */
-export async function addXpForTransaction(user: IUser, amount: number = 10): Promise<boolean> {
+export async function addXpForTransaction(user: IUser, amount: number = buyCoffeeTxXp): Promise<boolean> {
     try {
         const newXP = (user.experience_points || 0) + amount;
         let newLevelId = user.level_id;

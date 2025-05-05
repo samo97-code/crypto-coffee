@@ -143,10 +143,14 @@ CREATE TABLE activity_completions (
   id SERIAL PRIMARY KEY,
   user_id UUID REFERENCES users(id) NOT NULL,
   activity_id INTEGER REFERENCES daily_activities(id) NOT NULL,
+  status VARCHAR(50) DEFAULT 'completed' CHECK (status IN ('pending', 'completed', 'failed')),
+  outcome_type VARCHAR(50) CHECK (outcome_type IN ('win', 'lose', 'tie', 'other')),
+  transaction_id INTEGER REFERENCES transactions(id),
   completion_date DATE DEFAULT CURRENT_DATE,
   completed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(user_id, activity_id, completion_date)
 );
+
 
 -- Coffee Brews table
 CREATE TABLE coffee_brews (
@@ -588,9 +592,9 @@ INSERT INTO "public"."achievements" (
 -- Insert daily activities
 INSERT INTO daily_activities (name, description, icon_name, icon_bg, icon_color, fee, reward, category, action_text, completed_text)
 VALUES
-  ('Gas Fee Lottery', 'Pay a fixed fee and get a chance to win accumulated rewards or a special NFT.', 'Ticket', 'bg-purple-100', 'text-purple-600', 0.045, 'Daily prize pool or NFT', 'rewards', 'Enter Lottery', 'Entered Today'),
-  ('Crypto Trivia', 'Answer a daily crypto question correctly to earn badges or points.', 'Brain', 'bg-blue-100', 'text-blue-600', 0.045, 'Badges & Points', 'games', 'Answer Question', 'Answered Today'),
-  ('Daily Crypto Joke', 'Reveal a daily crypto-themed joke that you can share on social media.', 'Laugh', 'bg-yellow-100', 'text-yellow-600', 0.045, 'Shareable content', 'fun', 'Reveal Joke', 'Joke Revealed'),
-  ('Blockchain Bingo', 'Get daily bingo numbers and win rewards for completed rows or cards.', 'Dice', 'bg-green-100', 'text-green-600', 0.045, 'Weekly/monthly prizes', 'games', 'Play Bingo', 'Played Today'),
-  ('Crypto Pet', 'Feed your virtual Crypto Cat daily and watch it grow and evolve.', 'Cat', 'bg-orange-100', 'text-orange-600', 0.045, 'Pet collectibles', 'fun', 'Feed Pet', 'Pet Fed Today');
-  ('Rock Paper Scissors', 'Play rock paper scissors against the blockchain and win crypto rewards.', 'Hand', 'bg-orange-100', 'text-orange-600', 0.045, 'Double your bet', 'fun', 'Feed Pet', 'Pet Fed Today');
+  ('Gas Fee Lottery', 'Pay a fixed fee and get a chance to win accumulated rewards or a special NFT.', 'Ticket', 'bg-purple-100', 'text-purple-600', 0.05, 'Daily prize pool or NFT', 'rewards', 'Enter Lottery', 'Entered Today'),
+  ('Crypto Trivia', 'Answer a daily crypto question correctly to earn badges or points.', 'Brain', 'bg-blue-100', 'text-blue-600', 0.05, 'Badges & Points', 'games', 'Answer Question', 'Answered Today'),
+  ('Daily Crypto Joke', 'Reveal a daily crypto-themed joke that you can share on social media.', 'Laugh', 'bg-yellow-100', 'text-yellow-600', 0.05, 'Shareable content', 'fun', 'Reveal Joke', 'Joke Revealed'),
+  ('Blockchain Bingo', 'Get daily bingo numbers and win rewards for completed rows or cards.', 'Dice', 'bg-green-100', 'text-green-600', 0.05, 'Weekly/monthly prizes', 'games', 'Play Bingo', 'Played Today'),
+  ('Crypto Pet', 'Feed your virtual Crypto Cat daily and watch it grow and evolve.', 'Cat', 'bg-orange-100', 'text-orange-600', 0.05, 'Pet collectibles', 'fun', 'Feed Pet', 'Pet Fed Today');
+  ('Rock Paper Scissors', 'Play rock paper scissors against the blockchain and win crypto rewards.', 'Hand', 'bg-orange-100', 'text-orange-600', 0.05, 'Double your bet', 'fun', 'Feed Pet', 'Pet Fed Today');

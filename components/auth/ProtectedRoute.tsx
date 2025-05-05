@@ -15,20 +15,17 @@ interface IProps {
 }
 
 const ProtectedRoute: FC<IProps> = ({children, requireAdmin = false}) => {
-    const {isConnected, address} = useAccount();
+    const {isConnected} = useAccount();
     const {isAdmin} = useAdmin();
     const router = useRouter();
     const path = usePathname()
-    const adminWallet = '0xCEE870Bd19008D5C3A230C2803c0A94E92803a34'
 
     const whiteList = ['/daily-activities']
 
 
     useEffect(() => {
-        console.log(address,'address')
-
         // For admin pages, check if user is admin
-        if (address !== adminWallet) {
+        if (!isAdmin && path.includes('/admin')) {
             return router.push('/');
         }
 
@@ -38,7 +35,7 @@ const ProtectedRoute: FC<IProps> = ({children, requireAdmin = false}) => {
         }
     }, [isConnected, isAdmin, requireAdmin, router]);
 
-    if (!isConnected) return <CoffeeLoader />
+    if (!isConnected && path !== '/') return <CoffeeLoader />
 
     return <>{children}</>;
 }

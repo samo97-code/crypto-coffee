@@ -1,5 +1,5 @@
 import {supabase} from "@/lib/supabase"
-import {IActivity, IActivityCompletion, IDailyActivity, ITransaction, IUserAchievement} from "@/types";
+import {IActivity, IActivityCompletion, IDailyActivity, ITransaction} from "@/types";
 
 
 export async function getAllActivities(): Promise<IDailyActivity[]> {

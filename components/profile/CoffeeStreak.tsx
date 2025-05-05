@@ -132,13 +132,13 @@ const CoffeeStreak: FC<CoffeeStreakProps> = ({streak}) => {
             </div>
 
             {streak?.current_streak > 0 && timeRemaining && timeRemaining.minutes !== 0 && streakAtRisk && (
-                <div className="p-4 rounded-lg flex items-center gap-3 bg-red-50 dark:bg-coffee-500 border border-red-100 mt-4">
+                <div className="p-4 rounded-lg flex items-center gap-3 bg-red-50 dark:bg-red-500/50 border border-red-100 dark:border-red-500 mt-4">
                     <div className="p-2 rounded-full bg-red-100 dark:bg-red-200 dark:text-red-700 text-red-600">
                         <AlertTriangle className="h-5 w-5"/>
                     </div>
                     <div>
-                        <div className="font-medium text-red-800 dark:text-red-800">Streak at risk!</div>
-                        <p className="text-sm text-red-700 dark:text-red-800">
+                        <div className="font-medium text-red-800 dark:text-coffee-800">Streak at risk!</div>
+                        <p className="text-sm text-red-700 dark:text-coffee-700">
                             Only {timeRemaining.hours}h {timeRemaining.minutes}m remaining. Buy coffee asap!
                         </p>
                     </div>

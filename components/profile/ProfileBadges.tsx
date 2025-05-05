@@ -2,6 +2,12 @@ import React, {FC} from 'react';
 import {Badge} from "@/components/ui/badge";
 import {Award, Coffee, Droplets, Zap, Users, Sparkles} from "lucide-react";
 import {IBadge} from "@/types";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface IProps {
     badges: IBadge[]
@@ -29,9 +35,21 @@ const ProfileBadges: FC<IProps> = ({badges}) => {
                 badges.map((badge) => {
                     const IconComponent = getIconComponent(badge.icon)
 
-                    return <Badge key={badge.id} className={`${badge.bg_color} ${badge.text_color} border-none px-3 py-1 shadow-sm`}>
-                        <IconComponent className="h-3 w-3 mr-1"/>
-                        {badge.name}
+                    return <Badge key={badge.id}
+                                  className={`${badge.bg_color} ${badge.text_color} border-none px-3 py-1 shadow-sm`}>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="flex items-center">
+                                        <IconComponent className="h-3 w-3 mr-1"/>
+                                        {badge.name}
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent side="bottom">
+                                    <p>{badge.description}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     </Badge>
                 })
             }

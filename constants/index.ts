@@ -557,9 +557,12 @@ export const CHAIN_CONFIG = {
 
 // Bet amount options
 export const betAmounts = [
-    {value: 0.045, label: "$0.045"},
-    {value: 0.1, label: "$0.1"},
+    {value: 0.05, label: "$0.05"},
+    {value: 0.2, label: "$0.2"},
     {value: 0.5, label: "$0.5"},
-    {value: 1, label: "$1"},
+    {value: 1.2, label: "$1.2"},
     {value: 2, label: "$2"},
 ]
+
+export const buyCoffeeTxXp = 10
+export const gameTxXp = 15

@@ -72,7 +72,7 @@ const Wrapper = () => {
                         <CardContent className="relative pt-2">
                             <div
                                 className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
-                                $0.045 - $2
+                                $0.05 - $2
                             </div>
                             <p className="text-sm text-coffee-700">
                                 Play rock paper scissors against the blockchain and win crypto rewards.
@@ -147,7 +147,7 @@ const Wrapper = () => {
                             <div
                                 className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm"
                             >
-                                $0.045
+                                $0.05
                             </div>
                             <p className="text-sm text-coffee-700">
                                 You will see something very interesting and amazing
@@ -222,7 +222,7 @@ const Wrapper = () => {
                             <div
                                 className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm"
                             >
-                                $0.045
+                                $0.05
                             </div>
                             <p className="text-sm text-coffee-700">
                                 You will see something very interesting and amazing
@@ -297,7 +297,7 @@ const Wrapper = () => {
                             <div
                                 className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm"
                             >
-                                $0.045
+                                $0.05
                             </div>
                             <p className="text-sm text-coffee-700">
                                 You will see something very interesting and amazing
@@ -372,7 +372,7 @@ const Wrapper = () => {
                             <div
                                 className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm"
                             >
-                                $0.045
+                                $0.05
                             </div>
                             <p className="text-sm text-coffee-700">
                                 You will see something very interesting and amazing
@@ -447,7 +447,7 @@ const Wrapper = () => {
                             <div
                                 className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm"
                             >
-                                $0.045
+                                $0.05
                             </div>
                             <p className="text-sm text-coffee-700">
                                 You will see something very interesting and amazing
@@ -503,7 +503,7 @@ const Wrapper = () => {
                                 <CardContent className="relative pt-2">
                                     <div
                                         className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
-                                        $0.045
+                                        $0.05
                                     </div>
                                     <p className="text-sm text-coffee-700">
                                         Pay a fixed fee and get a chance to win accumulated rewards or a special NFT.
@@ -550,7 +550,7 @@ const Wrapper = () => {
                                 <CardContent className="relative pt-2">
                                     <div
                                         className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
-                                        $0.045
+                                        $0.05
                                     </div>
                                     <p className="text-sm text-coffee-700">
                                         Answer a daily crypto question correctly to earn badges or points.
@@ -597,7 +597,7 @@ const Wrapper = () => {
                                 <CardContent className="relative pt-2">
                                     <div
                                         className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
-                                        $0.045
+                                        $0.05
                                     </div>
                                     <p className="text-sm text-coffee-700">
                                         Reveal a daily crypto-themed joke that you can share on social media.
@@ -644,7 +644,7 @@ const Wrapper = () => {
                                 <CardContent className="relative pt-2">
                                     <div
                                         className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
-                                        $0.045
+                                        $0.05
                                     </div>
                                     <p className="text-sm text-coffee-700">
                                         Get daily bingo numbers and win rewards for completed rows or cards.
@@ -691,7 +691,7 @@ const Wrapper = () => {
                                 <CardContent className="relative pt-2">
                                     <div
                                         className="absolute -right-2 -top-6 rounded-full bg-coffee-100 dark:bg-coffee-50/60 px-3 py-1 text-xs font-medium text-coffee-800 shadow-sm">
-                                        $0.045
+                                        $0.05
                                     </div>
                                     <p className="text-sm text-coffee-700">
                                         Feed your virtual Crypto Cat daily and watch it grow and evolve.

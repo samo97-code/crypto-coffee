@@ -122,7 +122,7 @@ export default function FAQPage() {
                             <h3 className="text-lg font-semibold text-coffee-900 mb-2">How much does a &#34;coffee&#34;
                                 cost?</h3>
                             <p className="text-coffee-700">
-                                Each coffee costs a small fixed amount (currently $0.045 equivalent) in the native
+                                Each coffee costs a small fixed amount (currently $0.05 equivalent) in the native
                                 currency of the
                                 blockchain you&#39;re using. The exact amount may vary slightly due to gas fees and currency
                                 fluctuations.

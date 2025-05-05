@@ -180,7 +180,7 @@ export default function CryptoTriviaPage() {
                 {/*                className="w-full bg-blue-600 hover:bg-blue-700 text-white"*/}
                 {/*                size="lg"*/}
                 {/*            >*/}
-                {/*                Submit Answer • $0.045*/}
+                {/*                Submit Answer • $0.05*/}
                 {/*            </Button>*/}
                 {/*        )}*/}
 
@@ -303,7 +303,7 @@ export default function CryptoTriviaPage() {
                 {/*            <div>*/}
                 {/*                <h3 className="font-medium text-coffee-900">Pay to play</h3>*/}
                 {/*                <p className="text-coffee-600">*/}
-                {/*                    Pay a small fee of $0.045 (like a sip of coffee) to answer the daily trivia*/}
+                {/*                    Pay a small fee of $0.05 (like a sip of coffee) to answer the daily trivia*/}
                 {/*                    question.*/}
                 {/*                </p>*/}
                 {/*            </div>*/}

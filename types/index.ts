@@ -123,6 +123,7 @@ export interface ITransaction {
     transaction_hash?: string;
     amount: number;
     type: 'support' | 'activity' | 'claim_reward';
+    activity_type: string;
     status: 'pending' | 'completed' | 'failed';
     created_at: string;
     updated_at: string;

@@ -68,7 +68,7 @@ export default function HowItWorksPage() {
                                 Browse through our curated list of blockchain projects and select the ones you&#39;d
                                 like to
                                 support. Each
-                                &#34;coffee&#34; costs a small fixed amount (currently $0.045).
+                                &#34;coffee&#34; costs a small fixed amount (currently $0.05).
                             </p>
                         </div>
                     </div>
@@ -231,7 +231,7 @@ export default function HowItWorksPage() {
                     <div className="bg-card rounded-lg p-6 shadow-sm border border-coffee-200">
                         <h3 className="text-lg font-semibold text-coffee-900 mb-2">How much does a coffee cost?</h3>
                         <p className="text-coffee-700">
-                            Each coffee costs a small fixed amount (currently $0.045 equivalent) in the native currency
+                            Each coffee costs a small fixed amount (currently $0.05 equivalent) in the native currency
                             of the
                             blockchain you&#39;re using. The exact amount may vary slightly due to gas fees and currency
                             fluctuations.

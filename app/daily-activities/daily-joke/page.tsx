@@ -97,7 +97,7 @@ export default function DailyJokePage() {
                                     className="bg-yellow-500 hover:bg-yellow-600 text-white"
                                     size="lg"
                                 >
-                                    Reveal Joke • $0.045
+                                    Reveal Joke • $0.05
                                 </Button>
                             </div>
                         )}
@@ -130,7 +130,7 @@ export default function DailyJokePage() {
                             <div>
                                 <h3 className="font-medium text-coffee-900">Pay to reveal</h3>
                                 <p className="text-coffee-600">
-                                    Pay a small fee of $0.045 (like a sip of coffee) to reveal the daily crypto joke.
+                                    Pay a small fee of $0.05 (like a sip of coffee) to reveal the daily crypto joke.
                                 </p>
                             </div>
                         </div>

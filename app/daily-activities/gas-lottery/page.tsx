@@ -28,7 +28,7 @@ export default function GasLotteryPage() {
                             <h1 className="text-2xl font-bold text-coffee-900">Gas Fee Lottery</h1>
                         </div>
                         <p className="text-coffee-600">
-                            Pay a small fixed fee ($0.045) daily for a chance to win accumulated rewards or a special
+                            Pay a small fixed fee ($0.05) daily for a chance to win accumulated rewards or a special
                             NFT. The more
                             people participate, the bigger the prize pool grows!
                         </p>
@@ -64,7 +64,7 @@ export default function GasLotteryPage() {
                             }`}
                             size="lg"
                         >
-                            {hasEntered ? "Entered Today • Good Luck!" : "Enter Today's Lottery • $0.045"}
+                            {hasEntered ? "Entered Today • Good Luck!" : "Enter Today's Lottery • $0.05"}
                         </Button>
                     </div>
                 </div>
@@ -153,7 +153,7 @@ export default function GasLotteryPage() {
                             <div>
                                 <h3 className="font-medium text-coffee-900">Enter the lottery</h3>
                                 <p className="text-coffee-600">
-                                    Pay a small fee of $0.045 (like a sip of coffee) to enter the daily lottery.
+                                    Pay a small fee of $0.05 (like a sip of coffee) to enter the daily lottery.
                                 </p>
                             </div>
                         </div>

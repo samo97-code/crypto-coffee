@@ -53,7 +53,7 @@ const BuyButton: FC<IProps> = ({
     const {switchChain} = useSwitchChain();
     const [hash, setHash] = useState('');
     const [amount, setAmount] = useState(0);
-    const [finalUsdtValue, setFinalUsdtValue] = useState(0.045);
+    const [finalUsdtValue, setFinalUsdtValue] = useState(0.05);
     const [isSending, setIsSending] = useState(false);
     const {writeContractAsync} = useWriteContract();
 
@@ -65,15 +65,15 @@ const BuyButton: FC<IProps> = ({
 
     const checkAmount = () => {
         // Real
-        // const originalUsdValue = 0.045
+        // const originalUsdValue = 0.05
         const originalUsdValue = 0.001
         let discountedUsdValue = originalUsdValue;
 
-        // const myMonadAmount = '0.03'
+        const myMonadAmount = '0.03'
 
         //For test
         // const myEthAmount = 0.001
-        const myMonadAmount = '0.000001'
+        // const myMonadAmount = '0.000001'
 
         if (user.discount_percentage && project.blockchain_networks[0].type === 'mainnet') {
             discountedUsdValue = originalUsdValue * (1 - user.discount_percentage / 100);
@@ -82,9 +82,6 @@ const BuyButton: FC<IProps> = ({
         }
 
         let amount = '';
-
-        // console.log((myEthAmount / ethPrice),'111111111')
-        // console.log((myEthAmount / ethPrice).toFixed(6),'2222222222')
 
         if (project.blockchain_networks[0].chain_key === 'Eth') amount = (discountedUsdValue / ethPrice).toFixed(6)
         if (project.blockchain_networks[0].chain_key === 'Mon') amount = myMonadAmount

@@ -18,8 +18,6 @@ const RecentActivitySection: FC<IProps> = ({activities, achievements}) => {
     const [activeTab, setActiveTab] = useState("activity")
     const [expandedActivity, setExpandedActivity] = useState<number | null>(null)
 
-    console.log('1111')
-
     // Map icon names to Lucide icons
     const getIconComponent = (iconName: string) => {
         const iconMap = {

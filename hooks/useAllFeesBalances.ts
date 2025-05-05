@@ -48,7 +48,6 @@ export function useFeesBalances(chains: ChainInfo[]): ChainBalance[] {
                 return;
             }
 
-            console.log(validChains, 'validChains')
             // Instead of using readContract, let's try using the publicClient directly
             const results = await Promise.all(
                 validChains.map(async (chain) => {

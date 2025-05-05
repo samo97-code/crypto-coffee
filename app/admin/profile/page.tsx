@@ -7,6 +7,7 @@ import {writeContract} from '@wagmi/core';
 import {config} from "@/lib/wagmi"
 import {toast} from "sonner";
 import CoffeeLoader from "@/components/dashboard/CoffeeLoader";
+import {getUserWinPercentages} from "@/lib/admin-service";
 
 // Define the ABI for the withdrawFeesPercent function
 const WITHDRAW_FEES_ABI = [
@@ -76,6 +77,16 @@ export default function FeesWithdrawDashboard() {
             console.log(receipt, 'receipt')
         }
     }, [receipt]);
+
+
+    useEffect(() => {
+         test()
+    }, []);
+
+    const test = async()=>{
+       const t = await getUserWinPercentages(6)
+        console.log(t, 't')
+    }
 
 
     // Handle chain selection change

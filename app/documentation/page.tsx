@@ -152,7 +152,7 @@ export default function DocumentationPage() {
 
                                 <h3 className="text-xl font-medium text-amber-800 mt-6">Coffee Pricing</h3>
                                 <p>
-                                    Each &#34;coffee&#34; costs a small fixed amount (currently $0.045 equivalent) in
+                                    Each &#34;coffee&#34; costs a small fixed amount (currently $0.05 equivalent) in
                                     the native
                                     currency of the
                                     blockchain you&#39;re using. The exact amount may vary slightly due to gas fees and
@@ -305,7 +305,7 @@ console.log(projects);`}
                                             a &#34;coffee&#34;
                                             cost?</h3>
                                         <p className="mt-1">
-                                            Each coffee costs a small fixed amount (currently $0.045 equivalent) in the
+                                            Each coffee costs a small fixed amount (currently $0.05 equivalent) in the
                                             native currency of
                                             the blockchain you&#39;re using. The exact amount may vary slightly due to
                                             gas

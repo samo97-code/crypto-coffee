@@ -22,7 +22,7 @@ const PageWrapper =()=> {
     const {customStyles} = useSelectCss()
     const dispatch = useDispatch();
     const {user} = useAppSelector(state => state.user);
-    const [selectedImage, setSelectedImage] = useState<string>(user.avatar_url || '')
+    const [selectedImage, setSelectedImage] = useState<string>( user.avatar_url || '')
     const [formData, setFormData] = useState({
         display_name: user.display_name,
         email: user.email,
@@ -134,7 +134,7 @@ const PageWrapper =()=> {
                                     <Input
                                         type="text"
                                         id="display_name"
-                                        className="border-coffee-400 focus:border-coffee-600 dark:border-coffee-200"
+                                        className="border-coffee-400 focus:border-coffee-600 dark:border-coffee-600/50"
                                         value={formData.display_name}
                                         onChange={handleChange}
                                     />
@@ -147,7 +147,7 @@ const PageWrapper =()=> {
                                     <Input
                                         type="email"
                                         id="email"
-                                        className="border-coffee-400 focus:border-coffee-600 dark:border-coffee-200"
+                                        className="border-coffee-400 focus:border-coffee-600 dark:border-coffee-600/50"
                                         value={formData.email}
                                         onChange={handleChange}
                                     />
@@ -160,7 +160,7 @@ const PageWrapper =()=> {
                                 <Label htmlFor="bio">Bio</Label>
                                 <Textarea
                                     id="bio"
-                                    className="border-coffee-400 focus:border-coffee-600 min-h-[150px] resize-none dark:border-coffee-200"
+                                    className="border-coffee-400 focus:border-coffee-600 min-h-[150px] resize-none dark:border-coffee-600/50"
                                     value={formData.bio}
                                     onChange={handleChange}
                                 />

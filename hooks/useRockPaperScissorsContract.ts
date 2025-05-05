@@ -11,7 +11,7 @@ import {WriteContractData} from "@wagmi/core/query"
 import useEthPrice from "@/hooks/useEthPrice";
 import {RPS_CONTRACT_ABI} from "@/abi";
 import {GameResult, IProject} from "@/types";
-import {createActivityTransaction, updateActivityTransaction} from "@/lib/transaction-service";
+import {createActivityTransaction, updateActivityTransaction, recordGameOutcome} from "@/lib/transaction-service";
 import {useAppSelector} from "@/store/hook";
 import {checkAndUpdateAchievements} from "@/lib/acheivements-service";
 import {saveReferrerEarnings} from "@/lib/referral-service";
@@ -41,6 +41,7 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, p
     const [hash, setHash] = useState<`0x${string}` | ''>('') // Use the same pattern as in BuyButton
     const [isPendingTransaction, setIsPendingTransaction] = useState(false)
     const [claimableAmount, setClaimableAmount] = useState<number>(0)
+    const [gameResult, setGameResult] = useState<number>(0)
 
     const [txTempData, setTxTempData] = useState<ItxTempData>({
         amount: '0',
@@ -100,6 +101,8 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, p
                         {type: 'rps_played', value: 1},
                     ]);
 
+                    recordGameOutcome(authUser.id, 6, gameResult, currentTxId)
+
                     break;
 
                 case 'claimReward':
@@ -118,7 +121,7 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, p
         try {
             const projectId = projects.find((item) => item.blockchain_networks[0].chain_id === chainId)?.id
 
-            const resp = await createActivityTransaction(authUser.id, projectId, txTempData.networkName, hash, txTempData.amount, txTempData.usd_value, 'activity', 'pending')
+            const resp = await createActivityTransaction(authUser.id, projectId, txTempData.networkName, hash, txTempData.amount, txTempData.usd_value, 'activity', 'RPS', 'pending')
             setCurrentTxId(resp?.id || 0)
 
         } catch (error: unknown) {
@@ -138,6 +141,7 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, p
         }
     }
 
+
     /** startGame */
     async function handleStartGame(betAmount: number) {
         if (!isConnected) {
@@ -153,7 +157,9 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, p
         setClaimableAmount(betAmount) // 2x reward for winning
 
         const finalEthPrice = await fetchEthPrice() || ethPrice
-        const amount = (betAmount / finalEthPrice).toFixed(6)
+        const amount = (betAmount / finalEthPrice).toString()
+        console.log(amount, 'amount')
+        console.log(parseEther(amount), 'parseEther(amount)')
 
         try {
             // Use the same writeContract pattern that works in BuyButton
@@ -231,6 +237,7 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, p
 
             if (txHash && typeof txHash === 'string') {
                 setHash(txHash as `0x${string}`)
+                setGameResult(result)
                 return true
             } else {
                 toast.error('Invalid transaction hash returned')
@@ -326,6 +333,10 @@ const useRockPaperScissorsContract = (callbackFn?: (status: GameType) => void, p
         setHash('')
         setIsPendingTransaction(false)
         setClaimableAmount(0)
+        setCurrentTxType('none')
+        setIsClaimed(false)
+        setCurrentTxId(null)
+        setGameResult(0)
     }
 
     return {

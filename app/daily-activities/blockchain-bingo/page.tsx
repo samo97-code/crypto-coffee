@@ -136,7 +136,7 @@ export default function BlockchainBingoPage() {
                                     className="bg-green-600 hover:bg-green-700 text-white"
                                     size="lg"
                                 >
-                                    Play Bingo • $0.045
+                                    Play Bingo • $0.05
                                 </Button>
                             </div>
                         )}
@@ -214,7 +214,7 @@ export default function BlockchainBingoPage() {
                             <div>
                                 <h3 className="font-medium text-coffee-900">Pay to play</h3>
                                 <p className="text-coffee-600">
-                                    Pay a small fee of $0.045 (like a sip of coffee) to reveal today&#39;s bingo numbers.
+                                    Pay a small fee of $0.05 (like a sip of coffee) to reveal today&#39;s bingo numbers.
                                 </p>
                             </div>
                         </div>
