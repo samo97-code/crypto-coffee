@@ -354,6 +354,7 @@ export interface IHistoryTransaction {
     id: number;
     created_at: string;
     type: string;
+    activity_type: string;
     project_name: string;
     icon_url: string;
     network_name: string;

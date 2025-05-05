@@ -117,9 +117,6 @@ const BuyButton: FC<IProps> = ({
             //     value: parseEther('0'), // too low
             // });
 
-            console.log(hash, 'hash')
-            console.log(hash.length, 'length')
-
             if (hash.length === 66) {
                 setHash(hash);
                 setAmount(+amount)

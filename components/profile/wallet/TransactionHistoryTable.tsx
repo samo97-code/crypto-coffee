@@ -175,7 +175,7 @@ const TransactionHistoryTable: FC<IProps> = ({allNetworks, pagination, transacti
                                     </td>
                                     <td className="py-3 px-4">
                                         <div className="flex items-center">
-                                            <span className="text-coffee-800 text-sm">{tx.type}</span>
+                                            <span className="text-coffee-800 text-sm">{tx.activity_type}</span>
                                         </div>
                                     </td>
                                     <td className="py-3 px-4">

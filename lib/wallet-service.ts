@@ -56,6 +56,7 @@ export class WalletService {
         id,
         created_at,
         type,
+        activity_type,
         transaction_hash,
         projects(
             name,
@@ -95,7 +96,8 @@ export class WalletService {
         const transactions = data.map((tx) => ({
             id: tx.id,
             created_at: tx.created_at,
-            type: tx.type === 'support' ? 'Bought Coffee' : tx.type === 'activity' ? 'Game Played' : tx.type === 'claim_reward' ? 'Reward Claimed' : '',
+            type: tx.type,
+            activity_type: tx.activity_type,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             project_name: tx.projects?.name,
@@ -109,10 +111,12 @@ export class WalletService {
             // @ts-ignore
             explorer_url: `${tx.projects?.blockchain_networks[0].explorer_url}/tx/${tx.transaction_hash}`,
             network_name: tx.network_name,
-            amount: tx.amount,
+            amount: tx.amount.toFixed(6),
             status: tx.status,
             transaction_hash: tx.transaction_hash
         })) as IHistoryTransaction[]
+
+        console.log(transactions,'transactions')
 
         // Get total count for pagination
         let countQuery = supabase

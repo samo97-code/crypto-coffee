@@ -93,11 +93,11 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
             id: transaction.id,
             type: transaction.type,
             title: transaction.type === 'support' ? "Bought Coffee" : transaction.type === 'activity' ? 'Completed Daily Activity' : transaction.type === 'claim_reward' ? 'Claimed Activity Reward' : '',
-            description: transaction.type === 'support' ? `You bought a crypto coffee with ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}.` : transaction.type === 'activity' ? `Game played with ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}` : transaction.type === 'claim_reward' ? `Reward claimed ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}` : '',
+            description: transaction.type === 'support' ? `You bought a crypto coffee with ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}.` : transaction.type === 'activity' ? `Game played with ${transaction.amount.toFixed(6)} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}` : transaction.type === 'claim_reward' ? `Reward claimed ${transaction.amount} ${transaction.projects?.blockchain_networks[0].chain_key} in ${transaction.projects?.name}` : '',
             icon: transaction.type === 'support' ? "Coffee" : transaction.type === 'activity' ? 'Gamepad' : transaction.type === 'claim_reward' ? 'Award' : '',
             icon_bg: "bg-gradient-to-r from-coffee-500 to-coffee-700 dark:from-coffee-200/30 dark:to-coffee-100/50",
             icon_color: "text-white",
-            amount: transaction.amount,
+            amount: +transaction.amount.toFixed(6),
             chain_key: transaction.projects?.blockchain_networks[0].chain_key,
             explorer_url: transaction.projects?.blockchain_networks[0].explorer_url + `/tx/${transaction.transaction_hash}`,
             hash: transaction.transaction_hash,
@@ -109,25 +109,25 @@ export async function getUserRecentActivities(userId: string, limit = 5): Promis
         }))
 
         // Transform activity completions into activities
-        const activityCompletionActivities: IActivity[] = (activities as unknown as IActivityCompletion[] || [])
-            .filter((a) => a.activity && a.completed_at)
-            .map((activity) => ({
-                id: activity.id,
-                type: "activity",
-                title: "Completed Daily Activity",
-                description: `You completed the ${activity.activity?.name} activity.`,
-                icon: activity.activity?.icon_name || "Zap",
-                icon_bg: activity.activity?.icon_bg || "bg-gradient-to-r from-purple-500 to-violet-500",
-                icon_color: activity.activity?.icon_color || "text-white",
-                timestamp: activity.completed_at || "",
-                project_id: undefined,
-                project_name: undefined,
-                project_chain: undefined,
-                project_icon: undefined,
-            }))
+        // const activityCompletionActivities: IActivity[] = (activities as unknown as IActivityCompletion[] || [])
+        //     .filter((a) => a.activity && a.completed_at)
+        //     .map((activity) => ({
+        //         id: activity.id,
+        //         type: "activity",
+        //         title: "Completed Daily Activity",
+        //         description: `You played the ${activity.activity?.name}.`,
+        //         icon: activity.activity?.icon_name || "Zap",
+        //         icon_bg: activity.activity?.icon_bg || "bg-gradient-to-r from-purple-500 to-violet-500",
+        //         icon_color: activity.activity?.icon_color || "text-white",
+        //         timestamp: activity.completed_at || "",
+        //         project_id: undefined,
+        //         project_name: undefined,
+        //         project_chain: undefined,
+        //         project_icon: undefined,
+        //     }))
 
         // Combine all activities and sort by timestamp
-        const allActivities = [...transactionActivities, ...activityCompletionActivities].sort(
+        const allActivities = [...transactionActivities].sort(
             (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
         )
 
